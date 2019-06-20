@@ -6,29 +6,63 @@ module.exports = () => {
 
     const getUsers = async () => {
 
-        let res = await db.User.findAll({raw:true});
-        return res;
+        let users = await db.User.findAll({raw:true, 
+            include: [{ 
+                model: await db.Role, as: "role",
+                required: false
+            },{
+                model: await db.State, as: "state",
+                required: false
+            }
+        ]});
+
+        return users;
     };
     
     const getUserById = async (userId) => {
 
-        let res = await db.User.findByPk(userId);
-        return res;
+        let user = await db.User.findByPk(userId);
+        return user;
     };
 
     const getUserByEmail = async (email) => {
 
-        let res = await db.User.findOne({
-            where: {email: email}
-        });
+        let user = await db.User.findOne({
+            where: { email: email },
+            include: [{ 
+                model: await db.Role, as: "role",
+                required: false
+            },{
+                model: await db.State, as: "state",
+                required: false
+            }
+        ]});
 
-        return res;
+        return user;
+
+    };
+
+    const getUserByEmailAndPasswor = async (email, password) => {
+
+        let user = await db.User.findOne({
+            where: { email: email, password: password },
+            include: [{ 
+                model: await db.Role, as: "role",
+                required: false
+            },{
+                model: await db.State, as: "state",
+                required: false
+            }
+        ]});
+
+        return user;
 
     };
 
     return {
         getUsers: getUsers,
         getUserById: getUserById,
-        getUserByEmail: getUserByEmail
+        getUserByEmail: getUserByEmail,
+        getUserByEmailAndPasswor: getUserByEmailAndPasswor
     }
 };

@@ -2,25 +2,37 @@
 
 module.exports = () => {
     
-    const db = require("../entities/db");
     const services = require("./index")();
+    const bcrypt = require("bcrypt");
+    const config = require("../config");
 
     const login = async (email, password) => {
-        let operationDetails = {success: false, message: "", value: null};
 
-        let res = await services.userService.getUserByEmail(email);
-        if(!res) {
-            operationDetails.message = "Email or Password is wrong, check it and try again later";
+        let operationDetails = { success: false, message: "", value: null };
+
+        password = bcrypt.hashSync(password, config.passwordSalt);
+
+        let user = await services.userService.getUserByEmailAndPassword(email, password);
+        if(!user) {
+            return operationDetails.message = "Email or Password is wrong, check it and try again later";
         }
 
-        // 1) check password hash with password from request
-        // 2) when password is correct, give accsess, and make new token
-        // 3) retrun accsess data to current user, {id: "1", email: "example@mail.com", role: "admin"}
-        
-        return operationDetails;
+        if(user.state === "disapprove") {
+            let userBlocker = await services.userBlockedService.getBlockedByUserId(user.id);
+            return operationDetails.message = "Your account was bloked. Reason: " + userBlocker.reason;
+        }
+
+        if(user.state === "pending") {
+            return operationDetails.message = "Your account have pending. Waiting when admin or manager, set access for you.";
+        }
+
+        delete user['password'];
+
+        operationDetails.success = true;
+        return operationDetails.value = user;
     };
 
-    const logout = async (notificationId) => {
+    const logout = async () => {
 
        // to do
 

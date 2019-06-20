@@ -6,14 +6,14 @@ module.exports = () => {
 
     const getNotifications = async () => {
 
-        let res = await db.Notification.findAll({raw:true});
-        return res;
+        let notifications = await db.Notification.findAll({raw:true});
+        return notifications;
     };
 
     const getNotificationById = async (notificationId) => {
 
-        let res = await db.Notification.findByPk(notificationId);
-        return res;
+        let notification = await db.Notification.findByPk(notificationId);
+        return notification;
 
     };
 

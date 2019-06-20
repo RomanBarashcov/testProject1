@@ -5,14 +5,15 @@ module.exports = () => {
     const db = require("../entities/db");
     const services = require("./index")();
 
-    const registrate = async (email, password, name, roleId) => {
-        let operationDetails = {success: false, message: "", value: null};
+    const registrate = async (email, password, name) => {
 
-        // impotant email must be uniq
-        let res = await services.userService.getUserByEmail(email);
-        if(res) {
-            operationDetails.message = "Email is duplicate, try to set another email address";
+        let operationDetails = { success: false, message: "", value: null };
+
+        let user = await services.userService.getUserByEmail(email);
+        if(user) {
+            return operationDetails.message = "User with the same email was registered!";
         }
+
 
         // 1) when all data is correct, give accsess, and make token
         // 2) retrun accsess data to current user, {id: "1", email: "example@mail.com", role: "admin"}

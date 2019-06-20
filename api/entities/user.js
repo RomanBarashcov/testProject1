@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         model: Role,
         key: 'id'
       }
-    },
+    }
     
   });
 
