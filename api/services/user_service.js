@@ -2,16 +2,16 @@
 
 module.exports = () => {
 
-    const db = require("../entities/db");
+    const db = require("../models/index");
 
     const getUsers = async () => {
 
         let users = await db.User.findAll({raw:true, 
-            include: [{ 
-                model: await db.Role, as: "role",
+            include: [{
+                model: await db.State,
                 required: false
-            },{
-                model: await db.State, as: "state",
+            }, { 
+                model: await db.Role,
                 required: false
             }
         ]});
@@ -47,10 +47,10 @@ module.exports = () => {
         let user = await db.User.findOne({
             where: { email: email, password: password },
             include: [{ 
-                model: await db.Role, as: "role",
+                model: await db.Role, as: "role" , 
                 required: false
             },{
-                model: await db.State, as: "state",
+                model: await db.State, as: "state", 
                 required: false
             }
         ]});

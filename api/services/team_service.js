@@ -2,7 +2,7 @@
 
 module.exports = () => {
     
-    const db = require("../entities/db");
+    const db = require("../models/index");
 
     const getTeams = async () => {
 

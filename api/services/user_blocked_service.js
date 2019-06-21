@@ -2,7 +2,7 @@
 
 module.exports = () => {
     
-    const db = require("../entities/db");
+    const db = require("../models/index");
 
     const getBlockedByUserId = async (userId) => {
 
@@ -10,8 +10,13 @@ module.exports = () => {
         return userBlocked;
     };
 
+    const BlockUser = async (reason, userId) => {
+
+        await db.UserBlocked.create({reason: reason, userId: userId});
+    };
 
     return {
-        getBlockedByUserId: getBlockedByUserId
+        getBlockedByUserId: getBlockedByUserId,
+        BlockUser: BlockUser
     }
 };
