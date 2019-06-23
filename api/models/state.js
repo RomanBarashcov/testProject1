@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
   State.associate = function(models) {
 
-    State.belongsTo(models.User);
+    State.hasOne(models.User,{foreignKey: "id"});
 
   };
 

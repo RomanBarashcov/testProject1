@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
 
-    User.hasMany(models.State, {foreignKey: "userId"});
-    User.hasMany(models.Role, {foreignKey: "roleId"});
+    User.belongsTo(models.State, {foreignKey: "stateId"});
+    User.belongsTo(models.Role, {foreignKey: "roleId"});
 
    /* User.hasOne(models.Team, {
       through: 'TeamPlayer',

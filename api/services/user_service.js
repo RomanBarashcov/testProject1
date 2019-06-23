@@ -8,10 +8,10 @@ module.exports = () => {
 
         let users = await db.User.findAll({raw:true, 
             include: [{
-                model: await db.State,
+                model: db.State,
                 required: false
             }, { 
-                model: await db.Role,
+                model: db.Role,
                 required: false
             }
         ]});
