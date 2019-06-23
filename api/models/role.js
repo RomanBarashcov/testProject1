@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Role.associate = function(models) {
 
-    Role.hasOne(models.User, {foreignKey: "id"});
+    Role.hasOne(models.User);
 
   };
 
