@@ -1,15 +1,15 @@
 import React, {Component} from "react";
-import UserItemComponent from "./user_item_component";
+import NotificationItemComponent from "./notification_item_component";
 
-class UsersComponent extends Component {
+class NotificationsComponent extends Component {
     
     constructor(props) {
         super(props);
-        this.selectedUserChanged = this.selectedUserChanged.bind(this);
+        this.selectedNotificationChanged = this.selectedNotificationChanged.bind(this);
     }
 
-    selectedUserChanged(userId) {
-        this.props.actions.loadUserInfo(userId);
+    selectedNotificationChanged(notificationId) {
+        this.props.actions.loadNotificationInfo(notificationId);
     }
 
     render() {
@@ -27,7 +27,7 @@ class UsersComponent extends Component {
             content = (
                 <div>
                     <div className="row">
-                        <h1>Users</h1>
+                        <h1>Notifications</h1>
                     </div>
                         <table className="table">
                             <thead>
@@ -40,14 +40,14 @@ class UsersComponent extends Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.data.list.map((user, index) => {
+                                this.props.data.notifications.map((notification, index) => {
                                     return (
-                                        <UserItemComponent
+                                        <NotificationItemComponent
                                             key={index}
-                                            userId={user.id}
-                                            email={user.email}
-                                            name={user.name}
-                                            selectedUserChanged={this.selectedUserChanged}/>
+                                            id={notification.id}
+                                            type={notification.type}
+                                            date={notification.date}
+                                            selectedNotificationChanged={this.selectedNotificationChanged}/>
                                     );
                                 }, this)
                             }
@@ -61,4 +61,4 @@ class UsersComponent extends Component {
     }
 }
 
-export default UsersComponent;
+export default NotificationsComponent;

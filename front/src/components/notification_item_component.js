@@ -1,32 +1,32 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom";
 
-class UserItemComponent extends Component {
-    
+class NotificationItemComponent extends Component {
+
     constructor(props) {
         super(props);
-        this.selectedUserChanged = this.selectedUserChanged.bind(this);
+        this.selectedNotificationChanged = this.selectedNotificationChanged.bind(this);
     }
 
-    selectedUserChanged(evt) {
+    selectedNotificationChanged(evt) {
         evt.preventDefault();
         let id = parseInt(evt.currentTarget.getAttribute("data-id"), 10);
-        this.props.selectedUserChanged(id);
+        this.props.selectedNotificationChanged(id);
     }
 
     render() {
+        
         let content = null;
 
         content = (
-            <tr data-id={this.props.userId} onClick={this.selectedUserChanged}>
-                <td><div>{this.props.userId}</div></td>
-                <td><div>{this.props.email}</div></td>
-                <td><div>{this.props.name}</div></td>
+            <tr data-id={this.props.id} onClick={this.selectedNotificationChanged}>
+                <td><div>{this.props.type}</div></td>
+                <td><div>{this.props.date}</div></td>
                 <td>
                     <div>
-                        <Link to="/user-details" style={{ textDecoration: "unset" }}>
+                        <Link to="/team-details">
                             <button className="default-btn" type="button">
-                                Showing all user info
+                                Showing all notification info
                             </button>
                         </Link>
                     </div>
@@ -38,4 +38,4 @@ class UserItemComponent extends Component {
 }
 
 
-export default UserItemComponent;
+export default NotificationItemComponent;

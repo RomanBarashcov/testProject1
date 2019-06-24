@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
-import { emailRegex } from "../constants/regex_validators";
-
+import { emailRegex } from "../constants/regex_validator";
 import * as types from "../constants/action_types";
+import API_URL from "../constants/hosts";
 
 export const updateStatus = (status, field) => {
   return {
@@ -38,7 +38,7 @@ export const signIn = (email, password) => {
       password: password
     });
 
-    return fetch(`/login`, fetchOptions)
+    return fetch(`${API_URL}/login`, fetchOptions)
       .then((response) => {
         if (response.status !== 200) {
           response.json()

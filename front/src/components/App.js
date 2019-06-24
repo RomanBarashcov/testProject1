@@ -1,15 +1,19 @@
-import React from 'react'
-import createHistory from "history/createBrowserHistory";
+import React, {Component} from 'react'
 import { Router, Route } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import LoadDataContainer from "../containers/load_data_container";
 import HeaderComponent from "./header_component";
+import HomeContainer from "../containers/home_container";
 import UsersContainer from "../containers/users_container";
 import UserDetailsContainer from "../containers/user_details_container";
 import TeamsContainer from "../containers/teams_container";
 import TeamDetailsContainer from "../containers/team_details_container";
+import NotificationsContainer from "../containers/notifications_container";
 import LoginContainer from "../containers/login_container";
 import RegistrationContainer from "../containers/registration_container";
 
+var createHistory = require("history").createBrowserHistory;
 export const history = createHistory();
 
 const path = (/#!(\/.*)$/.exec(history.location.hash) || [])[1];
@@ -17,61 +21,67 @@ if (path) {
   history.replace(path);
 }
 
-const HomePage = () => (
-  <LoadDataContainer>
+const HomePage = () => {
+    return(
+      <LoadDataContainer>
+        <HeaderComponent/>
+          <HomeContainer />
+      </LoadDataContainer>
+    );
+  };
+
+const UsersPage = () => {
+  return (
+    <LoadDataContainer>
     <HeaderComponent/>
-      <HomeContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
+        <UsersContainer />
+    </LoadDataContainer>
+  );
+};
 
-const UsersPage = () => (
-  <LoadDataContainer>
-   <HeaderComponent/>
-      <UsersContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
-
-const UserDetailsPage = () => (
-  <LoadDataContainer>
-   <HeaderComponent/>
-     <UserDetailsContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
-
-const TeamsPage = () => (
-  <LoadDataContainer>
+const UserDetailsPage = () => {
+  return (
+    <LoadDataContainer>
     <HeaderComponent/>
-      <TeamsContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
+      <UserDetailsContainer />
+    </LoadDataContainer>
+  );
+};
 
-const TeamDetailsPage = () => (
-  <LoadDataContainer>
-    <HeaderComponent/>
-      <TeamDetailsContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
+const TeamsPage = () => {
+  return (
+    <LoadDataContainer>
+      <HeaderComponent/>
+        <TeamsContainer />
+    </LoadDataContainer>
+  );
+};
 
-const NotificationsPage = () => (
-  <LoadDataContainer>
-    <HeaderComponent/>
-      <NotificationsContainer />
-    <FooterComponent/>
-  </LoadDataContainer>
-);
+const TeamDetailsPage = () => {
+  return (
+    <LoadDataContainer>
+      <HeaderComponent/>
+        <TeamDetailsContainer />
+    </LoadDataContainer>
+  );
+};
 
-const LoginPage = () => (
-  <LoginContainer />
-);
+const NotificationsPage = () => {
+  return (
+    <LoadDataContainer>
+      <HeaderComponent/>
+        <NotificationsContainer />
+    </LoadDataContainer>
+  );
+};
 
-const RegisterPage = () => (
-  <RegistrationContainer />
-);
+const LoginPage = () => {
+  return (<LoginContainer />);
+};
+
+const RegisterPage = () => {
+  return (<RegistrationContainer />);
+};
 
 
 class App extends Component {
@@ -86,7 +96,7 @@ class App extends Component {
           <Route exact path="/team-details" component={TeamDetailsPage} />
           <Route exact path="/notifications" component={NotificationsPage} />
           <Route exact path="/login" component={LoginPage} />
-          <React exact path="/register" component={RegisterPage} />
+          <Route exact path="/register" component={RegisterPage} />
         </div>
       </Router>);
       }

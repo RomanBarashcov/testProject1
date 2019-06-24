@@ -4,22 +4,22 @@ import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 
 import Actions from "../actions";
-import UserDetailsComponent from "../components/user_details_component";
+import HomeComponent from "../components/home_component";
 
-export class UserDetailsContainer extends Component {
+export class HomeContainer extends Component {
 
     render() {
-        return <UserDetailsComponent data={this.props.data} actions={this.props.actions} />;
+        return <HomeComponent data={this.props.data} actions={this.props.actions} />;
     }
 }
 
-UserDetailsContainer.propTypes = {
+HomeContainer.propTypes = {
     actions: PropTypes.object.isRequired
-};
+  };
 
 function mapStateToProps(state) {
     return {
-        data: state.userInfo
+        data: null
     };
 }
 
@@ -29,4 +29,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetailsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

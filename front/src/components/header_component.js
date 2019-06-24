@@ -12,32 +12,33 @@ class HeaderComponent extends Component {
         let content = null;
 
         content = (
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <Link to="/" class="nav-link">
+            <ul className="nav justify-content-center">
+                <li className="nav-item">
+                    <Link to="/" className="nav-link">
                          Home
                     </Link>
                 </li>
-                <li class="nav-item">
-                    <Link to="/teams" class="nav-link">
+                <li className="nav-item">
+                    <Link to="/teams" className="nav-link">
                          Teams
                     </Link>
                 </li>
-                <li class="nav-item">
-                    <Link to="/users" class="nav-link">
+                <li className="nav-item">
+                    <Link to="/users" className="nav-link">
                          Users
                     </Link>
                 </li>
-                <li class="nav-item">
-                    <Link to="/players" class="nav-link">
+                <li className="nav-item">
+                    <Link to="/players" className="nav-link">
                         Players
                     </Link>
                 </li>
             </ul>
         );
+
         return content;
     }
 }
 
 
-export default (HeaderComponent);
+export default HeaderComponent;

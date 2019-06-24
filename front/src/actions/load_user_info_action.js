@@ -1,34 +1,30 @@
 import fetch from "isomorphic-fetch";
 import * as types from "../constants/action_types";
+import API_URL from "../constants/hosts";
 
-export const loadingUsers = () => {
+export const loadingUserInfo = () => {
   return {
-    type: types.LOADING_USERS
+    type: types.LOADING_USER_INFO
   };
 };
 
-export const usersLoaded = (users) => {
+export const userInfoLoaded = (user) => {
   return {
-    type: types.USERS_LOADED,
-    users
+    type: types.USER_INFO_LOADED,
+    user
   };
 };
 
-export const loadUsers = () => {
+export const loadUserInfo = (id) => {
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "include"
+      method: "get"
     };
 
-    dispatch(loadingUsers());
+    dispatch(loadingUserInfo());
 
-    return fetch(`/users`, fetchOptions)
+    return fetch(`${API_URL}/users/${id}`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.statusText);
@@ -39,7 +35,7 @@ export const loadUsers = () => {
         }
       })
       .then(json => {
-        dispatch(usersLoaded(json));
+        dispatch(userInfoLoaded(json));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {
@@ -60,4 +56,4 @@ export const loadUsers = () => {
   };
 };
 
-export default loadUsers;
+export default loadUserInfo;

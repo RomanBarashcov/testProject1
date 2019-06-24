@@ -1,5 +1,6 @@
 import fetch from "isomorphic-fetch";
 import * as types from "../constants/action_types";
+import API_URL from "../constants/hosts";
 
 export const loadingNotifications = () => {
   return {
@@ -14,7 +15,7 @@ export const notificationsLoaded = (notifications) => {
   };
 };
 
-export const loadNorifications = () => {
+export const loadNotifications = () => {
   return (dispatch) => {
 
     const fetchOptions = {
@@ -28,7 +29,7 @@ export const loadNorifications = () => {
 
     dispatch(loadingNotifications());
 
-    return fetch(`/teams`, fetchOptions)
+    return fetch(`${API_URL}/notifications`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.statusText);
@@ -60,4 +61,4 @@ export const loadNorifications = () => {
   };
 };
 
-export default loadNorifications;
+export default loadNotifications;

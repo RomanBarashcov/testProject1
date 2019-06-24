@@ -4,22 +4,22 @@ import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 
 import Actions from "../actions";
-import UserDetailsComponent from "../components/user_details_component";
+import NotificationsComponent from "../components/notifications_component";
 
-export class UserDetailsContainer extends Component {
+export class NotificationsContainer extends Component {
 
     render() {
-        return <UserDetailsComponent data={this.props.data} actions={this.props.actions} />;
+        return <NotificationsComponent data={this.props.data} actions={this.props.actions} />;
     }
 }
 
-UserDetailsContainer.propTypes = {
+NotificationsContainer.propTypes = {
     actions: PropTypes.object.isRequired
-};
+  };
 
 function mapStateToProps(state) {
     return {
-        data: state.userInfo
+        data: state.notifications
     };
 }
 
@@ -29,4 +29,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetailsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsContainer);

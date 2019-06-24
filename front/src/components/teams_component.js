@@ -40,14 +40,14 @@ class TeamsComponent extends Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.data.teams.map((team, index) => {
+                                this.props.data.list.map((team, index) => {
                                     return (
                                         <TeamItemComponent
                                             key={index}
-                                            userId={team.id}
-                                            email={team.name}
-                                            name={user.total_score}
-                                            selectedUserChanged={this.selectedTeamChanged}/>
+                                            id={team.id}
+                                            name={team.name}
+                                            total_score={team.total_score}
+                                            selectedTeamChanged={this.selectedTeamChanged}/>
                                     );
                                 }, this)
                             }
@@ -61,4 +61,4 @@ class TeamsComponent extends Component {
     }
 }
 
-export default (TeamsComponent);
+export default TeamsComponent;

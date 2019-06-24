@@ -2,29 +2,30 @@ import fetch from "isomorphic-fetch";
 import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 
-export const loadingTeams = () => {
+export const loadingUsers = () => {
   return {
-    type: types.LOADING_TEAMS
+    type: types.LOADING_USERS
   };
 };
 
-export const teamsLoaded = (teams) => {
+export const usersLoaded = (users) => {
   return {
-    type: types.TEAMS_LOADED,
-    teams
+    type: types.USERS_LOADED,
+    users
   };
 };
 
-export const loadTeams = () => {
+export const loadUsers = () => {
+
   return (dispatch) => {
 
     const fetchOptions = {
       method: "get"
     };
 
-    dispatch(loadingTeams());
+    dispatch(loadingUsers());
 
-    return fetch(`${API_URL}/teams`, fetchOptions)
+    return fetch(`${API_URL}/users`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.statusText);
@@ -35,7 +36,7 @@ export const loadTeams = () => {
         }
       })
       .then(json => {
-        dispatch(teamsLoaded(json));
+        dispatch(usersLoaded(json));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {
@@ -56,4 +57,4 @@ export const loadTeams = () => {
   };
 };
 
-export default loadTeams;
+export default loadUsers;

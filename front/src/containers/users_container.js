@@ -1,6 +1,7 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import PropTypes from 'prop-types';
 
 import Actions from "../actions";
 import UsersComponent from "../components/users_component";

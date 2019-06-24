@@ -35,12 +35,10 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsTo(models.State);
     User.belongsTo(models.Role);
 
-   /* User.hasOne(models.Team, {
-      through: 'TeamPlayer',
-      as: 'teams',
-      foreignKey: 'userId'
+    User.belongsToMany(models.Team, {
+      through: 'TeamPlayers'
     });
- */
+ 
   };
   
   return User;

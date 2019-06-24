@@ -1,12 +1,13 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import PropTypes from 'prop-types';
 
 import Actions from "../actions/";
 
 export class LoadDataContainer extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     
     if(!this.props.users.loading && !this.props.users.loaded) {
         this.props.actions.loadUsers();
@@ -17,20 +18,24 @@ export class LoadDataContainer extends Component {
     }
 
     if(!this.props.notifications.loading && !this.props.notifications.loaded) {
-      this.props.actions.loadNotifications();
+      //this.props.actions.loadNotifications();
     }
+  }
+
+  render() {
+    return <div><main>{this.props.children}</main></div>;
   }
 
 }
 
 LoadDataContainer.propTypes = {
-    actions: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     notifications: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
+  console.log("STATE: ", state);
     return {
       users: state.users,
       teams: state.teams,

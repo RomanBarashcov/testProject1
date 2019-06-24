@@ -1,6 +1,7 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import PropTypes from 'prop-types';
 
 import Actions from "../actions";
 import TeamDetailsComponent from "../components/team_details_component";
@@ -18,7 +19,7 @@ TeamsDetailsContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        data: state.teams
+        data: state.teamInfo
     };
 }
 

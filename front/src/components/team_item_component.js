@@ -1,16 +1,17 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom";
 
-class TeamComponent extends Component {
+class TeamItemComponent extends Component {
 
     constructor(props) {
         super(props);
         this.selectedTeamChanged = this.selectedTeamChanged.bind(this);
     }
 
-    selectedTeamChanged(evt){
+    selectedTeamChanged(evt) {
         evt.preventDefault();
         let id = parseInt(evt.currentTarget.getAttribute("data-id"), 10);
+        console.log("evt.currentTarget.getAttribute ", evt.currentTarget.getAttribute("data-id"));
         this.props.selectedTeamChanged(id);
     }
 
@@ -19,8 +20,8 @@ class TeamComponent extends Component {
         let content = null;
 
         content = (
-            <tr data-id={this.props.teamId} onClick={this.selectedTeamChanged}>
-                <td><div>{this.props.teamId}</div></td>
+            <tr data-id={this.props.id} onClick={this.selectedTeamChanged}>
+                <td><div>{this.props.id}</div></td>
                 <td><div>{this.props.name}</div></td>
                 <td><div>{this.props.total_score}</div></td>
                 <td>
@@ -39,4 +40,4 @@ class TeamComponent extends Component {
 }
 
 
-export default (TeamComponent);
+export default TeamItemComponent;
