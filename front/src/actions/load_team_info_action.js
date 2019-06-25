@@ -9,6 +9,7 @@ export const loadingTeamInfo = () => {
 };
 
 export const teamInfoLoaded = (team) => {
+  console.log("teamInfoLoaded", team);
   return {
     type: types.TEAM_INFO_LOADED,
     team
@@ -35,7 +36,6 @@ export const loadTeamInfo = (id) => {
         }
       })
       .then(json => {
-          console.log("json___", json);
         dispatch(teamInfoLoaded(json));
       })
       .catch(e => {

@@ -9,9 +9,9 @@ class HomeComponent extends Component {
     render() {
         
         let content = null;
-        console.log("HOME_COMPONENT");
+
         content = (
-            <div><h2>Hellow world</h2></div>
+            <div><h2>Hello world</h2></div>
         );
 
         return content;

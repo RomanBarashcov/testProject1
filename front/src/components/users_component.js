@@ -26,33 +26,33 @@ class UsersComponent extends Component {
 
             content = (
                 <div>
-                    <div className="row">
-                        <h1>Users</h1>
-                    </div>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><div>#</div></th>
-                                    <th scope="col"><div>User Email</div></th>
-                                    <th scope="col"><div>User Name</div></th>
-                                    <th scope="col"><div></div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                this.props.data.list.map((user, index) => {
-                                    return (
-                                        <UserItemComponent
-                                            key={index}
-                                            userId={user.id}
-                                            email={user.email}
-                                            name={user.name}
-                                            selectedUserChanged={this.selectedUserChanged}/>
-                                    );
-                                }, this)
-                            }
-                            </tbody>
-                        </table>
+                    <br/>
+                        <h2>Users</h2>
+                    <br/>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><div>#</div></th>
+                                <th scope="col"><div>User Email</div></th>
+                                <th scope="col"><div>User Name</div></th>
+                                <th scope="col"><div></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.props.data.list.map((user, index) => {
+                                return (
+                                    <UserItemComponent
+                                        key={index}
+                                        userId={user.id}
+                                        email={user.email}
+                                        name={user.name}
+                                        selectedUserChanged={this.selectedUserChanged}/>
+                                );
+                            }, this)
+                        }
+                        </tbody>
+                    </table>
                 </div>
             );
         }

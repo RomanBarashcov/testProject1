@@ -17,26 +17,30 @@ class TeamDetailsComponent extends Component {
         let content = null;
 
         content = (
+            <div>
+                <h1>Team Info</h1>
+                <hr/>
                 <form>
-                    <div class="form-group row">
-                        <label for="TeamName" class="col-sm-4 col-form-label">Name</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="TeamName" value={this.props.data.name} />
+                    <div className="form-group row">
+                        <label htmlFor="TeamName" className="col-sm-4 col-form-label">Name</label>
+                        <div className="col-sm-4">
+                            <input type="text" readOnly className="form-control-plaintext" id="TeamName" value={this.props.data.team.name} />
                         </div>
                     </div>
-                    <div class="form-group row">
-                     <label for="Description" class="col-sm-4 col-form-label">Description</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="Description" value={this.props.data.description} />
+                    <div className="form-group row">
+                     <label htmlFor="Description" className="col-sm-4 col-form-label">Description</label>
+                        <div className="col-sm-4">
+                            <input type="text" readOnly className="form-control-plaintext" id="Description" value={this.props.data.team.description} />
                         </div>
                     </div>
-                    <div class="form-group row">
-                     <label for="TotalSocre" class="col-sm-4 col-form-label">Total Score</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="TotalSocre" value={this.props.data.total_score} />
+                    <div className="form-group row">
+                     <label htmlFor="TotalSocre" className="col-sm-4 col-form-label">Total Score</label>
+                        <div className="col-sm-4">
+                            <input type="text" readOnly className="form-control-plaintext" id="TotalSocre" value={this.props.data.team.total_score} />
                         </div>
                     </div>
                 </form>
+                </div>
         );
 
         return content;
@@ -49,33 +53,32 @@ class TeamDetailsComponent extends Component {
         if (this.props.data.loaded) {
             content = (
                 <div>
-                    <div className="row">
-                        <h1>Team Players</h1>
-                    </div>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><div>#</div></th>
-                                    <th scope="col"><div>Player Email</div></th>
-                                    <th scope="col"><div>Player Name</div></th>
-                                    <th scope="col"><div></div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                this.this.props.data.teamPlayers.map((player, index) => {
-                                    return (
-                                        <UserItemComponent
-                                            key={index}
-                                            userId={player.id}
-                                            email={player.email}
-                                            name={player.name}
-                                            selectedUserChanged={this.selectedUserChanged}/>
-                                    );
-                                }, this)
-                            }
-                            </tbody>
-                        </table>
+                    <h2>Team Players</h2>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><div>#</div></th>
+                                <th scope="col"><div>Player Email</div></th>
+                                <th scope="col"><div>Player Name</div></th>
+                                <th scope="col"><div></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+
+                            this.props.data.team.teamPlayers.map((player, index) => {
+                                return (
+                                    <UserItemComponent
+                                        key={index}
+                                        userId={player.id}
+                                        email={player.email}
+                                        name={player.name}
+                                        selectedUserChanged={this.selectedUserChanged}/>
+                                );
+                            }, this)
+                        }
+                        </tbody>
+                    </table>
                 </div>
             );
         }

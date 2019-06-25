@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Actions from "../actions";
 import HomeComponent from "../components/home_component";
 
-export class HomeContainer extends Component {
+class HomeContainer extends Component {
 
     render() {
         return <HomeComponent data={this.props.data} actions={this.props.actions} />;

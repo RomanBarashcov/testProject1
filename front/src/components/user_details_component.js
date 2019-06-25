@@ -10,26 +10,29 @@ class UserDetailsComponent extends Component {
         let content = null;
 
         content = (
-                <form>
-                    <div class="form-group row">
-                        <label for="TeamName" class="col-sm-4 col-form-label">Name</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="TeamName" value={this.props.data.name} />
+                <div>
+                    <h2>User Info</h2>
+                    <form>
+                        <div class="form-group row">
+                            <label for="TeamName" class="col-sm-4 col-form-label">Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" id="TeamName" value={this.props.data.name} />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                     <label for="Description" class="col-sm-4 col-form-label">Email</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="Description" value={this.props.data.email} />
+                        <div class="form-group row">
+                        <label for="Description" class="col-sm-4 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" id="Description" value={this.props.data.email} />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                     <label for="TotalSocre" class="col-sm-4 col-form-label">Role</label>
-                        <div class="col-sm-6">
-                            <input type="text" readonly class="form-control-plaintext" id="TotalSocre" value={this.props.data.role} />
+                        <div class="form-group row">
+                        <label for="TotalSocre" class="col-sm-4 col-form-label">Role</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" id="TotalSocre" value={this.props.data.role} />
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
         );
 
         return content;

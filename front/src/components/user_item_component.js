@@ -25,7 +25,7 @@ class UserItemComponent extends Component {
                 <td>
                     <div>
                         <Link to="/user-details" style={{ textDecoration: "unset" }}>
-                            <button className="default-btn" type="button">
+                            <button className="btn btn-primary" type="button">
                                 Showing all user info
                             </button>
                         </Link>

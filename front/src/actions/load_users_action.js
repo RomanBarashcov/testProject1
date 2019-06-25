@@ -20,7 +20,12 @@ export const loadUsers = () => {
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "get"
+      method: "get",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
     };
 
     dispatch(loadingUsers());

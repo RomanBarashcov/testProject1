@@ -10,7 +10,7 @@ export default (state = initState, action) => {
   switch (action.type) {
     case types.LOADING_MY_PROFILE:
       return Object.assign({}, state, {loading: true});
-    case types.MY_PROFILE_DATA_LOADED:
+    case types.SET_PROFILE:
       return Object.assign({}, state, {
         loading: false,
         loaded: true,

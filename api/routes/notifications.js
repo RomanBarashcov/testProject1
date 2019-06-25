@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var services = require("../services/index")();
+var services = require("../services/index");
 
 router.get('/', async (req, res, next) => {
 
-   let notifications = await services.notificationService.getUsers();
+   let notifications = await services.notificationService.getNotifications();
    res.json(notifications);
    
 });

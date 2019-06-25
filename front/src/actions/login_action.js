@@ -18,15 +18,14 @@ export const setProfile = (profile) => {
   };
 };
 
-export const signIn = (email, password) => {
+export const logIn = (email, password) => {
   return (dispatch) => {
     const fetchOptions = {
       method: "post",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      },
-      credentials: "include"
+      }
     };
 
     if(!emailRegex.test(email)) {
@@ -38,7 +37,7 @@ export const signIn = (email, password) => {
       password: password
     });
 
-    return fetch(`${API_URL}/login`, fetchOptions)
+    return fetch(`${API_URL}/authentication`, fetchOptions)
       .then((response) => {
         if (response.status !== 200) {
           response.json()
@@ -65,4 +64,4 @@ export const signIn = (email, password) => {
   };
 };
 
-export default signIn;
+export default logIn;

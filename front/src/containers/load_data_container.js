@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Actions from "../actions/";
 
-export class LoadDataContainer extends Component {
+class LoadDataContainer extends Component {
 
   componentDidMount() {
     
@@ -29,6 +29,7 @@ export class LoadDataContainer extends Component {
 }
 
 LoadDataContainer.propTypes = {
+    myProfile: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     notifications: PropTypes.object.isRequired
@@ -37,6 +38,7 @@ LoadDataContainer.propTypes = {
 function mapStateToProps(state) {
   console.log("STATE: ", state);
     return {
+      myProfile: state.myProfile,
       users: state.users,
       teams: state.teams,
       notifications: state.notifications

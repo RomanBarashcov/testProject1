@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom";
 
-class HeaderComponent extends Component {
+export class HeaderComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -12,28 +12,34 @@ class HeaderComponent extends Component {
         let content = null;
 
         content = (
-            <ul className="nav justify-content-center">
-                <li className="nav-item">
-                    <Link to="/" className="nav-link">
-                         Home
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/teams" className="nav-link">
-                         Teams
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/users" className="nav-link">
-                         Users
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/players" className="nav-link">
-                        Players
-                    </Link>
-                </li>
-            </ul>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <Link to="/" className="nav-link">
+                                Home
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/teams" className="nav-link">
+                                Teams
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/users" className="nav-link">
+                                Users
+                            </Link>
+                        </li>
+                    </ul>
+                    <ul className="nav navbar-nav navbar-right">
+                        <li>
+                            <Link to="/logout" className="nav-link">
+                                Log out
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         );
 
         return content;

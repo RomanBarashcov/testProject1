@@ -7,7 +7,7 @@ import userInfo from "./user_info_reducer";
 import teams from "./teams_reducer";
 import teamInfo from "./team_info_reducer";
 import notifications from "./notifications_reducer";
-import myprofile from "./my_profile_reducer";
+import myProfile from "./my_profile_reducer";
 
 const rootReducer =  combineReducers({
   authentification,
@@ -16,7 +16,7 @@ const rootReducer =  combineReducers({
   teams,
   teamInfo,
   notifications,
-  myprofile
+  myProfile
 });
 
 export default rootReducer;

@@ -26,33 +26,33 @@ class TeamsComponent extends Component {
 
             content = (
                 <div>
-                    <div className="row">
-                        <h1>Teams</h1>
-                    </div>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><div>#</div></th>
-                                    <th scope="col"><div>Name</div></th>
-                                    <th scope="col"><div>Total Score</div></th>
-                                    <th scope="col"><div></div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                this.props.data.list.map((team, index) => {
-                                    return (
-                                        <TeamItemComponent
-                                            key={index}
-                                            id={team.id}
-                                            name={team.name}
-                                            total_score={team.total_score}
-                                            selectedTeamChanged={this.selectedTeamChanged}/>
-                                    );
-                                }, this)
-                            }
-                            </tbody>
-                        </table>
+                    <br/>
+                     <h2>Teams</h2>
+                    <br/>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><div>#</div></th>
+                                <th scope="col"><div>Name</div></th>
+                                <th scope="col"><div>Total Score</div></th>
+                                <th scope="col"><div></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.props.data.list.map((team, index) => {
+                                return (
+                                    <TeamItemComponent
+                                        key={index}
+                                        id={team.id}
+                                        name={team.name}
+                                        total_score={team.total_score}
+                                        selectedTeamChanged={this.selectedTeamChanged}/>
+                                );
+                            }, this)
+                        }
+                        </tbody>
+                    </table>
                 </div>
             );
         }

@@ -27,7 +27,7 @@ class TeamItemComponent extends Component {
                 <td>
                     <div>
                         <Link to="/team-details">
-                            <button className="default-btn" type="button">
+                            <button className="btn btn-primary" type="button">
                                 Showing all team info
                             </button>
                         </Link>

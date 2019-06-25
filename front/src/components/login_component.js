@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import { Link } from "react-router-dom";
 
 class LoginComponent extends Component {
     
@@ -10,15 +9,26 @@ class LoginComponent extends Component {
             email: "",
             password: ""
           };
-      
+
+        this.emailHandleChange = this.emailHandleChange.bind(this);
+        this.passwordHandleChange = this.passwordHandleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(evt) {
         evt.preventDefault();
-    
         const { email, password } = this.state;
-        this.props.actions.signIn(email, password);
+        this.props.actions.logIn(email, password);
+    }
+
+    emailHandleChange(evt) {
+        let { value } = evt.target;
+        this.setState({email: value});
+    }
+
+    passwordHandleChange(evt) {
+        let { value } = evt.target;
+        this.setState({password: value});
     }
 
     render() {
@@ -26,22 +36,48 @@ class LoginComponent extends Component {
 
         let content = null;
 
-        content = (<div>
-                        <h1>Login</h1>
-                        <form onSubmit={this.onSubmit}>
-                            <div className="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} />
-                                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div className="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={password} />
-                            </div>
-                            <button type="submit" className="btn btn-primary">Submit</button>
-                        </form>
+        content = (<div className="row justify-content-sm-center">
+                        <div className="col col-lg-4">
+                            <br />
+                                <h2>Login</h2>
+                            <br />
+                            <form onSubmit={this.onSubmit}>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputEmail1">
+                                        Email address
+                                    </label>
+                                    <input type="email" 
+                                           className="form-control" 
+                                           id="exampleInputEmail1" 
+                                           aria-describedby="emailHelp"
+                                           placeholder="Enter email" 
+                                           value={email}
+                                           onChange={this.emailHandleChange} />
+                                    <small id="emailHelp" 
+                                           className="form-text text-muted">
+                                               We'll never share your email with anyone else.
+                                           </small>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">
+                                        Password
+                                    </label>
+                                    <input type="password" 
+                                           className="form-control" 
+                                           id="exampleInputPassword1" 
+                                           placeholder="Password" 
+                                           value={password} 
+                                           onChange={this.passwordHandleChange}/>
+                                </div>
+                                <button type="submit" 
+                                        className="btn btn-primary">
+                                            Submit
+                                        </button>
+                            </form>
+                        </div>
                     </div>
         );
+
         return content;
     }
 }

@@ -3,7 +3,7 @@
 module.exports = () => {
     
     const db = require("../models/index");
-    const services = require("./index")();
+    const services = require("./index");
 
     const registrate = async (email, password, name) => {
 

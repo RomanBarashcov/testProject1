@@ -3,7 +3,7 @@ import loadUserInfo from "./load_user_info_action";
 import loadTeams from "./load_teams_action";
 import loadTeamInfo from "./load_team_info_action";
 import loadNotifications from "./load_notifications_action";
-import login from "./login_action";
+import logIn from "./login_action";
 
 export default Object.assign({},
     {loadUsers},
@@ -11,5 +11,5 @@ export default Object.assign({},
     {loadTeams},
     {loadTeamInfo},
     {loadNotifications},
-    {login}
+    {logIn}
 );
