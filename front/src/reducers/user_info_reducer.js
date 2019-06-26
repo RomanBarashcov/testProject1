@@ -16,6 +16,12 @@ export default (state = initState, action) => {
         loaded: true,
         user: action.user
       });
+    case types.USER_TEAM_UPDATING:
+        return Object.assign({}, state, {
+          loading: false,
+          loaded: true,
+          user: action.user
+        });
     default:
       return state;
   }

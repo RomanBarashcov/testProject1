@@ -19,7 +19,7 @@ UserDetailsContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        data: state.userInfo
+        data: {userInfo: state.userInfo, teams: state.teams}
     };
 }
 

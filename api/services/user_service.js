@@ -47,7 +47,7 @@ const getUserById = async (userId) => {
         }, 
         {
             model: db.Team,
-            attributes: ["id", "description", "total_score"],
+            attributes: ["id", "name", "description", "total_score"],
             require: false
         }
     ]});
@@ -98,9 +98,18 @@ const getUserByEmailAndPassword = async (email, password) => {
     return user;
 };
 
+const userTeamChange = async (userId, teamId) => {
+
+    let teamPlayer = await db.TeamPlayer.findOne({where:{userId: userId}});
+    await db.teamPlayer.update({userId: userId, teamId: teamId}, {where: {id: teamPlayer.id}});
+    
+
+};
+
 module.exports = {
     getUsers: getUsers,
     getUserById: getUserById,
     getUserByEmail: getUserByEmail,
-    getUserByEmailAndPassword: getUserByEmailAndPassword
+    getUserByEmailAndPassword: getUserByEmailAndPassword,
+    userTeamChange: userTeamChange
 };
