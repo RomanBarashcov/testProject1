@@ -3,7 +3,7 @@ import * as types from "../constants/action_types";
 const initState = {
   loaded: false,
   loading: false,
-  myProfile: []
+  myProfile: null
 };
 
 export default (state = initState, action) => {
@@ -14,7 +14,7 @@ export default (state = initState, action) => {
       return Object.assign({}, state, {
         loading: false,
         loaded: true,
-        myProfile: action.myProfile
+        myProfile: action.profile
       });
     default:
       return state;

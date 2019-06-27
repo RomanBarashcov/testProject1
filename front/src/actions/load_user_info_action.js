@@ -35,7 +35,7 @@ export const loadUserInfo = (id) => {
         }
       })
       .then(json => {
-        dispatch(userInfoLoaded(json));
+        dispatch(userInfoLoaded(json.user));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {

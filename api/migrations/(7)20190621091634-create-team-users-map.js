@@ -29,6 +29,21 @@ module.exports = {
           model: 'Teams',
           key: 'id'
         }
+      },
+
+      prev_teamId: {
+        type: Sequelize.INTEGER(10),
+        allowNull: false,
+      }, 
+
+      stateId: {
+        type: Sequelize.INTEGER(10),
+        allowNull: false, 
+  
+        references: {
+          model: 'States',
+          key: 'id'
+        }
       }
       
     });

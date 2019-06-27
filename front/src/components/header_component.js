@@ -33,7 +33,7 @@ export class HeaderComponent extends Component {
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         <li>
-                            <Link to="/logout" className="nav-link">
+                            <Link to="/login" className="nav-link">
                                 Log out
                             </Link>
                         </li>

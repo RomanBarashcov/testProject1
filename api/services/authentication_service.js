@@ -12,12 +12,12 @@ const login = async (email, password) => {
     password = bcrypt.hashSync(password, config.passwordSalt);
     
     let user = await userService.getUserByEmailAndPassword(email, password);
-    if(!user) {
+    if(!user.success) {
         return operationDetails.message = "Email or Password is wrong, check it and try again later";
     }
 
     if(user.state === "disapprove") {
-        let userBlocker = await userBlockedService.getBlockedByUserId(user.id);
+        let userBlocker = await userBlockedService.getBlockedByUserId(user.value.id);
         return operationDetails.message = "Your account was bloked. Reason: " + userBlocker.reason;
     }
 
@@ -28,7 +28,7 @@ const login = async (email, password) => {
     delete user['password'];
 
     operationDetails.success = true;
-    operationDetails.value = user;
+    operationDetails.value = user.value;
 
     return operationDetails;
 };

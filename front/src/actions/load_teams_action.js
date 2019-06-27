@@ -35,7 +35,7 @@ export const loadTeams = () => {
         }
       })
       .then(json => {
-        dispatch(teamsLoaded(json));
+        dispatch(teamsLoaded(json.teams));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {

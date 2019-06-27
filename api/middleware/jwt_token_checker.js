@@ -1,8 +1,10 @@
 let jwt = require('jsonwebtoken');
 const config = require('../config/sec.conf');
+var Cookie = require("cookie");
 
 let checkToken = (req, res, next) => {
-  let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+  
+  let token = req.headers && req.headers.cookie;
 
   if(!token) {
 
@@ -17,17 +19,26 @@ let checkToken = (req, res, next) => {
   }
 
   if (token) {
-    jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) {
-        return res.json({
-          success: false,
-          message: 'Token is not valid'
-        });
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
+    try {
+      var cookie = req.headers.cookie;
+      var parsedCookie = Cookie.parse(cookie);
+
+      jwt.verify(parsedCookie["project-access"], config.secret, (err, decoded) => {
+
+        if (err) {
+          return res.json({
+            success: false,
+            message: 'Token is not valid'
+          });
+        } else {
+          req.decoded = decoded;
+          next();
+        }
+      });
+
+    } catch(err) {
+      console.log(err);
+    }
   } else {
     return res.json({
       success: false,

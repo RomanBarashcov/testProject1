@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // middleware.checkToken
 app.use('/', indexRouter);
 app.use('/authentication', authenticationRouter);
-app.use('/users', usersRouter);
+app.use('/users',middleware.checkToken, usersRouter);
 app.use('/teams', teamsRouter);
 app.use('./notifications', notificationsRouter);
 

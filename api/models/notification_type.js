@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    
+    message: {
+      type: DataTypes.STRING, 
+
+      validate: {
+        notEmpty: true
+      }
     }
 
   }, {});

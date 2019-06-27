@@ -46,7 +46,7 @@ export const userTeamChange = (userId, teamId) => {
           }
         })
         .then(json => {
-          dispatch(userTeamUpdated(json));
+          dispatch(userTeamUpdated(json.user));
         })
         .catch(e => {
           if (e.name === "TypeError" && e.message === "Failed to fetch") {

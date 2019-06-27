@@ -41,7 +41,7 @@ export const loadUsers = () => {
         }
       })
       .then(json => {
-        dispatch(usersLoaded(json));
+        dispatch(usersLoaded(json.users));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {

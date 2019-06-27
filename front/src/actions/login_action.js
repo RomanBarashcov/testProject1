@@ -25,13 +25,15 @@ export const logIn = (email, password) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      }
+      },
+      credentials: "include"
     };
 
     if(!emailRegex.test(email)) {
       dispatch(updateStatus({status: 400, message: "Invalid Email"}, "EMAIL"));
       return Promise.resolve();
     }
+    
     fetchOptions.body = JSON.stringify({
       email: email,
       password: password
@@ -56,7 +58,7 @@ export const logIn = (email, password) => {
         } else {
           response.json()
             .then(data => {
-              dispatch(setProfile(data));
+              dispatch(setProfile(data.currentUser));
               return window.location = "/";
             });
         }

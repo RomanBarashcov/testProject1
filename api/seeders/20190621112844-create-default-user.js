@@ -5,7 +5,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
 
     const bcrypt = require("bcrypt");
-    const passwordSalt = require("../config/sec.conf")().passwordSalt;
+    const passwordSalt = require("../config/sec.conf").passwordSalt;
 
     let password = bcrypt.hashSync("123456", passwordSalt);
 

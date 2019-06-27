@@ -36,7 +36,7 @@ export const loadTeamInfo = (id) => {
         }
       })
       .then(json => {
-        dispatch(teamInfoLoaded(json));
+        dispatch(teamInfoLoaded(json.team));
       })
       .catch(e => {
         if (e.name === "TypeError" && e.message === "Failed to fetch") {

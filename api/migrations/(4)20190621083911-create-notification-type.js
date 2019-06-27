@@ -12,7 +12,16 @@ module.exports = {
       },
 
       type: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(50),
+        allowNull: false,
+
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      message: {
+        type: Sequelize.STRING(50),
         allowNull: false,
 
         validate: {
