@@ -1,13 +1,13 @@
 "use strict"
 
-const db = require("../models/index");
-var od = require("../infrastructure/operation_details");
+const repositories = require("../repositories");
+const od = require("../infrastructure/operation_details");
 
 const getNotifications = async () => {
     try {
 
         let operationDetails = od();
-        let notifications = await db.Notification.findAll({raw:true});
+        let notifications = await repositories.notificationRepository.getNotifications();
 
         operationDetails = od(true, "", notifications);
         return operationDetails;
@@ -22,7 +22,7 @@ const getNotificationById = async (notificationId) => {
     try {
 
         let operationDetails = od();
-        let notification = await db.Notification.findByPk(notificationId);
+        let notification = await repositories.notificationRepository.getNotificationById(notificationId);
         
         operationDetails = od(true, "", notification);
         return operationDetails;
@@ -38,7 +38,7 @@ const createNotification = async (fromUserId, type) => {
     try {
 
         let operationDetails = od();
-        let notification = await db.Notification.create(notificationId);
+        let notification = await repositories.notificationRepository.createNotification();
         
         operationDetails = od(true, "", notification);
         return operationDetails;

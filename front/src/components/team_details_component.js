@@ -18,7 +18,8 @@ class TeamDetailsComponent extends Component {
 
         content = (
             <div>
-                <h1>Team Info</h1>
+                <br />
+                <h2>Team Info</h2>
                 <hr/>
                 <form>
                     <div className="form-group row">
@@ -53,7 +54,9 @@ class TeamDetailsComponent extends Component {
         if (this.props.data.loaded) {
             content = (
                 <div>
-                    <h2>Team Players</h2>
+                    <br />
+                        <h2>Team Players</h2>
+                    <br />
                     <table className="table">
                         <thead>
                             <tr>

@@ -3,24 +3,19 @@ import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 import cathcHandler from '../handlers/catch_handler';
 
-export const loadingTeams = () => {
+export const userUnblocked = (users) => {
   return {
-    type: types.LOADING_TEAMS
+    type: types.USER_UNBLOCKED,
+    users
   };
 };
 
-export const teamsLoaded = (teams) => {
-  return {
-    type: types.TEAMS_LOADED,
-    teams
-  };
-};
+export const unblockingUser = (blokingUserId, reason) => {
 
-export const loadTeams = () => {
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "get",
+      method: "POST",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -28,9 +23,12 @@ export const loadTeams = () => {
       credentials: "include"
     };
 
-    dispatch(loadingTeams());
+    fetchOptions.body = JSON.stringify({
+        blokingUserId: blokingUserId,
+        reason: reason
+      });
 
-    return fetch(`${API_URL}/teams`, fetchOptions)
+    return fetch(`${API_URL}/users/unblocking`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.statusText);
@@ -41,10 +39,10 @@ export const loadTeams = () => {
         }
       })
       .then(json => {
-        dispatch(teamsLoaded(json.teams));
+        dispatch(userUnblocked(json.users));
       })
       .catch(e => cathcHandler(e));
   };
 };
 
-export default loadTeams;
+export default unblockingUser;

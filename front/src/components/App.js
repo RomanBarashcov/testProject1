@@ -3,7 +3,7 @@ import { Router, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LoadDataContainer from "../containers/load_data_container";
-import HeaderComponent from "./header_component";
+import HeaderContainer from "../containers/header_container";
 import HomeContainer from "../containers/home_container";
 import UsersContainer from "../containers/users_container";
 import UserDetailsContainer from "../containers/user_details_container";
@@ -24,7 +24,7 @@ if (path) {
 const HomePage = () => {
     return(
       <LoadDataContainer>
-        <HeaderComponent/>
+        <HeaderContainer/>
           <HomeContainer />
       </LoadDataContainer>
     );
@@ -33,7 +33,7 @@ const HomePage = () => {
 const UsersPage = () => {
   return (
     <LoadDataContainer>
-    <HeaderComponent/>
+    <HeaderContainer/>
         <UsersContainer />
     </LoadDataContainer>
   );
@@ -42,7 +42,7 @@ const UsersPage = () => {
 const UserDetailsPage = () => {
   return (
     <LoadDataContainer>
-    <HeaderComponent/>
+    <HeaderContainer/>
       <UserDetailsContainer />
     </LoadDataContainer>
   );
@@ -51,7 +51,7 @@ const UserDetailsPage = () => {
 const TeamsPage = () => {
   return (
     <LoadDataContainer>
-      <HeaderComponent/>
+      <HeaderContainer/>
         <TeamsContainer />
     </LoadDataContainer>
   );
@@ -60,7 +60,7 @@ const TeamsPage = () => {
 const TeamDetailsPage = () => {
   return (
     <LoadDataContainer>
-      <HeaderComponent/>
+      <HeaderContainer/>
         <TeamDetailsContainer />
     </LoadDataContainer>
   );
@@ -69,7 +69,7 @@ const TeamDetailsPage = () => {
 const NotificationsPage = () => {
   return (
     <LoadDataContainer>
-      <HeaderComponent/>
+      <HeaderContainer/>
         <NotificationsContainer />
     </LoadDataContainer>
   );

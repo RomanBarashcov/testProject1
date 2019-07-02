@@ -8,7 +8,11 @@ import Actions from "../actions/";
 class LoadDataContainer extends Component {
 
   componentDidMount() {
-    
+
+    if(!this.props.myProfile.loading && !this.props.myProfile.loaded) {
+      this.props.actions.loadCurrentUser();
+    }
+
     if(!this.props.users.loading && !this.props.users.loaded) {
         this.props.actions.loadUsers();
     }

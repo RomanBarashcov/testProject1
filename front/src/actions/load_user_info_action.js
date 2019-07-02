@@ -1,6 +1,7 @@
 import fetch from "isomorphic-fetch";
 import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
+import cathcHandler from '../handlers/catch_handler';
 
 export const loadingUserInfo = () => {
   return {
@@ -19,7 +20,12 @@ export const loadUserInfo = (id) => {
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "get"
+      method: "get",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
     };
 
     dispatch(loadingUserInfo());
@@ -37,22 +43,7 @@ export const loadUserInfo = (id) => {
       .then(json => {
         dispatch(userInfoLoaded(json.user));
       })
-      .catch(e => {
-        if (e.name === "TypeError" && e.message === "Failed to fetch") {
-          console.error(e);
-          throw e;
-        }
-
-        if (!e.response) {
-          console.log("!error.response");
-          console.error(e.stack);
-        }
-
-        console.log("error");
-        console.log(e);
-
-        throw e;
-      });
+      .catch(e => cathcHandler(e));
   };
 };
 

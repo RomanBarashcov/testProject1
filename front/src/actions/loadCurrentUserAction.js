@@ -3,20 +3,20 @@ import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 import cathcHandler from '../handlers/catch_handler';
 
-export const loadingTeams = () => {
+export const loadingMyProfile = () => {
   return {
-    type: types.LOADING_TEAMS
+    type: types.LOADING_MY_PROFILE
   };
 };
 
-export const teamsLoaded = (teams) => {
+export const setProfile = (profile) => {
   return {
-    type: types.TEAMS_LOADED,
-    teams
+    type: types.SET_PROFILE,
+    profile
   };
 };
 
-export const loadTeams = () => {
+export const loadCurrentUser = () => {
   return (dispatch) => {
 
     const fetchOptions = {
@@ -28,9 +28,9 @@ export const loadTeams = () => {
       credentials: "include"
     };
 
-    dispatch(loadingTeams());
+    dispatch(loadingMyProfile());
 
-    return fetch(`${API_URL}/teams`, fetchOptions)
+    return fetch(`${API_URL}/users/current-user`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.statusText);
@@ -41,10 +41,10 @@ export const loadTeams = () => {
         }
       })
       .then(json => {
-        dispatch(teamsLoaded(json.teams));
+        dispatch(setProfile(json.user));
       })
       .catch(e => cathcHandler(e));
   };
 };
 
-export default loadTeams;
+export default loadCurrentUser;

@@ -1,13 +1,13 @@
 "use strict"
 
-const db = require("../models/index");
+const repository = require("../repositories");
 var od = require("../infrastructure/operation_details");
 
 const getTeams = async () => {
     try {
 
         let operationDetails = od();
-        let teams = await db.Team.findAll({raw:true});
+        const teams = await repository.teamRepository.getTeams();
 
         operationDetails = od(true, "", teams);
         return operationDetails;
@@ -23,20 +23,7 @@ const getTeamById = async (teamId) => {
 
         let operationDetails = od();
     
-        let team = await db.Team.findOne({raw:true, 
-            where: {id: teamId}
-        });
-
-        let teamPlayers = await db.User.findAll({raw:true,
-            attributes:["id", "name", "email"],
-            include: [{
-                model: db.Team,
-                attributes:["id"],
-                where: { id: teamId }
-            }]
-        });
-
-        team.teamPlayers = teamPlayers;
+        const team = await repository.teamRepository.getTeamById(teamId);
 
         operationDetails = od(true, "", team);
         return operationDetails;

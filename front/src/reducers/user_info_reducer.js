@@ -22,6 +22,18 @@ export default (state = initState, action) => {
           loaded: true,
           user: action.user
         });
+    case types.USER_BLOCKED: 
+        return Object.assign({}, state, {
+          loading: false,
+          loaded: true,
+          user: action.user
+        });
+    case types.UNBLOCKED_USER:
+        return Object.assign({}, state, {
+          loading: false,
+          loaded: true,
+          user: action.user
+        });
     default:
       return state;
   }

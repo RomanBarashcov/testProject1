@@ -12,6 +12,12 @@ module.exports = {
       },{
         type: "ADMIN_APPROVED_MANAGER_PROFILE",
         message: "Admin approved manager profile"
+      }, {
+        type: "ADMIN_REMOVED_PLAYER_FROM_TEAM",
+        message: "Admin removed player from team"
+      },{
+        type: "ADMIN_CHANGED_PLAYER_TEAM",
+        message: "Admin changed player team"
       },{
         type: "MANAGER_APPROVED_PLAYER_PROFILE",
         message: "Manager approved player profile"

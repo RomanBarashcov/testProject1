@@ -10,6 +10,7 @@ export class HeaderComponent extends Component {
     render() {
         
         let content = null;
+        let userName = this.props.data.myProfile !== null ? this.props.data.myProfile.email : "";
 
         content = (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,7 +35,7 @@ export class HeaderComponent extends Component {
                     <ul className="nav navbar-nav navbar-right">
                         <li>
                             <Link to="/login" className="nav-link">
-                                Log out
+                                {userName} Log out
                             </Link>
                         </li>
                     </ul>
@@ -46,5 +47,5 @@ export class HeaderComponent extends Component {
     }
 }
 
-
+  
 export default HeaderComponent;
