@@ -53,7 +53,8 @@ class UserDetailsComponent extends Component {
 
         this.setState({showUserBlockingForm: false});
         if(!this.state.blockedReson) return;
-        alert(this.state.blockedReson);
+
+        const userId = this.props.data.userInfo.user.id;
 
         if(this.props.data.userInfo.user["State.type"] === "approve") {
              this.props.actions.blockingUser(userId, this.state.blockedReson);
