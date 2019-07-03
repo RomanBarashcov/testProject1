@@ -7,14 +7,20 @@ module.exports = {
         type: "ADMIN_BLOCKED_MANAGER",
         message: "Admin bloked manager"
       },{
-        type: "ADMIN_UNBLOCKED_MANAGER",
-        message: "Admin unbloked manager"
+        type: "ADMIN_BLOCKED_PLAYER",
+        message: "Admin blocked player"
       },{
         type: "ADMIN_APPROVED_MANAGER_PROFILE",
         message: "Admin approved manager profile"
       }, {
+        type: "ADMIN_APPROVED_PLAYER_PROFILE",
+        message: "Admin approved player profile"
+      },{
         type: "ADMIN_REMOVED_PLAYER_FROM_TEAM",
         message: "Admin removed player from team"
+      },{
+        type: "ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM",
+        message: "Admin disaproved left player from team"
       },{
         type: "ADMIN_CHANGED_PLAYER_TEAM",
         message: "Admin changed player team"
@@ -28,8 +34,8 @@ module.exports = {
         type: "MANAGER_APPROVED_LEFT_PLAYER_TEAM",
         message: "Manager approved left player team"
       },{
-        type: "MANAGER_DISAPPROVED_PLAYER_PROFILE",
-        message: "Manager disapproved player profile"
+        type: "MANAGER_BLOCKED_PLAYER_PROFILE",
+        message: "Manager blocked player profile"
       },{
         type: "MANAGER_DISAPPROVED_CHANGE_PLAYER_TEAM",
         message: "Manager disapproved change player team"
@@ -37,11 +43,14 @@ module.exports = {
         type: "MANAGER_DISAPPROVED_LEFT_PLAYER_FROM_TEAM",
         message: "Manager disapproved left player from team"
       },{
-        type: "PLAYER_WANT_CHANGING_TEAM",
-        message: "Player want changing team"
+        type: "MANAGER_REMOVE_PLAYAER_FROM_TEAM",
+        message: "Manager remove player from team"
       },{
-        type: "PLAYER_WANT_LEFT_TEAM",
-        message: "Player want left team"
+        type: "PLAYER_CHANGING_TEAM",
+        message: "Player changing team"
+      },{
+        type: "PLAYER_LEFT_TEAM",
+        message: "Player left team"
       },{
         type: "PLAYER_DISAPPROVED_CHANGING_TEAM",
         message: "Player disapproved changing team"

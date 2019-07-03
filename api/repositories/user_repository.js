@@ -122,7 +122,7 @@ const getUserByEmailAndPassword = async (email, password) => {
     }
 };
 
-const updateUserTeam = async (userId, teamId) => {
+const updateUserTeam = async (userId, teamId, isLeftTeam = false, reason = "") => {
     try {
         
         const teamPlayer = await db.TeamPlayers.findOne({raw:true, where: { userId: userId } });
@@ -131,7 +131,9 @@ const updateUserTeam = async (userId, teamId) => {
         const update = await db.TeamPlayers.update({ 
             teamId: teamId, 
             prev_teamId: teamPlayer.teamId, 
-            stateId: inPending.id 
+            stateId: inPending.id,
+            is_left: isLeftTeam,
+            reason: reason
         }, { 
             where: { userId: userId } 
         });
@@ -143,6 +145,7 @@ const updateUserTeam = async (userId, teamId) => {
         return false;
     }
 };
+
 
 module.exports = {
     getUsers: getUsers,

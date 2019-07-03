@@ -44,6 +44,14 @@ module.exports = {
           model: 'States',
           key: 'id'
         }
+      },
+
+      is_left: {
+        type: Sequelize.BOOLEAN,
+      },
+
+      reason_left: {
+        type: Sequelize.STRING,
       }
       
     });

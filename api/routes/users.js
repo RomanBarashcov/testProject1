@@ -51,6 +51,7 @@ router.put("/team-change", async (req, res, next) => {
       && authUser.value.id !== userId)  res.status(500).json({error: "You can change only your role" });
 
    let user = await services.userService.updatePlayerTeam(userId, teamId);
+   await services.notificationService.userChangeTeamNotification(authUser);
    if(!user.success) res.status(500);
 
    

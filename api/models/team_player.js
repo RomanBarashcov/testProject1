@@ -36,6 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         model: 'States',
         key: 'id'
       }
+    },
+
+    is_left: {
+      type: DataTypes.BOOLEAN,
+    },
+
+    reason_left: {
+      type: DataTypes.STRING,
     }
 
   }, {});

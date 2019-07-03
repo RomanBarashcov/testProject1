@@ -39,6 +39,10 @@ module.exports = {
         }
       },
 
+      stateReason: {
+        type: Sequelize.STRING,
+      },
+  
       stateId: {
         type: Sequelize.INTEGER(10),
         allowNull: false, 
