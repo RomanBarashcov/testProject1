@@ -7,11 +7,12 @@ const notTypes = require("../const/notifications_types");
 const userRoles = require("../const/user_roles");
 
 const getNotifications = async () => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         const notifications = await repositories.notificationRepository.getNotifications();
-
         return operationDetails(true, "", notifications);
 
    } catch(err) {
@@ -21,9 +22,11 @@ const getNotifications = async () => {
 };
 
 userRegistrationNotification = async (regUser) => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         const notificationType = notTypes.NEW_USER_WAS_REGISTRATED;
 
         notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
@@ -38,9 +41,11 @@ userRegistrationNotification = async (regUser) => {
 };
 
 const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         let notificationType = "";
 
         const fromUserRole = fromUser["Role.Type"];
@@ -84,9 +89,11 @@ const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
 };
 
 const userProfileNotification = async (fromUser, userId, isBlock) => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         let notificationType = "";
 
         const fromUserRole = fromUser["Role.Type"];
@@ -123,9 +130,11 @@ const userProfileNotification = async (fromUser, userId, isBlock) => {
 };
 
 const userChangeTeamNotification = (fromUser) => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         let notificationType = "";
 
         const fromUserRole = fromUser["Role.Type"];
@@ -145,6 +154,7 @@ const userChangeTeamNotification = (fromUser) => {
 
 module.exports = {
     getNotifications: getNotifications,
+    userRegistrationNotification: userRegistrationNotification,
     userLiveTeamNotification: userLiveTeamNotification,
     userProfileNotification: userProfileNotification,
     userChangeTeamNotification: userChangeTeamNotification

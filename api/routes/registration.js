@@ -11,24 +11,24 @@ router.post('/', async (req, res, next) => {
   const teamId = req.body.teamId;
 
   if(!name || !email || password || confirmPswd || teamId) {
-    res.sendStatus(403).json({ success: false, message: 'Incorrect data' });
+    res.sendStatus(401).json({ success: false, message: 'Incorrect data' });
   }
 
   if(password !== confirmPassword) {
-      sendStatus(403).json({ success: false, message: "Incorrect confirm password!" });
+      sendStatus(401).json({ success: false, message: "Incorrect confirm password!" });
   }
 
-  let registrateInfo = services.registrationService.registrate(name, email, password, teamId);
+  const registrateInfo = services.registrationService.registrate(name, email, password, teamId);
   if(!registrateInfo.success) {
-    sendStatus(403).json({ success: false, message: registrateInfo.message });
+    sendStatus(401).json({ success: false, message: registrateInfo.message });
+  }
+
+  const notification = services.notificationService.userRegistrationNotification(registrateInfo.value);
+  if(!notification.success) {
+    sendStatus(500).json({ success: false, message: notification.message });
   }
   
-
-  res.json({
-    success: true,
-    currentUser: user,
-    token: token 
-  });
+  res.json({ success: true });
 
 });
 

@@ -11,20 +11,12 @@ router.post('/', async (req, res, next) => {
   let password = req.body.password;
 
   if(!email || !password) {
-
-    res.sendStatus(403).json({
-        success: false,
-        message: 'Incorrect username or password'
-      });
-
+    res.sendStatus(403).json({ success: false, message: 'Incorrect username or password'});
   }
 
   let creds = await services.authenticationService.login(email, password);
   if(!creds.success) {
-    res.sendStatus(403).json({
-        success: false,
-        message: creds.message
-      });
+    res.sendStatus(403).json({ success: false, message: creds.message});
   }
 
   let user = creds.value;

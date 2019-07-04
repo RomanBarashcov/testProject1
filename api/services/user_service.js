@@ -5,11 +5,12 @@ const od = require("../infrastructure/operation_details");
 
 
 const getUsers = async () => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         const users = await repositories.userRepository.getUsers();
-
         return operationDetails(true, "", users);
 
    } catch(err) {
@@ -19,11 +20,12 @@ const getUsers = async () => {
 };
 
 const getUserById = async (userId) => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         const user = await repositories.userRepository.getUserById(userId);
-
         return operationDetails(true, "", user);
 
     } catch(err) {
@@ -33,9 +35,10 @@ const getUserById = async (userId) => {
 };
 
 const updatePlayerTeam = async (userId, teamId) => {
-    try {
 
-        let operationDetails = od();
+    let operationDetails = od();
+
+    try {
 
         const user = await repositories.userRepository.updateUserTeam(userId, teamId);
         return operationDetails(true, "", user);
@@ -47,9 +50,10 @@ const updatePlayerTeam = async (userId, teamId) => {
 };
 
 const liveTeam = async (userId, teamId, stateId, isLeft, reason) => {
-    try {
 
-        let operationDetails = od();
+    let operationDetails = od();
+
+    try {
         
         const user = await repositories.userRepository.updateUserTeam(userId, teamId, stateId, isLeft, reason);
         return operationDetails(true, "", user);

@@ -87,7 +87,7 @@ const playerLiveFromTeamNotType = (isLeft) => {
     return notificationType;
 };
 
-const changePlayerTeamNotType = (fromUserRole, state) => {
+const changePlayerTeamNotType = (fromUserRole) => {
 
     let notificationType = "";
 

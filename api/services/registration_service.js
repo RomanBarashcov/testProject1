@@ -7,9 +7,10 @@ const config = require("../config/sec.conf");
 const od = require("../infrastructure/operation_details");
 
 const registrate = async (name, email, password, temaId) => {
-    try {
 
-        let operationDetails = od()
+    let operationDetails = od();
+
+    try {
 
         const user = await repositories.userRepository.getUserByEmail(email);
         if(user) return operationDetails(false, "User with the same email was registered!");

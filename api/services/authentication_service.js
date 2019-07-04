@@ -6,10 +6,11 @@ const config = require("../config/sec.conf");
 const od = require("../infrastructure/operation_details");
 
 const login = async (email, password) => {
-    try {
-        
-        let operationDetails = od();
+    
+    let operationDetails = od();
 
+    try {
+    
         password = bcrypt.hashSync(password, config.passwordSalt);
         
         let user = await repositories.userRepository.getUserByEmailAndPassword(email, password);

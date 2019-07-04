@@ -4,13 +4,13 @@ const repository = require("../repositories");
 var od = require("../infrastructure/operation_details");
 
 const getTeams = async () => {
+
+    let operationDetails = od();
+
     try {
 
-        let operationDetails = od();
         const teams = await repository.teamRepository.getTeams();
-
-        operationDetails = od(true, "", teams);
-        return operationDetails;
+        return operationDetails(true, "", teams);
 
    } catch(err) {
        console.error(err);
@@ -19,14 +19,13 @@ const getTeams = async () => {
 };
 
 const getTeamById = async (teamId) => {
-    try {
 
-        let operationDetails = od();
+    let operationDetails = od();
+
+    try {
     
         const team = await repository.teamRepository.getTeamById(teamId);
-
-        operationDetails = od(true, "", team);
-        return operationDetails;
+        return operationDetails(true, "", team);
 
    } catch(err) {
        console.error(err);
