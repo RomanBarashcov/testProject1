@@ -18,7 +18,10 @@ module.exports = {
       },{
         type: "ADMIN_REMOVED_PLAYER_FROM_TEAM",
         message: "Admin removed player from team"
-      },{
+      },{ 
+          type: "ADMIN_APPROVED_LEFT_PLAYER_FROM_TEAM",
+          message: "Admin approved left player from team"
+      },{ 
         type: "ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM",
         message: "Admin disaproved left player from team"
       },{

@@ -1,25 +1,27 @@
 const notTypes = require("../const/notifications_types");
+const stateTypes = require("../const/state_types");
+const userRoles = require("../const/user_roles");
 
-const adminUserBlockNotificationType = (blockdeUserRole, isBlock) => {
+const userProfileAdminNotificationType = (userRole, isBlock) => {
 
     let notificationType = "";
 
-    switch(blockdeUserRole && isBlock) { 
-        case "manager": notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
-        case "player": notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
+    switch(userRole && isBlock) { 
+        case userRoles.manager: notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
+        case userRoles.player: notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
         default: break;
     }
 
-    switch(blockdeUserRole && !isBlock) { 
-        case "manager": notificationType = notTypes.ADMIN_APPROVED_MANAGER_PROFILE; break;
-        case "player": notificationType = notTypes.ADMIN_APPROVED_PLAYER_PROFILE; break;
+    switch(userRole && !isBlock) { 
+        case userRoles.manager: notificationType = notTypes.ADMIN_APPROVED_MANAGER_PROFILE; break;
+        case userRoles.player: notificationType = notTypes.ADMIN_APPROVED_PLAYER_PROFILE; break;
         default: break;
     }
 
     return notificationType;
 };
 
-const managerPlayerBlockNatificationType = (isBlock) => {
+const playerProfileManagerNatificationType = (isBlock) => {
 
     let notificationType = "";
 
@@ -32,27 +34,41 @@ const managerPlayerBlockNatificationType = (isBlock) => {
     return notificationType;
 };
 
-const adminRemovedPlayerFromTeamNotType = (isRemoved) => {
+const adminRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
     let notificationType = "";
 
-    if(isRemoved) {
+    if(isRemoved && state === stateTypes.approved) {
+
         notificationType = notTypes.ADMIN_REMOVED_PLAYER_FROM_TEAM;
-    } else {
-        notificationType = notTypes.ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM
+
+    } else if(!isRemoved && state === stateTypes.blocked) {
+
+        notificationType = notTypes.ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM;
+
+    } else if(!isRemoved && state === stateTypes.approved) {
+
+        notificationType = notTypes.ADMIN_APPROVED_LEFT_PLAYER_FROM_TEAM;
     }
 
     return notificationType;
 };
 
-const managerRemovedPlayerFromTeamNotType = (isRemoved) => {
+const managerRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
     let notificationType = "";
 
-    if(isRemoved) {
+    if(isRemoved && state === stateTypes.approved) {
+
         notificationType = notTypes.MANAGER_REMOVE_PLAYAER_FROM_TEAM;
-    } else {
+
+    } else if(!isRemoved && state === stateTypes.blocked){
+
         notificationType = notTypes.MANAGER_DISAPPROVED_LEFT_PLAYER_FROM_TEAM;
+
+    } else if (!isRemoved && state === stateTypes.approved) {
+
+        notificationType = notTypes.MANAGER_APPROVED_LEFT_PLAYER_TEAM;
     }
 
     return notificationType;
@@ -71,14 +87,14 @@ const playerLiveFromTeamNotType = (isLeft) => {
     return notificationType;
 };
 
-const changePlayerTeamNotType = (fromUserRole) => {
+const changePlayerTeamNotType = (fromUserRole, state) => {
 
     let notificationType = "";
 
-    switch(fromUserRole){
-        case "admin": notificationType = notTypes.ADMIN_CHANGED_PLAYER_TEAM; break;
-        case "manager": notificationType = notTypes.MANAGER_CHANGED_PLAYER_TEAM; break;
-        case "player": notificationType = notTypes.PLAYER_CHANGING_TEAM; break;
+    switch(fromUserRole) {
+        case userRoles.admin: notificationType = notTypes.ADMIN_CHANGED_PLAYER_TEAM; break;
+        case userRoles.manager: notificationType = notTypes.MANAGER_CHANGED_PLAYER_TEAM; break;
+        case userRoles.player: notificationType = notTypes.PLAYER_CHANGING_TEAM; break;
     }
     
     return notificationType;
@@ -86,8 +102,8 @@ const changePlayerTeamNotType = (fromUserRole) => {
 };
 
 module.exports = {
-    adminUserBlockNotificationType: adminUserBlockNotificationType,
-    managerPlayerBlockNatificationType: managerPlayerBlockNatificationType,
+    userProfileAdminNotificationType: userProfileAdminNotificationType,
+    playerProfileManagerNatificationType:  playerProfileManagerNatificationType,
     adminRemovedPlayerFromTeamNotType: adminRemovedPlayerFromTeamNotType,
     managerRemovedPlayerFromTeamNotType: managerRemovedPlayerFromTeamNotType,
     playerLiveFromTeamNotType: playerLiveFromTeamNotType,

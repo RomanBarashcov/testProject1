@@ -3,6 +3,8 @@
 const repositories = require("../repositories");
 const od = require("../infrastructure/operation_details");
 const notificationTypeConfiguratorService = require("./notification_type_configurator_service");
+const notTypes = require("../const/notifications_types");
+const userRoles = require("../const/user_roles");
 
 const getNotifications = async () => {
     try {
@@ -18,51 +20,60 @@ const getNotifications = async () => {
    }
 };
 
-const getNotificationById = async (notificationId) => {
+userRegistrationNotification = async (regUser) => {
     try {
 
         let operationDetails = od();
-        const notification = await repositories.notificationRepository.getNotificationById(notificationId);
-        
-        return operationDetails(true, "", notification);;
+        const notificationType = notTypes.NEW_USER_WAS_REGISTRATED;
+
+        notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
+        let notification = await repositories.notificationRepository.createNotification(regUser, notificationType.id);
+            
+        return operationDetails(true, "", notification);
 
     } catch(err) {
         console.error(err);
         return operationDetails;
     }
-
 };
 
-const userLiveTeamNotification = async (fromUser, isLeft) => {
+const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
     try {
 
         let operationDetails = od();
         let notificationType = "";
 
         const fromUserRole = fromUser["Role.Type"];
+        const state = await repositories.stateRepository.getStateById(stateId);
 
-        if(fromUserRole === "admin") {
-            notificationType = notificationTypeConfiguratorService.adminRemovedPlayerFromTeamNotType(isLeft);
-        } else if (fromUserRole === "manager") {
-            notificationType = notificationTypeConfiguratorService.managerRemovedPlayerFromTeamNotType(isLeft);
-        } else if(fromUser === "player") {
+        if(fromUserRole === userRoles.admin) {
+
+            notificationType = notificationTypeConfiguratorService.adminRemovedPlayerFromTeamNotType(isLeft, state.type);
+
+        } else if (fromUserRole === userRoles.manager) {
+
+            notificationType = notificationTypeConfiguratorService.managerRemovedPlayerFromTeamNotType(isLeft, state.type);
+
+        } else if(fromUser === userRoles.player) {
+
             notificationType = notificationTypeConfiguratorService.playerLiveFromTeamNotType(isLeft);
+
         }
 
         switch(fromUserRole) {
-            case "admin":
+            case userRoles.admin:
                     notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
                     break;
-            case "manager":
+            case userRoles.manager:
                     notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
                     break;
-            case "player":
+            case userRoles.player:
                     notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
                     break;
                 default: break;
         }
 
-        let notification = repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+        let notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
         
         return operationDetails(true, "", notification);
 
@@ -72,36 +83,36 @@ const userLiveTeamNotification = async (fromUser, isLeft) => {
     }
 };
 
-const userBlockNotification = async (fromUser, userId, isBlock) => {
+const userProfileNotification = async (fromUser, userId, isBlock) => {
     try {
 
         let operationDetails = od();
         let notificationType = "";
 
         const fromUserRole = fromUser["Role.Type"];
-        const blockedUser = await repositories.userRepository.getUserById(userId);
-        const blockdeUserRole = blockedUser["Role.Type"];
+        const userProfile = await repositories.userRepository.getUserById(userId);
+        const userRoleProfile = userProfile["Role.Type"];
 
-        const isHasPermissions = isBlockingPermissions(fromUser, blockdeUserRole);
-        if(!isHasPermissions.permissions) return operationDetails(false, isHasPermissions.message, null);
+        if(fromUserRole === userRoles.admin) {
 
-        if(fromUserRole === "admin") {
-            notificationType = notificationTypeConfiguratorService.adminUserBlockNotificationType(blockdeUserRole, isBlock);
-        } else if (fromUserRole === "manager") {
-            notificationType = notificationTypeConfiguratorService.managerPlayerBlockNatificationType(isBlock);
+            notificationType = notificationTypeConfiguratorService.userProfileAdminNotificationType(userRoleProfile, isBlock);
+
+        } else if (fromUserRole === userRoles.manager) {
+
+            notificationType = notificationTypeConfiguratorService.playerProfileManagerNatificationType(isBlock);
         }
 
         switch(fromUserRole) {
-            case "admin":
+            case userRoles.admin:
                     notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
                     break;
-            case "manager":
+            case userRoles.player:
                     notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
                     break;
                 default: break;
         }
 
-        const notification = repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+        const notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
         
         return operationDetails(true, "", notification);
 
@@ -122,7 +133,7 @@ const userChangeTeamNotification = (fromUser) => {
         notificationType = notificationTypeConfiguratorService.changePlayerTeamNotType(fromUserRole);
         notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
 
-        const notification = repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+        const notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
 
         return operationDetails(true, "", notification);
         
@@ -132,35 +143,9 @@ const userChangeTeamNotification = (fromUser) => {
     }
 };
 
-const isBlockingPermissions = (fromUserRole, blockdeUserRole) => {
-
-    let data = {};
-
-    if(fromUserRole === blockdeUserRole) {
-
-        data = {permissions: false, message: "You can't blocking user with the same role"};
-
-     } else if(fromUserRole === "player" && blockdeUserRole === "admin") {
-
-        data = {permissions: false, message: "You can't blocking admin with player role"};
-
-     } else if(fromUserRole === "manager" && blockdeUserRole === "admin") {
-
-        data = {permissions: false, message: "You can't blocking admin with manager role"};
-
-     } else {
-
-         data = {permissions: true, message: ""};
-     }
-
-     return data;
-};
-
 module.exports = {
     getNotifications: getNotifications,
-    getNotificationById: getNotificationById,
-    createNotification: createNotification,
     userLiveTeamNotification: userLiveTeamNotification,
-    userBlockNotification: userBlockNotification,
+    userProfileNotification: userProfileNotification,
     userChangeTeamNotification: userChangeTeamNotification
 }

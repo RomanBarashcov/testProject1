@@ -10,8 +10,7 @@ const getUsers = async () => {
         let operationDetails = od();
         const users = await repositories.userRepository.getUsers();
 
-        operationDetails = od(true, "", users);
-        return operationDetails;
+        return operationDetails(true, "", users);
 
    } catch(err) {
        console.error(err);
@@ -25,8 +24,7 @@ const getUserById = async (userId) => {
         let operationDetails = od();
         const user = await repositories.userRepository.getUserById(userId);
 
-        operationDetails = od(true, "", user);
-        return operationDetails;
+        return operationDetails(true, "", user);
 
     } catch(err) {
         console.error(err);
@@ -34,13 +32,13 @@ const getUserById = async (userId) => {
     }
 };
 
-const updateUserTeam = async (fromUser, userId, teamId) => {
+const updatePlayerTeam = async (userId, teamId) => {
     try {
 
         let operationDetails = od();
 
-        await repositories.userRepository.updateUserTeam(userId, teamId);
-        return operationDetails(true);;
+        const user = await repositories.userRepository.updateUserTeam(userId, teamId);
+        return operationDetails(true, "", user);
 
     } catch(err) {
         console.error(err);
@@ -48,14 +46,13 @@ const updateUserTeam = async (fromUser, userId, teamId) => {
     }
 };
 
-const liveTeam = async (fromUser, userId, teamId, isLeft, reason) => {
+const liveTeam = async (userId, teamId, stateId, isLeft, reason) => {
     try {
 
         let operationDetails = od();
-        await repositories.userRepository.updateUserTeam(userId, teamId, isLeft, reason);
-       
-        operationDetails = od(true);
-        return operationDetails;
+        
+        const user = await repositories.userRepository.updateUserTeam(userId, teamId, stateId, isLeft, reason);
+        return operationDetails(true, "", user);
 
     } catch(err) {
         console.error(err);
@@ -67,6 +64,6 @@ const liveTeam = async (fromUser, userId, teamId, isLeft, reason) => {
 module.exports = {
     getUsers: getUsers,
     getUserById: getUserById,
-    updateUserTeam: updateUserTeam,
+    updatePlayerTeam: updatePlayerTeam,
     liveTeam: liveTeam
 };

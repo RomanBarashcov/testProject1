@@ -1,20 +1,35 @@
 "use strict"
-const repository = require("../repositories");
 
-const registrate = async (email, password, confirmPassword, temaId, name) => {
+const repositories = require("../repositories");
+const stateTypes = require("../const/state_types");
+const bcrypt = require("bcrypt");
+const config = require("../config/sec.conf");
+const od = require("../infrastructure/operation_details");
 
-    let operationDetails = { success: false, message: "", value: null };
+const registrate = async (name, email, password, temaId) => {
+    try {
 
-    let user = await repository.userRepository.getUserByEmail(email);
-    if(user) {
-        return operationDetails.message = "User with the same email was registered!";
+        let operationDetails = od()
+
+        const user = await repositories.userRepository.getUserByEmail(email);
+        if(user) return operationDetails(false, "User with the same email was registered!");
+
+        password = bcrypt.hashSync(password, config.passwordSalt);
+
+        const defaultState = await repositories.stateRepository.getStateByType(stateTypes.pending);
+        const newUser = await repositories.userRepository.createUser(name, email, password, defaultState.id, roleId);
+
+        if(temaId > 0) {
+            const playerTeam = await repositories.teamRepository.addPlayerToTeam(newUser.id, temaId, defaultState.id);
+            if(!playerTeam) return operationDetails(false, "Incorrect registration data!");
+        }
+        
+        return operationDetails(true);
+
+    } catch(err) {
+        console.error(err);
+        return operationDetails;
     }
-
-
-    // 1) when all data is correct, give accsess, and make token
-    // 2) retrun accsess data to current user, {id: "1", email: "example@mail.com", role: "admin"}
-    
-    return operationDetails;
 };
 
 module.exports = {

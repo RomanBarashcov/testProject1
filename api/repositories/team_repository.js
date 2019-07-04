@@ -39,7 +39,27 @@ const getTeamById = async (teamId) => {
    }
 };
 
+const addPlayerToTeam = async (playerId, teamId, stateId) => {
+    try {
+
+        let teamPlayer = await db.TeamPlayer.create({
+            userId: playerId, 
+            teamId: teamId, 
+            prev_teamId: teamId, 
+            stateId: stateId
+        });
+
+        return teamPlayer;
+
+    } catch(err) {
+        console.error(err);
+        return [];
+    }
+ };
+};
+
 module.exports = {
     getTeams: getTeams,
-    getTeamById: getTeamById
+    getTeamById: getTeamById,
+    addPlayerToTeam: addPlayerToTeam
 }

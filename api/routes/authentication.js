@@ -1,11 +1,7 @@
 var express = require('express');
-var Cookie = require("cookie");
 var jwt = require("jsonwebtoken");
 var services = require('../services');
 var config = require('../config/sec.conf');
-var cors = require('cors');
-var corsOptions = require('../const/cors_options');
-var baseHeader = require('../const/base_header');
 
 var router = express.Router();
 
