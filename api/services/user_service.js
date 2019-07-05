@@ -1,13 +1,10 @@
 "use strict"
 
 const repositories = require("../repositories");
-const od = require("../infrastructure/operation_details");
+const operationDetails = require("../infrastructure/operation_details");
 
 
 const getUsers = async () => {
-
-    let operationDetails = od();
-
     try {
 
         const users = await repositories.userRepository.getUsers();
@@ -15,14 +12,11 @@ const getUsers = async () => {
 
    } catch(err) {
        console.error(err);
-       return operationDetails;
+       return operationDetails(false);
    }
 };
 
 const getUserById = async (userId) => {
-
-    let operationDetails = od();
-
     try {
 
         const user = await repositories.userRepository.getUserById(userId);
@@ -30,14 +24,11 @@ const getUserById = async (userId) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
 const updatePlayerTeam = async (userId, teamId) => {
-
-    let operationDetails = od();
-
     try {
 
         const user = await repositories.userRepository.updateUserTeam(userId, teamId);
@@ -45,14 +36,11 @@ const updatePlayerTeam = async (userId, teamId) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
 const liveTeam = async (userId, teamId, stateId, isLeft, reason) => {
-
-    let operationDetails = od();
-
     try {
         
         const user = await repositories.userRepository.updateUserTeam(userId, teamId, stateId, isLeft, reason);
@@ -60,7 +48,7 @@ const liveTeam = async (userId, teamId, stateId, isLeft, reason) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 

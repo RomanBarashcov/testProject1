@@ -5,7 +5,8 @@ const db = require("../models/index");
 const getNotificationTypeByType = async (type) => {
     try {
 
-        return await db.Notification.findAll({where: {type: type}}).map(i => i.defaultValues);
+        const notType = await db.NotificationType.findOne({where: {type: type}});
+        return notType.dataValues;
 
    } catch(err) {
        console.error(err);

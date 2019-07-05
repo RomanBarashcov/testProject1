@@ -6,6 +6,7 @@ var middleware = require('./middleware/jwt_token_checker');
 
 var indexRouter = require('./routes/index');
 var authenticationRouter = require('./routes/authentication');
+var registrationRouter = require('./routes/registration');
 var usersRouter = require('./routes/users');
 var teamsRouter = require('./routes/teams');
 var notificationsRouter = require('./routes/notifications');
@@ -29,8 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // middleware.checkToken
 app.use('/', indexRouter);
 app.use('/authentication', authenticationRouter);
+app.use('/registration', registrationRouter);
 app.use('/users', middleware.checkToken, usersRouter);
 app.use('/teams', teamsRouter);
-app.use('./notifications', notificationsRouter);
+app.use('/notifications', notificationsRouter);
 
 module.exports = app;

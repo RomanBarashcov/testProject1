@@ -1,12 +1,9 @@
 "use strict"
 
 const repository = require("../repositories");
-var od = require("../infrastructure/operation_details");
+const operationDetails = require("../infrastructure/operation_details");
 
 const getTeams = async () => {
-
-    let operationDetails = od();
-
     try {
 
         const teams = await repository.teamRepository.getTeams();
@@ -14,14 +11,11 @@ const getTeams = async () => {
 
    } catch(err) {
        console.error(err);
-       return operationDetails;
+       return operationDetails(false);
    }
 };
 
 const getTeamById = async (teamId) => {
-
-    let operationDetails = od();
-
     try {
     
         const team = await repository.teamRepository.getTeamById(teamId);
@@ -29,7 +23,7 @@ const getTeamById = async (teamId) => {
 
    } catch(err) {
        console.error(err);
-       return operationDetails;
+       return operationDetails(false);
    }
 };
 

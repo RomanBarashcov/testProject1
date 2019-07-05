@@ -3,12 +3,9 @@
 const repositories = require("../repositories");
 const bcrypt = require("bcrypt");
 const config = require("../config/sec.conf");
-const od = require("../infrastructure/operation_details");
+const operationDetails = require("../infrastructure/operation_details");
 
 const login = async (email, password) => {
-    
-    let operationDetails = od();
-
     try {
     
         password = bcrypt.hashSync(password, config.passwordSalt);
@@ -19,7 +16,7 @@ const login = async (email, password) => {
         }
 
         if(user.state === "blocked") {
-            return operationDetails(false, "Your account was bloked. Reason: " + user.reason);
+            return operationDetails(false, "Your account was bloked. Reason: " + user.stateReason);
         }
 
         if(user.state === "pending") {
@@ -31,7 +28,7 @@ const login = async (email, password) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 

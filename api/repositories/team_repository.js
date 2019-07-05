@@ -56,7 +56,7 @@ const addPlayerToTeam = async (playerId, teamId, stateId) => {
         return [];
     }
  };
-};
+
 
 module.exports = {
     getTeams: getTeams,

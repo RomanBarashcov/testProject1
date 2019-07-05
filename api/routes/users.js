@@ -47,11 +47,11 @@ router.put("/team-change", async (req, res, next) => {
    const authUser = await services.userService.getUserById(authUserId);
    if(!authUser.value) res.status(404);
 
-   if(authUser.value["Role.Type"] === "player" 
+   if(authUser.value["Role.type"] === "player" 
       && authUser.value.id !== userId) res.status(500).json({success: false, message: "You can change only your role"});
 
    const user = await services.userService.updatePlayerTeam(userId, teamId);
-   const notification = await services.notificationService.userChangeTeamNotification(authUser);
+   const notification = await services.notificationService.userChangeTeamNotification(authUser.value);
 
    if(!user.success && !notification.success) {
       let message = user.message + " " + notification.message;
@@ -84,9 +84,9 @@ router.put("/live-team", async (req, res, next) => {
    if(!authUser.value) res.status(404);
 
    const user = await services.userService.liveTeam(userId, teamId, stateId, isLeft, reason);
-   const notification = await services.notificationService.userLiveTeamNotification(authUser, stateId, isLeft);
+   const notification = await services.notificationService.userLiveTeamNotification(authUser.value, stateId, isLeft);
 
-   if(!user.success || !notification.success) res.status(500);
+   if(!user.value.success || !notification.value.success) res.status(500);
 
    res.status(200).json({user: user.value});
 });

@@ -4,12 +4,9 @@ const repositories = require("../repositories");
 const stateTypes = require("../const/state_types");
 const bcrypt = require("bcrypt");
 const config = require("../config/sec.conf");
-const od = require("../infrastructure/operation_details");
+const operationDetails = require("../infrastructure/operation_details");
 
 const registrate = async (name, email, password, temaId) => {
-
-    let operationDetails = od();
-
     try {
 
         const user = await repositories.userRepository.getUserByEmail(email);
@@ -29,7 +26,7 @@ const registrate = async (name, email, password, temaId) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 

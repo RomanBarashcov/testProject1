@@ -1,15 +1,12 @@
 "use strict"
 
 const repositories = require("../repositories");
-const od = require("../infrastructure/operation_details");
+const operationDetails = require("../infrastructure/operation_details");
 const notificationTypeConfiguratorService = require("./notification_type_configurator_service");
 const notTypes = require("../const/notifications_types");
 const userRoles = require("../const/user_roles");
 
 const getNotifications = async () => {
-
-    let operationDetails = od();
-
     try {
 
         const notifications = await repositories.notificationRepository.getNotifications();
@@ -17,14 +14,11 @@ const getNotifications = async () => {
 
    } catch(err) {
        console.error(err);
-       return operationDetails;
+       return operationDetails(false);
    }
 };
 
-userRegistrationNotification = async (regUser) => {
-
-    let operationDetails = od();
-
+const userRegistrationNotification = async (regUser) => {
     try {
 
         const notificationType = notTypes.NEW_USER_WAS_REGISTRATED;
@@ -36,19 +30,16 @@ userRegistrationNotification = async (regUser) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
 const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
-
-    let operationDetails = od();
-
     try {
 
         let notificationType = "";
 
-        const fromUserRole = fromUser["Role.Type"];
+        const fromUserRole = fromUser["Role.type"];
         const state = await repositories.stateRepository.getStateById(stateId);
 
         if(fromUserRole === userRoles.admin) {
@@ -84,21 +75,18 @@ const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
 const userProfileNotification = async (fromUser, userId, isBlock) => {
-
-    let operationDetails = od();
-
     try {
 
         let notificationType = "";
 
-        const fromUserRole = fromUser["Role.Type"];
+        const fromUserRole = fromUser["Role.type"];
         const userProfile = await repositories.userRepository.getUserById(userId);
-        const userRoleProfile = userProfile["Role.Type"];
+        const userRoleProfile = userProfile["Role.type"];
 
         if(fromUserRole === userRoles.admin) {
 
@@ -125,30 +113,27 @@ const userProfileNotification = async (fromUser, userId, isBlock) => {
 
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
-const userChangeTeamNotification = (fromUser) => {
-
-    let operationDetails = od();
-
+const userChangeTeamNotification = async (fromUser) => {
     try {
 
         let notificationType = "";
 
-        const fromUserRole = fromUser["Role.Type"];
+        const fromUserRole = fromUser["Role.type"];
 
         notificationType = notificationTypeConfiguratorService.changePlayerTeamNotType(fromUserRole);
         notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
 
-        const notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+        const notification = await repositories.notificationRepository.createNotification(fromUser.id, notificationType.id);
 
         return operationDetails(true, "", notification);
         
     } catch(err) {
         console.error(err);
-        return operationDetails;
+        return operationDetails(false);
     }
 };
 
