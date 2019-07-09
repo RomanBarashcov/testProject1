@@ -5,9 +5,9 @@ var services = require("../services/index");
 router.get('/', async (req, res, next) => {
 
    let notifications = await services.notificationService.getNotifications();
-   if(!notifications.success) res.status(500);
+   if(!notifications.success) res.status(500).json({message: notifications.message});
 
-   res.status(200).json({notifications:notifications.value});
+   res.status(200).json({notifications: notifications.value});
    
 });
 

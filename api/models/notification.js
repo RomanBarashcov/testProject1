@@ -3,16 +3,6 @@ module.exports = (sequelize, DataTypes) => {
 
   const Notification = sequelize.define('Notification', {
 
-    typeId: {
-      type: DataTypes.INTEGER(10),
-      allowNull: false,
-
-      references: {
-        model: 'NotificationTypes',
-        key: 'id'
-      }
-    },
-
     date: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -22,17 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
 
-    userId: {
-      type: DataTypes.INTEGER(10),
-      allowNull: false,
-
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
-    }
-
   }, {});
+
+  Notification.associate = function(models) {
+
+    Notification.belongsTo(models.NotificationType);
+    Notification.belongsTo(models.User);
+ 
+  };
 
   return Notification;
 };

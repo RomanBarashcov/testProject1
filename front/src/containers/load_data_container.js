@@ -22,7 +22,7 @@ class LoadDataContainer extends Component {
     }
 
     if(!this.props.notifications.loading && !this.props.notifications.loaded) {
-      //this.props.actions.loadNotifications();
+      this.props.actions.loadNotifications();
     }
   }
 

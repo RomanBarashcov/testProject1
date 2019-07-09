@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
   NotificationType.associate = function(models) {
 
-     //NotificationType.belongsTo(models.Notification);
+    NotificationType.hasMany(models.Notification);
     
   }
 

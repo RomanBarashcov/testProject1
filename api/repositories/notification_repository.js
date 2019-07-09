@@ -4,15 +4,12 @@ const db = require("../models/index");
 
 const getNotifications = async () => {
     try {
-debugger;
-        const notifications = await db.Notification.findAll({raw:true},
-            { include: [{
-                model: db.NotficationType,
-                attributes: ["type"],
-                required: false
-            }]
-        });
+        debugger;
+        const notifications = await db.Notification.findAll({raw:true,
 
+            include: [{all: true}]
+        });
+        debugger;
         return notifications;
 
    } catch(err) {
@@ -35,7 +32,7 @@ const getNotificationById = async (notificationId) => {
 const createNotification = async (fromUserId, typeId) => {
     try {
 
-        const notification = await db.Notification.create({typeId: typeId, userId: fromUserId, date: new Date()});
+        const notification = await db.Notification.create({notificationTypeId: typeId, userId: fromUserId, date: new Date()});
         return notification.dataValues;
 
     } catch(err) {

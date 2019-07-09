@@ -31,6 +31,11 @@ export class HeaderComponent extends Component {
                                 Users
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to="/notifications" className="nav-link">
+                                Notifications
+                            </Link>
+                        </li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         <li>

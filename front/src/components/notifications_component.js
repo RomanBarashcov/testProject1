@@ -5,11 +5,6 @@ class NotificationsComponent extends Component {
     
     constructor(props) {
         super(props);
-        this.selectedNotificationChanged = this.selectedNotificationChanged.bind(this);
-    }
-
-    selectedNotificationChanged(notificationId) {
-        this.props.actions.loadNotificationInfo(notificationId);
     }
 
     render() {
@@ -26,28 +21,26 @@ class NotificationsComponent extends Component {
 
             content = (
                 <div>
-                    <div className="row">
-                        <h1>Notifications</h1>
-                    </div>
+                    <br/>
+                        <h2>Notifications</h2>
+                     <br/>
                         <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col"><div>#</div></th>
-                                    <th scope="col"><div>User Email</div></th>
-                                    <th scope="col"><div>User Name</div></th>
-                                    <th scope="col"><div></div></th>
+                                    <th scope="col"><div>Type</div></th>
+                                    <th scope="col"><div>Data</div></th>
                                 </tr>
                             </thead>
                             <tbody>
                             {
-                                this.props.data.notifications.map((notification, index) => {
+                                this.props.data.list.map((notification, index) => {
                                     return (
                                         <NotificationItemComponent
                                             key={index}
                                             id={notification.id}
                                             type={notification.type}
-                                            date={notification.date}
-                                            selectedNotificationChanged={this.selectedNotificationChanged}/>
+                                            date={notification.date} />
                                     );
                                 }, this)
                             }

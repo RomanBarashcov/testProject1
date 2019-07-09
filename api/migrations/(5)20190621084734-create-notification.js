@@ -11,7 +11,7 @@ module.exports = {
         type: Sequelize.INTEGER(10)
       },
 
-      typeId: {
+      notificationTypeId: {
         type: Sequelize.INTEGER(10),
         allowNull: false,
 

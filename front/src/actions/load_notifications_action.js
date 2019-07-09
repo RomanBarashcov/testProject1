@@ -33,7 +33,7 @@ export const loadNotifications = () => {
     return fetch(`${API_URL}/notifications`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
-          let error = new Error(response.statusText);
+          let error = new Error(response.message);
           error.response = response;
           throw error;
         } else {
@@ -41,7 +41,7 @@ export const loadNotifications = () => {
         }
       })
       .then(json => {
-        dispatch(notificationsLoaded(json));
+        dispatch(notificationsLoaded(json.notifications));
       })
       .catch(e => cathcHandler(e));
   };

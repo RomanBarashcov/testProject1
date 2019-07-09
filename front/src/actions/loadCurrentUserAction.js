@@ -33,7 +33,7 @@ export const loadCurrentUser = () => {
     return fetch(`${API_URL}/users/current-user`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
-          let error = new Error(response.statusText);
+          let error = new Error(response.message);
           error.response = response;
           throw error;
         } else {
