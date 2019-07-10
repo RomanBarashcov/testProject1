@@ -29,7 +29,9 @@ class NotificationsComponent extends Component {
                                 <tr>
                                     <th scope="col"><div>#</div></th>
                                     <th scope="col"><div>Type</div></th>
+                                    <th scope="col"><div>Message</div></th>
                                     <th scope="col"><div>Data</div></th>
+                                    <th scope="col"><div>User</div></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,8 +41,10 @@ class NotificationsComponent extends Component {
                                         <NotificationItemComponent
                                             key={index}
                                             id={notification.id}
-                                            type={notification.type}
-                                            date={notification.date} />
+                                            type={notification["NotificationType.type"]}
+                                            message={notification["NotificationType.message"]}
+                                            date={notification.date} 
+                                            user={notification["User.email"]} />
                                     );
                                 }, this)
                             }

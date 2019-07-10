@@ -50,8 +50,11 @@ router.put("/team-change", async (req, res, next) => {
    if(authUser.value["Role.type"] === "player" 
       && authUser.value.id !== userId) res.status(500).json({success: false, message: "You can change only your role"});
 
-   const user = await services.userService.updatePlayerTeam(userId, teamId);
-   const notification = await services.notificationService.userChangeTeamNotification(authUser.value);
+   const isUpdate = await services.userService.updatePlayerTeam(userId, teamId);
+   if(!isUpdate.success) res.status(500).json({success: false, message: "Data is incorrect"});
+
+   const user = await services.userService.getUserById(userId);
+   const notification = await services.notificationService.userChangeTeamNotification(authUser.value, userId);
 
    if(!user.success && !notification.success) {
       let message = user.message + " " + notification.message;
@@ -69,26 +72,25 @@ router.put("/team-change", async (req, res, next) => {
 
 router.put("/live-team", async (req, res, next) => {
 
-   const userId = parseInt(req.body.userId, 10);
+   const playerId = parseInt(req.body.playerId, 10);
    const teamId = parseInt(req.body.teamId, 10);
-   const stateId = parseInt(req.body.stateId, 10);
-   const isLeft = req.body.isLeft;
+   const isLive = req.body.isLive;
    const reason = req.body.reason;
    const authUserId = req.decoded.userId;
 
-   if(!userId || !teamId || !authUserId || !stateId)  {
+   if(!playerId || !teamId || !authUserId)  {
       res.status(500).json({ success: false, message: "Payload data is incorrect"});
    }
 
    const authUser = await services.userService.getUserById(authUserId);
    if(!authUser.value) res.status(404);
+   
+   const liveResult = await services.userService.liveTeam(authUser.value, playerId, teamId, isLive, reason);
+   const notification = await services.notificationService.userLiveTeamNotification(authUser.value, liveResult.value.state.id, isLive);
 
-   const user = await services.userService.liveTeam(userId, teamId, stateId, isLeft, reason);
-   const notification = await services.notificationService.userLiveTeamNotification(authUser.value, stateId, isLeft);
+   if(!liveResult.success || !notification.success) res.status(500);
 
-   if(!user.value.success || !notification.value.success) res.status(500);
-
-   res.status(200).json({user: user.value});
+   res.status(200).json({user: liveResult.value.user});
 });
 
 

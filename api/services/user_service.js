@@ -2,7 +2,8 @@
 
 const repositories = require("../repositories");
 const operationDetails = require("../infrastructure/operation_details");
-
+const userRoles = require("../const/user_roles");
+const stateTypes = require("../const/state_types");
 
 const getUsers = async () => {
     try {
@@ -40,18 +41,28 @@ const updatePlayerTeam = async (userId, teamId) => {
     }
 };
 
-const liveTeam = async (userId, teamId, stateId, isLeft, reason) => {
+const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
     try {
         
-        const user = await repositories.userRepository.updateUserTeam(userId, teamId, stateId, isLeft, reason);
-        return operationDetails(true, "", user);
+        let state = "";
+
+        if(fromUser["Role.type"] === userRoles.player) {
+            state = stateTypes.pending;
+        } else {
+            state = stateTypes.approve;
+        }
+
+        state = await repositories.stateRepository.getStateByType(state);
+        let update = await repositories.userRepository.updateUserTeam(playerId, teamId, state.id, isLeft, reason);
+        let user =  await repositories.userRepository.getUserById(playerId);
+
+        return operationDetails(true, "", {user, state});
 
     } catch(err) {
         console.error(err);
         return operationDetails(false);
     }
 };
-
 
 module.exports = {
     getUsers: getUsers,

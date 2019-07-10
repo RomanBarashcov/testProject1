@@ -14,7 +14,9 @@ class NotificationItemComponent extends Component {
             <tr>
                 <td><div>{this.props.id}</div></td>
                 <td><div>{this.props.type}</div></td>
+                <td><div>{this.props.message}</div></td>
                 <td><div>{this.props.date}</div></td>
+                <td><div>{this.props.user}</div></td>
             </tr>
         );
         return content;

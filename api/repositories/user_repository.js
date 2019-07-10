@@ -150,7 +150,7 @@ const updateUserTeam = async (userId, teamId, stateId, isLeftTeam = false, reaso
             prev_teamId: teamPlayer.teamId, 
             stateId: stateId,
             is_left: isLeftTeam,
-            reason: reason
+            reason_left: reason
         }, { 
             where: { userId: userId } 
         });

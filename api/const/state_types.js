@@ -1,5 +1,5 @@
 module.exports = {
-    approved: "approved",
+    approve: "approve",
     blocked: "blocked",
     pending: "pending"
 }

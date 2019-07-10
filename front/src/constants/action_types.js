@@ -9,6 +9,7 @@ export const USER_TEAM_UPDATING = "USER_TEAM_UPDATING";
 export const USER_TEAM_UPDATED = "USER_TEAM_UPDATED";
 export const USER_BLOCKED = "USER_BLOCKED";
 export const UNBLOCKED_USER = "UNBLOCKED_USER";
+export const PLAYER_LIVE_TEAM = "PLAYER_LIVE_TEAM";
 
 export const USER_LOGIN = "USER_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";

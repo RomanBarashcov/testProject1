@@ -38,7 +38,7 @@ const adminRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
     let notificationType = "";
 
-    if(isRemoved && state === stateTypes.approved) {
+    if(isRemoved && state === stateTypes.approve) {
 
         notificationType = notTypes.ADMIN_REMOVED_PLAYER_FROM_TEAM;
 
@@ -46,7 +46,7 @@ const adminRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
         notificationType = notTypes.ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM;
 
-    } else if(!isRemoved && state === stateTypes.approved) {
+    } else if(!isRemoved && state === stateTypes.approve) {
 
         notificationType = notTypes.ADMIN_APPROVED_LEFT_PLAYER_FROM_TEAM;
     }
@@ -58,7 +58,7 @@ const managerRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
     let notificationType = "";
 
-    if(isRemoved && state === stateTypes.approved) {
+    if(isRemoved && state === stateTypes.approve) {
 
         notificationType = notTypes.MANAGER_REMOVE_PLAYAER_FROM_TEAM;
 
@@ -66,7 +66,7 @@ const managerRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
         notificationType = notTypes.MANAGER_DISAPPROVED_LEFT_PLAYER_FROM_TEAM;
 
-    } else if (!isRemoved && state === stateTypes.approved) {
+    } else if (!isRemoved && state === stateTypes.approve) {
 
         notificationType = notTypes.MANAGER_APPROVED_LEFT_PLAYER_TEAM;
     }

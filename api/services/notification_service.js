@@ -68,8 +68,8 @@ const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
                     break;
                 default: break;
         }
-
-        let notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+debugger;
+        let notification = await repositories.notificationRepository.createNotification(fromUser.id, notificationType.id);
         
         return operationDetails(true, "", notification);
 
@@ -107,7 +107,7 @@ const userProfileNotification = async (fromUser, userId, isBlock) => {
                 default: break;
         }
 
-        const notification = await repositories.notificationRepository.createNotification(fromUser, notificationType.id);
+        const notification = await repositories.notificationRepository.createNotification(userId, notificationType.id);
         
         return operationDetails(true, "", notification);
 
@@ -117,7 +117,7 @@ const userProfileNotification = async (fromUser, userId, isBlock) => {
     }
 };
 
-const userChangeTeamNotification = async (fromUser) => {
+const userChangeTeamNotification = async (fromUser, playerId) => {
     try {
 
         let notificationType = "";
@@ -127,7 +127,7 @@ const userChangeTeamNotification = async (fromUser) => {
         notificationType = notificationTypeConfiguratorService.changePlayerTeamNotType(fromUserRole);
         notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
 
-        const notification = await repositories.notificationRepository.createNotification(fromUser.id, notificationType.id);
+        const notification = await repositories.notificationRepository.createNotification(playerId, notificationType.id);
 
         return operationDetails(true, "", notification);
         
