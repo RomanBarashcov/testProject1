@@ -1,7 +1,7 @@
 import loadUsers from "./load_users_action";
 import loadUserInfo from "./load_user_info_action";
 import loadCurrentUser from "./loadCurrentUserAction";
-import loadStates from "./load_states_action";
+import loadNotificationTypes from "./load_notification_types_action";
 import userTeamChange from "./user_team_change_action";
 import userLiveTeam from "./live_from_team_action";
 import blockingUser from "./blocking_user_action";
@@ -15,7 +15,7 @@ export default Object.assign({},
     {loadUsers},
     {loadUserInfo},
     {loadCurrentUser},
-    {loadStates},
+    {loadNotificationTypes},
     {userTeamChange},
     {userLiveTeam},
     {blockingUser},

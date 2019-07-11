@@ -161,7 +161,6 @@ class UserDetailsComponent extends Component {
             const teamId = this.props.data.userInfo.user["Teams.id"];
             const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
 
-
             this.setState({showUserLiveTeamForm: false});
             
             this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft);
@@ -195,25 +194,16 @@ class UserDetailsComponent extends Component {
                 return;
             };
 
+            const currentProfileRole = this.props.data.myProfile["Role.type"];
             if(currentProfileRole === "player") return;
 
             const userId = this.props.data.userInfo.user.id;
             const teamId = this.props.data.userInfo.user["Teams.id"];
             const isLeft = true;
 
-            const currentProfileRole = this.props.data.myProfile["Role.type"];
-            let stateId = 0;
-
-            if(currentProfileRole !== "player" && isLeft === true) {
-
-                let state = this.props.data.notificationTypes.filter(i => i.type === "blocked");
-                stateId = state.id;
-
-            }
-
             this.setState({showUserLiveTeamForm: false});
             
-            this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft, stateId);
+            this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft);
 
         }
     }

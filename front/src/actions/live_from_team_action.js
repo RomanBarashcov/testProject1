@@ -10,7 +10,7 @@ export const playerLiveTeam = (users) => {
   };
 };
 
-export const liveFromTeam = (playerId, reason, teamId, isLive, notificationTypeId) => {
+export const liveFromTeam = (playerId, reason, teamId, isLive) => {
 
   return (dispatch) => {
 
@@ -27,8 +27,7 @@ export const liveFromTeam = (playerId, reason, teamId, isLive, notificationTypeI
         playerId: playerId,
         reason: reason,
         teamId: teamId,
-        isLive: isLive,
-        notificationTypeId: notificationTypeId
+        isLive: isLive
     });
 
     return fetch(`${API_URL}/users/live-team`, fetchOptions)
