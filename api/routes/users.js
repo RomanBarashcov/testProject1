@@ -74,6 +74,7 @@ router.put("/live-team", async (req, res, next) => {
 
    const playerId = parseInt(req.body.playerId, 10);
    const teamId = parseInt(req.body.teamId, 10);
+   const notificationTypeId = parseInt(req.body.notificationTypeId, 10);
    const isLive = req.body.isLive;
    const reason = req.body.reason;
    const authUserId = req.decoded.userId;

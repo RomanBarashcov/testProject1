@@ -3,19 +3,24 @@ import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 import cathcHandler from '../handlers/catch_handler';
 
-export const playerLiveTeam = (users) => {
+export const loadingNotificationTypes = () => {
   return {
-    type: types.PLAYER_LIVE_TEAM,
-    users
+    type: types.LOADING_NOTIFICATION_TYPES
   };
 };
 
-export const liveFromTeam = (playerId, reason, teamId, isLive, notificationTypeId) => {
+export const notificationTypesLoaded = (notificationTypes) => {
+  return {
+    type: types.NOTIFICATION_TYPES_LOADED,
+    notificationTypes
+  };
+};
 
+export const loadNotificationTypes = () => {
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "PUT",
+      method: "get",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -23,15 +28,9 @@ export const liveFromTeam = (playerId, reason, teamId, isLive, notificationTypeI
       credentials: "include"
     };
 
-    fetchOptions.body = JSON.stringify({
-        playerId: playerId,
-        reason: reason,
-        teamId: teamId,
-        isLive: isLive,
-        notificationTypeId: notificationTypeId
-    });
+    dispatch(loadingNotificationTypes());
 
-    return fetch(`${API_URL}/users/live-team`, fetchOptions)
+    return fetch(`${API_URL}/notification-types`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);
@@ -42,10 +41,10 @@ export const liveFromTeam = (playerId, reason, teamId, isLive, notificationTypeI
         }
       })
       .then(json => {
-        dispatch(playerLiveTeam(json.users));
+        dispatch(notificationTypesLoaded(json.states));
       })
       .catch(e => cathcHandler(e));
   };
 };
 
-export default liveFromTeam;
+export default loadNotificationTypes;

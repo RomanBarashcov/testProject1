@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import UserDetailsTextAreaComponent from "./user_details_text_area_component";
+import * as notificationTypes from "../constants/notification_types";
 
 class UserDetailsComponent extends Component {
     constructor(props) {
@@ -7,31 +9,57 @@ class UserDetailsComponent extends Component {
         this.state = {
             selectedTeam: "",
             showUserBlockingForm: false,
-            userLiveTeamForm: false,
+            showUserLiveTeamForm: false,
+            showApproveUserLiveTeamForm: false,
             blockedReson: "",
-            liveReason: ""
+            liveReason: "",
+            approveReason: ""
         };
 
         this.changeTeamHandler = this.changeTeamHandler.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
+        
+        // ### Open TeaxtArea Handlers ###
+        // #####################################################
         this.openBlockingFormHandler = this.openBlockingFormHandler.bind(this);
         this.openLiveFormHandler = this.openLiveFormHandler.bind(this);
-        this.cancelHandler = this.cancelHandler.bind(this);
-        this.cancelLiveFormHandler = this.cancelLiveFormHandler.bind(this);
+        this.openApproveFormHandler = this.openApproveFormHandler.bind(this);
+        // #####################################################
 
-        this.blockingHandler = this.blockingHandler.bind(this);
 
-        this.textAreaHandler = this.textAreaHandler.bind(this);
-        this.textAreaLiveTeamHandler = this.textAreaLiveTeamHandler.bind(this);
+        // ### Cancel TeaxtArea Handlers ###
+        // #####################################################
+        this.cancelButtonBlockUserHandler = this.cancelButtonBlockUserHandler.bind(this);
+        this.cancelButtonLiveFormHandler = this.cancelButtonLiveFormHandler.bind(this);
+        this.cancelApproveFormHandler = this.cancelApproveFormHandler.bind(this);
+        // #####################################################
 
-        this.liveTeamHandler = this.liveTeamHandler.bind(this);
 
+        // ### TeaxtArea Handlers ###
+        // #####################################################
+        this.blockedUserTextAreaHandler = this.blockedUserTextAreaHandler.bind(this);
+        this.liveTextAreaTeamHandler = this.liveTextAreaTeamHandler.bind(this);
+        this.approveLiveTextAreaHandler = this.approveLiveTextAreaHandler.bind(this);
+        // #####################################################
+
+
+        // ### TextArea Senders data handlers ###  
+        // #####################################################
+        this.blockingButtonHandler = this.blockingButtonHandler.bind(this);
+        this.liveTeamButtonHandler = this.liveTeamButtonHandler.bind(this);
+        this.approveLiveButtonFormHandler = this.approveLiveButtonFormHandler.bind(this);
+        // #####################################################
+
+
+        // ### Render contents ###
+        // #####################################################
         this._renderSelectList = this._renderSelectList.bind(this);
         this._renderButtonsBlock = this._renderButtonsBlock.bind(this);
         this._renderLiveFromTeamButton = this._renderLiveFromTeamButton.bind(this);
         this._renderLiveUserTeamForm = this._renderLiveUserTeamForm.bind(this);
-    };
+        // #####################################################
+    };  
 
     changeTeamHandler(evt) {
         let { value } = evt.target;
@@ -48,23 +76,79 @@ class UserDetailsComponent extends Component {
         this.props.actions.userTeamChange(userId, selectedTeam);
     };
 
+    // ### Open TextArea buttons handlers ###
+    // #####################################################
+
     openBlockingFormHandler() {
-        this.setState({showUserBlockingForm: true, userLiveTeamForm: false});
+        this.setState({
+            showUserBlockingForm: true, 
+            showUserLiveTeamForm: false, 
+            showApproveUserLiveTeamForm: false
+        });
     }
 
-    cancelHandler() {
+    openLiveFormHandler() {
+        this.setState({
+            showUserBlockingForm: false, 
+            showUserLiveTeamForm: true,
+            showApproveUserLiveTeamForm: false
+        });
+    };
+
+    openApproveFormHandler() {
+        this.setState({ 
+            showUserLiveTeamForm: false, 
+            showUserBlockingForm: false, 
+            showApproveUserLiveTeamForm: true
+        });
+    }
+
+    // #####################################################
+
+
+    // ### Close TextArea buttons handlers ###
+    // #####################################################
+
+    cancelButtonBlockUserHandler() {
         this.setState({showUserBlockingForm: false});
     };
 
-    openLiveFormHandler() {
-        this.setState({userLiveTeamForm: true, showUserBlockingForm: false});
+    cancelButtonLiveFormHandler() {
+        this.setState({showUserLiveTeamForm: false});
     };
 
-    cancelLiveFormHandler() {
-        this.setState({userLiveTeamForm: false});
+    cancelApproveFormHandler() {
+        this.setState({showApproveUserLiveTeamForm: false});
+    }
+
+    // #####################################################
+
+
+    // ### TextArea Handlers ###
+   // #####################################################
+
+    blockedUserTextAreaHandler(evt) {
+        let { value } = evt.target;
+        this.setState({blockedReson: value});
     };
 
-    liveTeamHandler() {
+    liveTextAreaTeamHandler(evt) {
+        let { value } = evt.target;
+        this.setState({liveReason: value});
+    };
+
+    approveLiveTextAreaHandler(evt) {
+        let { value } = evt.target;
+        this.setState({approveReason: value});
+    }
+
+    // #####################################################
+
+
+    // ### TextArea Senders data handlers ###  
+    // #####################################################
+
+    liveTeamButtonHandler() {
 
         if(window.confirm("Are you sure, do you want left the team?")) {
 
@@ -77,14 +161,15 @@ class UserDetailsComponent extends Component {
             const teamId = this.props.data.userInfo.user["Teams.id"];
             const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
 
-            this.setState({userLiveTeamForm: false});
+
+            this.setState({showUserLiveTeamForm: false});
             
             this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft);
 
         }
     }
 
-    blockingHandler() {
+    blockingButtonHandler() {
 
         this.setState({showUserBlockingForm: false});
         if(!this.state.blockedReson) {
@@ -102,16 +187,38 @@ class UserDetailsComponent extends Component {
 
     };
 
-    textAreaHandler(evt) {
-        let { value } = evt.target;
-        this.setState({blockedReson: value});
-    };
+    approveLiveButtonFormHandler() {
+        if(window.confirm("Are you sure, do you want remove player from team?")) {
 
+            if(!this.state.liveReason) {
+                alert("Please set main reason!");
+                return;
+            };
 
-    textAreaLiveTeamHandler(evt) {
-        let { value } = evt.target;
-        this.setState({liveReason: value});
-    };
+            if(currentProfileRole === "player") return;
+
+            const userId = this.props.data.userInfo.user.id;
+            const teamId = this.props.data.userInfo.user["Teams.id"];
+            const isLeft = true;
+
+            const currentProfileRole = this.props.data.myProfile["Role.type"];
+            let stateId = 0;
+
+            if(currentProfileRole !== "player" && isLeft === true) {
+
+                let state = this.props.data.notificationTypes.filter(i => i.type === "blocked");
+                stateId = state.id;
+
+            }
+
+            this.setState({showUserLiveTeamForm: false});
+            
+            this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft, stateId);
+
+        }
+    }
+
+    // #####################################################
 
     _renderButtonsBlock() {
 
@@ -143,78 +250,80 @@ class UserDetailsComponent extends Component {
 
         if(this.props.data.myProfile === undefined || this.props.data.myProfile === null) return content;
         
+        const currentProfileRole = this.props.data.myProfile["Role.type"];
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
-        const buttonText = isLeft ? "Discard Live": "Live";
+        const buttonLiveText = isLeft ? "Discard Live": "Live";
+        debugger;
+        
+        const stateType = this.props.data.userInfo.user["State.type"];
+        // const accsesToApprove = (currentProfileRole !== "player" && this.props.data.myProfile.id !== this.props.data.userInfo.user.id && stateType !== "approve");
+        const accsesToApprove = (currentProfileRole !== "player" 
+                                    && this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
+        const accsesToLive = (this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
 
-        if(this.props.data.myProfile["Role.type"] !== "player" &&
-             this.props.data.myProfile.id !== this.props.data.userInfo.user.id) {
-                content = (<div className="col-sm-4"><button className="btn btn-warning" onClick={this.openLiveFormHandler}>{buttonText}</button></div>);
-             }
+        content = (<div className="col-sm-4">
+                    {accsesToApprove &&
+                        <p>
+                            <button className="btn btn-success" onClick={this.openApproveFormHandler}>Approve Live</button>
+                        </p>
+                    }
+                    { accsesToLive &&
+                        <p>
+                            <button className="btn btn-warning" onClick={this.openLiveFormHandler}>{buttonLiveText}</button>
+                        </p>
+                    }
+            </div>);
+
+             
 
         return content;
     }
 
     _rednderUserBlockingForm() {
 
-        let content = null;
-
         const buttonText = this.props.data.userInfo.user["State.type"] === "approve" ? "Blocking" : "Unblocking";
         const headerText = this.props.data.userInfo.user["State.type"] === "approve" ? "Blocking User" : "Unblocking User";
 
-        content = ( <div className="row justify-content-sm-center">
-                        <div className="card col-sm-6">
-                             <div className="card-body">
-                                <br />
-                                    <h2>{headerText}</h2>
-                                <br />
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlTextarea1">Main Reason</label>
-                                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" defaultValue={this.state.blockedReson} onChange={this.textAreaHandler}></textarea>
-                                </div>
-                                <div className="row justify-content-sm-center">
-                                    <div className="col col-sm-2">
-                                        <button className="btn btn-warning" onClick={this.cancelHandler}>Cancel</button>
-                                    </div>
-                                    <div className="col col-sm-2">
-                                        <button className="btn btn-danger" onClick={this.blockingHandler}>{buttonText}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>);
+        const content = (<UserDetailsTextAreaComponent 
+            headerText = {headerText}
+            textAreaHandler = {this.blockedUserTextAreaHandler}
+            defaultValue = {this.state.blockedReson}
+            cancelButtonHandler = {this.cancelButtonBlockUserHandler}
+            customButtonText = {buttonText}
+            customButtonHandler = {this.blockingButtonHandler} />);
 
         return content;
     };
 
     _renderLiveUserTeamForm() {
 
-        let content = null;
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
-
         const headerText = isLeft ? "Discard Player Live Team" : "Player Live Team";
         const buttonText = isLeft ? "Discard" : "Live";
 
-        content = ( <div className="row justify-content-sm-center">
-                        <div className="card col-sm-6">
-                            <div className="card-body">
-                                <br />
-                                    <h2>{headerText}</h2>
-                                <br />
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlTextarea1">Main Reason</label>
-                                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" defaultValue={this.state.liveReason} onChange={this.textAreaLiveTeamHandler}></textarea>
-                                </div>
-                                <div className="row justify-content-sm-center">
-                                    <div className="col col-sm-2">
-                                        <button className="btn btn-warning" onClick={this.cancelLiveFormHandler}>Cancel</button>
-                                    </div>
-                                    <div className="col col-sm-2">
-                                        <button className="btn btn-danger" onClick={this.liveTeamHandler}>{buttonText}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>);
+        const content = (<UserDetailsTextAreaComponent 
+            headerText = {headerText}
+            textAreaHandler = {this.liveTextAreaTeamHandler}
+            defaultValue = {this.state.liveReason}
+            cancelButtonHandler = {this.cancelButtonLiveFormHandler}
+            customButtonText = {buttonText}
+            customButtonHandler = {this.liveTeamButtonHandler} />);
+
+        return content;
+    };
+
+    _renderApproveLiveUserTeamForm() {
+
+        const headerText = "Approve Left User Team";
+        const buttonText = "Approve";
+
+        const content = (<UserDetailsTextAreaComponent 
+            headerText = {headerText}
+            textAreaHandler = {this.approveLiveTextAreaHandler}
+            defaultValue = {this.state.approveReason}
+            cancelButtonHandler = {this.cancelApproveFormHandler}
+            customButtonText = {buttonText}
+            customButtonHandler = {this.approveLiveButtonFormHandler} />);
 
         return content;
     };
@@ -259,9 +368,8 @@ class UserDetailsComponent extends Component {
         }
 
 
-        content = (
-                    <div className="row justify-content-sm-center">
-                        <div className="card col-sm-6">
+        content = (<div className="row justify-content-sm-center">
+                        <div className="card col-sm-8">
                             <div className="card-body">
                                 <br/>
                                     <h2>{userInfoText}</h2>
@@ -330,7 +438,8 @@ class UserDetailsComponent extends Component {
                     {this._renderUserDetails()}
                     <br />
                     {this.state.showUserBlockingForm && this._rednderUserBlockingForm()}
-                    {this.state.userLiveTeamForm && this._renderLiveUserTeamForm()}
+                    {this.state.showUserLiveTeamForm && this._renderLiveUserTeamForm()}
+                    {this.state.showApproveUserLiveTeamForm && this._renderApproveLiveUserTeamForm()}
                 </div>
             );
         }

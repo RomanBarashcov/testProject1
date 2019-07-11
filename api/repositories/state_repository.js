@@ -2,11 +2,24 @@
 
 const db = require("../models/index");
 
+const getStates = async () => {
+    try {
+
+        const state = await db.State.findAll();
+        return state.dataValues;
+        
+   } catch(err) {
+       console.error(err);
+       return [];
+   }
+};
+
 const getStateById = async (stateId) => {
     try {
 
-        return await db.State.findOne({raw:true}, {where: {id: stateId}});
-
+        const state = await db.State.findByPk(stateId);
+        return state.dataValues;
+        
    } catch(err) {
        console.error(err);
        return [];
@@ -16,7 +29,8 @@ const getStateById = async (stateId) => {
 const getStateByType = async (type) => {
     try {
 
-        return await db.State.findOne({raw:true}, {where: {type: type}});
+        const state = await db.State.findOne({where: {type: type}});
+        return state.dataValues;
 
     } catch(err) {
        console.error(err);
@@ -25,6 +39,7 @@ const getStateByType = async (type) => {
 };
 
 module.exports = {
+    getStates: getStates,
     getStateById: getStateById,
     getStateByType: getStateByType
 }

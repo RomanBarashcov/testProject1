@@ -68,7 +68,7 @@ const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
                     break;
                 default: break;
         }
-debugger;
+
         let notification = await repositories.notificationRepository.createNotification(fromUser.id, notificationType.id);
         
         return operationDetails(true, "", notification);

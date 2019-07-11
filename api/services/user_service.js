@@ -46,10 +46,12 @@ const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
         
         let state = "";
 
-        if(fromUser["Role.type"] === userRoles.player) {
-            state = stateTypes.pending;
-        } else {
+        if(fromUser["Role.type"] !== userRoles.player && isLeft) {
             state = stateTypes.approve;
+        } else if(fromUser["Role.type"] !== userRoles.player && !isLeft) {
+            state = stateTypes.blocked;
+        } else {
+            state = stateTypes.pending;
         }
 
         state = await repositories.stateRepository.getStateByType(state);
