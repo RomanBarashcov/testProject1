@@ -5,8 +5,8 @@ const db = require("../models/index");
 const getStates = async () => {
     try {
 
-        const state = await db.State.findAll();
-        return state.dataValues;
+        const state = await db.State.findAll().map(i => i.dataValues);
+        return state;
         
    } catch(err) {
        console.error(err);

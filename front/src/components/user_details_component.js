@@ -189,7 +189,7 @@ class UserDetailsComponent extends Component {
     approveLiveButtonFormHandler() {
         if(window.confirm("Are you sure, do you want remove player from team?")) {
 
-            if(!this.state.liveReason) {
+            if(!this.state.approveReason) {
                 alert("Please set main reason!");
                 return;
             };
@@ -203,7 +203,7 @@ class UserDetailsComponent extends Component {
 
             this.setState({showUserLiveTeamForm: false});
             
-            this.props.actions.userLiveTeam(userId, this.state.liveReason, teamId, !isLeft);
+            this.props.actions.userLiveTeam(userId, this.state.approveReason, teamId, isLeft);
 
         }
     }
@@ -217,19 +217,28 @@ class UserDetailsComponent extends Component {
 
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
 
-        if(this.props.data.myProfile["Role.type"] !== "player" &&
-             this.props.data.myProfile.id !== this.props.data.userInfo.user.id) {
+        const currentUserRole = this.props.data.myProfile["Role.type"];
+        const myProfileId = this.props.data.myProfile.id;
+        const userInfoId = this.props.data.userInfo.user.id;
 
-                content = (<div className="row justify-content-sm-center">             
-                    <div className="col col-sm-2">
-                        {!isLeft && 
-                            <button className="btn btn-success" onClick={this.onSubmit}>Save</button>}
-                    </div>
-                    <div className="col col-sm-2">
-                     { !this.state.showUserBlockingForm && <button className="btn btn-danger" onClick={this.openBlockingFormHandler}>Bloking</button> }
-                    </div>
-           </div>);
-        } 
+        const accsesSaveButton = (currentUserRole === "player" && myProfileId === userInfoId 
+                                || this.props.data.myProfile["Role.type"] !== "player");
+
+        const accsessBlockButton = currentUserRole !== "player";
+
+        content = (<div className="row justify-content-sm-center">             
+            <div className="col col-sm-2">
+                {(!isLeft && accsesSaveButton) && 
+                    <button className="btn btn-success" onClick={this.onSubmit}>Save</button>
+                }
+            </div>
+            <div className="col col-sm-2">
+                { (!this.state.showUserBlockingForm && accsessBlockButton) && 
+                    <button className="btn btn-danger" onClick={this.openBlockingFormHandler}>Bloking</button> 
+                }
+            </div>
+        </div>);
+
 
         return content;
     }
@@ -241,20 +250,32 @@ class UserDetailsComponent extends Component {
         const currentProfileRole = this.props.data.myProfile["Role.type"];
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
         const buttonLiveText = isLeft ? "Discard Live": "Live";
-        const stateType = this.props.data.userInfo.user["State.type"];
+        const userTeamStateId = this.props.data.userInfo.user["Teams.TeamPlayers.stateId"];
+        const state = this.props.data.states.filter(i => i.id === userTeamStateId)[0];
 
-        const accsesToApprove = (currentProfileRole !== "player" 
-                                && stateType !== "approve"
-                                && this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
-        
-        const accsesToLive = (currentProfileRole === "player" 
-                             && this.props.data.myProfile.id === this.props.data.userInfo.user["Teams.TeamPlayers.fromUserId"]
-                             || currentProfileRole !== "player");
+        let buttonApproveLiveText = "";
+        let accsesToApprove = false;
+
+        const myProfileId = this.props.data.myProfile.id;
+        const userInfoId = this.props.data.userInfo.user.id;
+        const fromUserId = this.props.data.userInfo.user["Teams.TeamPlayers.fromUserId"];
+
+        if(state.type === "pending") {
+
+            buttonApproveLiveText = isLeft ? "Approve Live" : "Approve Discard";
+            accsesToApprove = (currentProfileRole !== "player"
+                                && myProfileId !== userInfoId);
+
+        }
+
+        const accsesToLive = ((currentProfileRole === "player" && myProfileId === userInfoId && !isLeft)
+                             || (currentProfileRole === "player" && myProfileId === userInfoId && isLeft && myProfileId === fromUserId)
+                             || (currentProfileRole !== "player"));
 
         const content = (<div className="col-sm-4">
                     { accsesToApprove &&
                         <p>
-                            <button className="btn btn-success" onClick={this.openApproveFormHandler}>Approve Live</button>
+                            <button className="btn btn-success" onClick={this.openApproveFormHandler}>{buttonApproveLiveText}</button>
                         </p>
                     }
                     { accsesToLive &&
@@ -347,13 +368,14 @@ class UserDetailsComponent extends Component {
         let userInfoText = "";
 
         const userRoleInfo = this.props.data.userInfo.user["Role.type"];
+        let teamStateId = this.props.data.userInfo.user["Teams.TeamPlayers.stateId"];
+        const teamState = this.props.data.states.filter(i => i.id === teamStateId)[0];
 
         if(userRoleInfo === "player") {
             userInfoText = "Player Info";
         } else if (userRoleInfo === "manager") {
             userInfoText = "Manager Info";
         }
-
 
         const content = (<div className="row justify-content-sm-center">
                         <div className="card col-sm-8">
@@ -384,6 +406,12 @@ class UserDetailsComponent extends Component {
                                     <label htmlFor="State" className="col-sm-4 col-form-label">State</label>
                                         <div className="col-sm-4">
                                             <input type="text" readOnly className="form-control-plaintext" id="State" value={this.props.data.userInfo.user["State.type"]} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                    <label htmlFor="State" className="col-sm-4 col-form-label">Team State</label>
+                                        <div className="col-sm-4">
+                                            <input type="text" readOnly className="form-control-plaintext" id="State" value={teamState.type} />
                                         </div>
                                     </div>
                                     {

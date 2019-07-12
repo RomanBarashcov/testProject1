@@ -4,6 +4,7 @@ const repositories = require("../repositories");
 const operationDetails = require("../infrastructure/operation_details");
 const userRoles = require("../const/user_roles");
 const stateTypes = require("../const/state_types");
+const notificationServoce = require("../services/notification_service");
 
 const getUsers = async () => {
     try {
@@ -39,7 +40,7 @@ const updatePlayerTeam = async (fromUser, playerId, teamId) => {
         } else {
             state = stateTypes.pending;
         }
-        
+
         state = await repositories.stateRepository.getStateByType(state);
         const user = await repositories.userRepository.updateUserTeam(fromUser.id, playerId, teamId, state.id);
         return operationDetails(true, "", user);
@@ -55,19 +56,19 @@ const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
         
         let state = "";
 
-        if(fromUser["Role.type"] !== userRoles.player && isLeft) {
+        if(fromUser["Role.type"] !== userRoles.player) {
             state = stateTypes.approve;
-        } else if(fromUser["Role.type"] !== userRoles.player && !isLeft) {
-            state = stateTypes.blocked;
         } else {
             state = stateTypes.pending;
         }
 
         state = await repositories.stateRepository.getStateByType(state);
-        let update = await repositories.userRepository.updateUserTeam(fromUser.id, playerId, teamId, state.id, isLeft, reason);
-        let user =  await repositories.userRepository.getUserById(playerId);
 
-        return operationDetails(true, "", {user, state});
+        const notification = await notificationServoce.userLiveTeamNotification(fromUser, playerId, state.id, isLeft);
+        const update = await repositories.userRepository.updateUserTeam(fromUser.id, playerId, teamId, state.id, isLeft, reason);
+        const user =  await repositories.userRepository.getUserById(playerId);
+
+        return operationDetails(true, "", {user, notification});
 
     } catch(err) {
         console.error(err);
@@ -75,9 +76,35 @@ const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
     }
 };
 
+const blockUser = async (fromUser, userId, isBlock, reason) => {
+    try {
+
+        let state = "";
+
+        if(isBlock) {
+            state = stateTypes.blocked;
+        } else {
+            state = stateTypes.approve;
+        }
+
+        state = await repositories.stateRepository.getStateByType(state);
+        const notification = await notificationServoce.userProfileNotification(fromUser, userId, isBlock);
+        let user = await repositories.userRepository.updateUserState(userId, state, reason);
+        user =  await repositories.userRepository.getUserById(userId);
+
+        return operationDetails(true, "", {user, notification});
+
+    } catch(err) {
+        console.error(err);
+        return operationDetails(false);
+    }
+
+};
+
 module.exports = {
     getUsers: getUsers,
     getUserById: getUserById,
     updatePlayerTeam: updatePlayerTeam,
-    liveTeam: liveTeam
+    liveTeam: liveTeam,
+    blockUser: blockUser
 };

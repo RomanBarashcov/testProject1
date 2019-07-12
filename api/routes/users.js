@@ -84,13 +84,33 @@ router.put("/live-team", async (req, res, next) => {
 
    const authUser = await services.userService.getUserById(authUserId);
    if(!authUser.value) res.status(404);
-   
-   const liveResult = await services.userService.liveTeam(authUser.value, playerId, teamId, isLive, reason);
-   const notification = await services.notificationService.userLiveTeamNotification(authUser.value, liveResult.value.state.id, isLive);
 
-   if(!liveResult.success || !notification.success) res.status(500);
+   const liveResult = await services.userService.liveTeam(authUser.value, playerId, teamId, isLive, reason);
+
+   if(!liveResult.success) res.status(500);
 
    res.status(200).json({user: liveResult.value.user});
+});
+
+router.put("/block", async (req, res, next) => {
+
+   const userId = parseInt(req.body.userId, 10);
+   const isBlock = req.body.isBlock;
+   const reason = req.body.reason;
+   const authUserId = req.decoded.userId;
+
+   if(!userId || !teamId || !authUserId)  {
+      res.status(500).json({ success: false, message: "Payload data is incorrect"});
+   }
+
+   const authUser = await services.userService.getUserById(authUserId);
+   if(!authUser.value) res.status(404);
+
+   const blockResult = await services.userService.blockUser(authUser.value, userId, isBlock, reason);
+
+   if(!blockResult.success) res.status(500);
+
+   res.status(200).json({user: blockResult.value.user});
 });
 
 

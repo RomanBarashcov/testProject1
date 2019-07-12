@@ -34,23 +34,34 @@ const userRegistrationNotification = async (regUser) => {
     }
 };
 
-const userLiveTeamNotification = async (fromUser, stateId, isLeft) => {
+const userLiveTeamNotification = async (fromUser, playerId, stateId, isLeft) => {
     try {
 
         let notificationType = "";
 
-        const fromUserRole = fromUser["Role.type"];
         const state = await repositories.stateRepository.getStateById(stateId);
+        const player = await repositories.userRepository.getUserById(playerId);
+
+        const fromUserRole = fromUser["Role.type"];
+        const operationUserId = player["Teams.TeamPlayers.fromUserId"];
 
         if(fromUserRole === userRoles.admin) {
 
-            notificationType = notificationTypeConfiguratorService.adminRemovedPlayerFromTeamNotType(isLeft, state.type);
-
+            if(operationUserId === fromUser.id) {
+                notificationType = notificationTypeConfiguratorService.adminRemovedPlayerFromTeamNotType(isLeft, state.type);
+            } else {
+                notificationType = notificationTypeConfiguratorService.adminApprovePlayerLeftTeamNotType();
+            }
+            
         } else if (fromUserRole === userRoles.manager) {
 
-            notificationType = notificationTypeConfiguratorService.managerRemovedPlayerFromTeamNotType(isLeft, state.type);
+            if(operationUserId === fromUser.id) {
+                notificationType = notificationTypeConfiguratorService.managerRemovedPlayerFromTeamNotType(isLeft, state.type);
+            } else {
+                notificationType = notificationTypeConfiguratorService.managerApproveLeftPlayerFromTeamNotType();
+            }
 
-        } else if(fromUser === userRoles.player) {
+        } else if(fromUserRole === userRoles.player) {
 
             notificationType = notificationTypeConfiguratorService.playerLiveFromTeamNotType(isLeft);
 

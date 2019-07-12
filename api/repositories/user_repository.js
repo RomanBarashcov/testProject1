@@ -178,6 +178,25 @@ const createUser = async (name, email, password, stateId, roleId) => {
 
 };
 
+const updateUserState = async (userId, stateId, reason) => {
+    try {
+
+        const user = await db.User.update({
+            stateId: stateId,
+            reason: reason
+        },{ 
+            where: { userId: userId } 
+        });
+
+        return user;
+
+    } catch(err) {
+        console.error(err);
+        return false;
+    }
+
+};
+
 
 module.exports = {
     getUsers: getUsers,
@@ -186,5 +205,6 @@ module.exports = {
     getUserByEmail: getUserByEmail,
     getUserByEmailAndPassword: getUserByEmailAndPassword,
     updateUserTeam: updateUserTeam,
-    createUser: createUser
+    createUser: createUser,
+    updateUserState: updateUserState
 };

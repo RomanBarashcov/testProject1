@@ -6,16 +6,13 @@ const userProfileAdminNotificationType = (userRole, isBlock) => {
 
     let notificationType = "";
 
-    switch(userRole && isBlock) { 
-        case userRoles.manager: notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
-        case userRoles.player: notificationType = notTypes.ADMIN_BLOCKED_MANAGER; break;
-        default: break;
-    }
+    if(userRole === userRoles.manager) {
 
-    switch(userRole && !isBlock) { 
-        case userRoles.manager: notificationType = notTypes.ADMIN_APPROVED_MANAGER_PROFILE; break;
-        case userRoles.player: notificationType = notTypes.ADMIN_APPROVED_PLAYER_PROFILE; break;
-        default: break;
+        notificationType = isBlock ? notTypes.ADMIN_BLOCKED_MANAGER : ADMIN_APPROVED_MANAGER_PROFILE;
+
+    } else if(userRole === userRoles.player) {
+
+        notificationType = isBlock ? notTypes.ADMIN_BLOCKED_MANAGER : ADMIN_APPROVED_PLAYER_PROFILE;
     }
 
     return notificationType;
@@ -42,16 +39,19 @@ const adminRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
         notificationType = notTypes.ADMIN_REMOVED_PLAYER_FROM_TEAM;
 
-    } else if(!isRemoved && state === stateTypes.blocked) {
+    } else if(!isRemoved && state === stateTypes.approve) {
 
         notificationType = notTypes.ADMIN_DISAPROVED_LEFT_PLAYER_FROM_TEAM;
 
-    } else if(!isRemoved && state === stateTypes.approve) {
-
-        notificationType = notTypes.ADMIN_APPROVED_LEFT_PLAYER_FROM_TEAM;
     }
 
     return notificationType;
+};
+
+const adminApprovePlayerLeftTeamNotType = () => {
+
+    return notTypes.ADMIN_APPROVED_LEFT_PLAYER_FROM_TEAM;
+
 };
 
 const managerRemovedPlayerFromTeamNotType = (isRemoved, state) => {
@@ -66,13 +66,15 @@ const managerRemovedPlayerFromTeamNotType = (isRemoved, state) => {
 
         notificationType = notTypes.MANAGER_DISAPPROVED_LEFT_PLAYER_FROM_TEAM;
 
-    } else if (!isRemoved && state === stateTypes.approve) {
-
-        notificationType = notTypes.MANAGER_APPROVED_LEFT_PLAYER_TEAM;
     }
 
     return notificationType;
 };
+
+const managerApproveLeftPlayerFromTeamNotType = () => {
+
+    return notTypes.MANAGER_APPROVED_LEFT_PLAYER_TEAM;
+}
 
 const playerLiveFromTeamNotType = (isLeft) => {
 
@@ -105,7 +107,9 @@ module.exports = {
     userProfileAdminNotificationType: userProfileAdminNotificationType,
     playerProfileManagerNatificationType:  playerProfileManagerNatificationType,
     adminRemovedPlayerFromTeamNotType: adminRemovedPlayerFromTeamNotType,
+    adminApprovePlayerLeftTeamNotType: adminApprovePlayerLeftTeamNotType,
     managerRemovedPlayerFromTeamNotType: managerRemovedPlayerFromTeamNotType,
+    managerApproveLeftPlayerFromTeamNotType : managerApproveLeftPlayerFromTeamNotType,
     playerLiveFromTeamNotType: playerLiveFromTeamNotType,
     changePlayerTeamNotType: changePlayerTeamNotType
 }
