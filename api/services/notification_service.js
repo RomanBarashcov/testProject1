@@ -98,7 +98,7 @@ const userProfileNotification = async (fromUser, userId, isBlock) => {
         const fromUserRole = fromUser["Role.type"];
         const userProfile = await repositories.userRepository.getUserById(userId);
         const userRoleProfile = userProfile["Role.type"];
-
+debugger;
         if(fromUserRole === userRoles.admin) {
 
             notificationType = notificationTypeConfiguratorService.userProfileAdminNotificationType(userRoleProfile, isBlock);
