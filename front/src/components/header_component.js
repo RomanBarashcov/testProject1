@@ -12,6 +12,8 @@ export class HeaderComponent extends Component {
         let content = null;
         let userName = this.props.data.myProfile !== null ? this.props.data.myProfile.email : "";
 
+        //if(this.props.data.myProfile["State.type"] !== "approve") return;
+
         content = (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">

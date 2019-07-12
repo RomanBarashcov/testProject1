@@ -15,7 +15,9 @@ const registrate = async (name, email, password, temaId) => {
         password = bcrypt.hashSync(password, config.passwordSalt);
 
         const defaultState = await repositories.stateRepository.getStateByType(stateTypes.pending);
-        const newUser = await repositories.userRepository.createUser(name, email, password, defaultState.id, roleId);
+        const defaultRole = await repositories.roleRepository.getRoleByType("player");
+        debugger;
+        const newUser = await repositories.userRepository.createUser(name, email, password, defaultState.id, defaultRole.id);
 
         if(temaId > 0) {
             const playerTeam = await repositories.teamRepository.addPlayerToTeam(newUser.id, temaId, defaultState.id);

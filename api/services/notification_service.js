@@ -21,7 +21,7 @@ const getNotifications = async () => {
 const userRegistrationNotification = async (regUser) => {
     try {
 
-        const notificationType = notTypes.NEW_USER_WAS_REGISTRATED;
+        let notificationType = notTypes.NEW_USER_WAS_REGISTRATED;
 
         notificationType = await repositories.notificationTypeRepository.getNotificationTypeByType(notificationType);
         let notification = await repositories.notificationRepository.createNotification(regUser, notificationType.id);

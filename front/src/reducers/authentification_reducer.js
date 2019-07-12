@@ -1,28 +1,29 @@
 import * as types from "../constants/action_types";
 
 const initState = {
-  statusResponse: {
     status: null,
-    field: ""
-  },
-  token: "",
+    field: "",
+    showError: false,
+    token: "",
 };
 
 export default (state = initState, action) => {
   switch (action.type) {
     case types.UPDATE_STATUS:
       return Object.assign({}, state, {
-        statusResponse: {
+
           status: action.status,
-          field: action.field
-        }
+          field: action.field,
+          showError: true
+
       });
     case types.RESET_ERROR_STATUS: {
       return Object.assign({}, state, {
-        statusResponse: {
+        
           status: null,
-          field: ""
-        }
+          field: "",
+          showError: false
+
       });
     }
     case types.GET_TOKEN:

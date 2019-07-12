@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Link } from "react-router-dom";
 
 class LoginComponent extends Component {
     
@@ -73,6 +74,9 @@ class LoginComponent extends Component {
                                         className="btn btn-primary">
                                             Submit
                                         </button>
+                                        <Link to="/register" className="btn btn-deffault">
+                                                Registrate
+                                        </Link>
                             </form>
                         </div>
                     </div>

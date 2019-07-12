@@ -82,21 +82,18 @@ const getUserByState = async (userId, stateId) => {
 const getUserByEmail = async (email) => {
     try {
 
-        const user = await db.User({raw:true, 
+        const user = await db.User.findOne({raw:true, 
             where: {email: email},
-            attributes: ["id", "name", "email", "password", "roleId", "stateId"],
+            attributes: ["id", "name", "email", "password"],
             include: [{
                 model: db.State,
-                attributes: ["type"],
                 required: false
             }, { 
                 model: db.Role,
-                attributes: ["type"],
                 required: false
             }, 
             {
-                model: db.Team,
-                attributes: ["id", "description", "total_score"],
+                model: db.Team, 
                 require: false
             }
         ]});
@@ -165,11 +162,12 @@ const createUser = async (name, email, password, stateId, roleId) => {
             name: name, 
             email: email, 
             password: password, 
-            stateId: stateId, 
-            roleId: roleId
+            StateId: stateId, 
+            RoleId: roleId,
+            stateReason: ""
         });
 
-        return user;
+        return user.dataValues;
 
     } catch(err) {
         console.error(err);

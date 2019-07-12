@@ -37,6 +37,7 @@ class LoadDataContainer extends Component {
 }
 
 LoadDataContainer.propTypes = {
+    authentification: PropTypes.object.isRequired,
     myProfile: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
@@ -47,6 +48,7 @@ LoadDataContainer.propTypes = {
 function mapStateToProps(state) {
   console.log("STATE: ", state);
     return {
+      authentification: state.authentification,
       myProfile: state.myProfile,
       users: state.users,
       teams: state.teams,

@@ -42,9 +42,10 @@ const getTeamById = async (teamId) => {
 const addPlayerToTeam = async (playerId, teamId, stateId) => {
     try {
 
-        let teamPlayer = await db.TeamPlayer.create({
-            userId: playerId, 
-            teamId: teamId, 
+        let teamPlayer = await db.TeamPlayers.create({
+            UserId: playerId, 
+            TeamId: teamId, 
+            fromUserId: playerId,
             prev_teamId: teamId, 
             stateId: stateId
         });
