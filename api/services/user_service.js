@@ -80,16 +80,16 @@ const blockUser = async (fromUser, userId, isBlock, reason) => {
     try {
 
         let state = "";
-
+;
         if(isBlock) {
             state = stateTypes.blocked;
         } else {
             state = stateTypes.approve;
         }
-
+  
         state = await repositories.stateRepository.getStateByType(state);
         const notification = await notificationServoce.userProfileNotification(fromUser, userId, isBlock);
-        let user = await repositories.userRepository.updateUserState(userId, state, reason);
+        let user = await repositories.userRepository.updateUserState(userId, state.id, reason);
         user =  await repositories.userRepository.getUserById(userId);
 
         return operationDetails(true, "", {user, notification});

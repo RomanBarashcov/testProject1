@@ -10,12 +10,12 @@ export const userBlocked = (users) => {
   };
 };
 
-export const blockingUser = (blokingUserId, reason) => {
+export const blockingUser = (userId, reason, isBlock) => {
 
   return (dispatch) => {
 
     const fetchOptions = {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -24,11 +24,12 @@ export const blockingUser = (blokingUserId, reason) => {
     };
 
     fetchOptions.body = JSON.stringify({
-        blokingUserId: blokingUserId,
-        reason: reason
+        userId: userId,
+        reason: reason,
+        isBlock: isBlock
       });
 
-    return fetch(`${API_URL}/users/blocking`, fetchOptions)
+    return fetch(`${API_URL}/users/block`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

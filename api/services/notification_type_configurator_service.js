@@ -12,7 +12,7 @@ const userProfileAdminNotificationType = (userRole, isBlock) => {
 
     } else if(userRole === userRoles.player) {
 
-        notificationType = isBlock ? notTypes.ADMIN_BLOCKED_MANAGER : ADMIN_APPROVED_PLAYER_PROFILE;
+        notificationType = isBlock ? notTypes.ADMIN_BLOCKED_PLAYER : ADMIN_APPROVED_PLAYER_PROFILE;
     }
 
     return notificationType;

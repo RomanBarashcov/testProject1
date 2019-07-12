@@ -170,23 +170,25 @@ class UserDetailsComponent extends Component {
 
     blockingButtonHandler() {
 
-        this.setState({showUserBlockingForm: false});
-        if(!this.state.blockedReson) {
-            alert("Please set main reason!");
-            return;
+        if(this.props.data.myProfile["Role.type"] === "player") return;
+
+        if(window.confirm("Are you sure, do you want block user?")) {
+
+            this.setState({showUserBlockingForm: false});
+            if(!this.state.blockedReson) {
+                alert("Please set main reason!");
+                return;
+            }
+
+            const userId = this.props.data.userInfo.user.id;
+            const isBlock = this.props.data.userInfo.user["State.type"] === "approve" ? true : false;
+
+            this.props.actions.blockingUser(userId, this.state.blockedReson, isBlock);
         }
-
-        const userId = this.props.data.userInfo.user.id;
-
-        if(this.props.data.userInfo.user["State.type"] === "approve") {
-             this.props.actions.blockingUser(userId, this.state.blockedReson);
-        } else {
-             this.props.actions.unblockingUser(userId, this.state.blockedReson);
-        }
-
     };
 
     approveLiveButtonFormHandler() {
+
         if(window.confirm("Are you sure, do you want remove player from team?")) {
 
             if(!this.state.approveReason) {
@@ -206,6 +208,7 @@ class UserDetailsComponent extends Component {
             this.props.actions.userLiveTeam(userId, this.state.approveReason, teamId, isLeft);
 
         }
+        
     }
 
     // #####################################################
@@ -226,6 +229,8 @@ class UserDetailsComponent extends Component {
 
         const accsessBlockButton = currentUserRole !== "player";
 
+        const blockingButtonText = this.props.data.userInfo.user["State.type"] === "approve" ? "Blocking" : "Unblocking";
+
         content = (<div className="row justify-content-sm-center">             
             <div className="col col-sm-2">
                 {(!isLeft && accsesSaveButton) && 
@@ -234,7 +239,7 @@ class UserDetailsComponent extends Component {
             </div>
             <div className="col col-sm-2">
                 { (!this.state.showUserBlockingForm && accsessBlockButton) && 
-                    <button className="btn btn-danger" onClick={this.openBlockingFormHandler}>Bloking</button> 
+                    <button className="btn btn-danger" onClick={this.openBlockingFormHandler}>{blockingButtonText}</button> 
                 }
             </div>
         </div>);

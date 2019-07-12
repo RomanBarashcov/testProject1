@@ -99,7 +99,7 @@ router.put("/block", async (req, res, next) => {
    const reason = req.body.reason;
    const authUserId = req.decoded.userId;
 
-   if(!userId || !teamId || !authUserId)  {
+   if(!userId || !authUserId)  {
       res.status(500).json({ success: false, message: "Payload data is incorrect"});
    }
 

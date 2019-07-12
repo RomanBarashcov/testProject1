@@ -149,7 +149,7 @@ const updateUserTeam = async (fromUserId, playerId, teamId, stateId, isLeftTeam 
         }, { 
             where: { userId: playerId } 
         });
-;
+
         return update;
 
     } catch(err) {
@@ -182,10 +182,10 @@ const updateUserState = async (userId, stateId, reason) => {
     try {
 
         const user = await db.User.update({
-            stateId: stateId,
-            reason: reason
+            StateId: stateId,
+            stateReason: reason
         },{ 
-            where: { userId: userId } 
+            where: { id: userId } 
         });
 
         return user;
