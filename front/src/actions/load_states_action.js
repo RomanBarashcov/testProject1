@@ -3,20 +3,20 @@ import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 import cathcHandler from '../handlers/catch_handler';
 
-export const loadingNotificationTypes = () => {
+export const loadingStates = () => {
   return {
-    type: types.LOADING_NOTIFICATION_TYPES
+    type: types.LOADING_STATES
   };
 };
 
-export const notificationTypesLoaded = (notificationTypes) => {
+export const statesLoaded = (states) => {
   return {
-    type: types.NOTIFICATION_TYPES_LOADED,
-    notificationTypes
+    type: types.STATES_LOADED,
+    states
   };
 };
 
-export const loadNotificationTypes = () => {
+export const loadStates = () => {
   return (dispatch) => {
 
     const fetchOptions = {
@@ -28,9 +28,9 @@ export const loadNotificationTypes = () => {
       credentials: "include"
     };
 
-    dispatch(loadingNotificationTypes());
+    dispatch(loadingStates());
 
-    return fetch(`${API_URL}/notification-types`, fetchOptions)
+    return fetch(`${API_URL}/states`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);
@@ -41,10 +41,10 @@ export const loadNotificationTypes = () => {
         }
       })
       .then(json => {
-        dispatch(notificationTypesLoaded(json.states));
+        dispatch(statesLoaded(json.states));
       })
       .catch(e => cathcHandler(e));
   };
 };
 
-export default loadNotificationTypes;
+export default loadStates;

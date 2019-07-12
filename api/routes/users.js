@@ -50,7 +50,7 @@ router.put("/team-change", async (req, res, next) => {
    if(authUser.value["Role.type"] === "player" 
       && authUser.value.id !== userId) res.status(500).json({success: false, message: "You can change only your role"});
 
-   const isUpdate = await services.userService.updatePlayerTeam(userId, teamId);
+   const isUpdate = await services.userService.updatePlayerTeam(authUser.value, userId, teamId);
    if(!isUpdate.success) res.status(500).json({success: false, message: "Data is incorrect"});
 
    const user = await services.userService.getUserById(userId);

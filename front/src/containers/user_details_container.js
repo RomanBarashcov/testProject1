@@ -22,7 +22,7 @@ function mapStateToProps(state) {
         data: {
             userInfo: state.userInfo,
             teams: state.teams, 
-            myProfile: state.myProfile,
+            myProfile: state.myProfile.myProfile,
             states: state.states
         }
     };

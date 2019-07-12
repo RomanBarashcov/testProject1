@@ -36,6 +36,16 @@ module.exports = {
         allowNull: false,
       }, 
 
+      fromUserId: {
+        type: Sequelize.INTEGER(10),
+        allowNull: false,
+
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
+      },
+
       stateId: {
         type: Sequelize.INTEGER(10),
         allowNull: false, 

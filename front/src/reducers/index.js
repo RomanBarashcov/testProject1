@@ -8,7 +8,7 @@ import teams from "./teams_reducer";
 import teamInfo from "./team_info_reducer";
 import notifications from "./notifications_reducer";
 import myProfile from "./my_profile_reducer";
-import notificationTypes from "./notification_types_reduser";
+import states from "./states_reduser";
 
 const rootReducer =  combineReducers({
   authentification,
@@ -18,7 +18,7 @@ const rootReducer =  combineReducers({
   teamInfo,
   notifications,
   myProfile,
-  notificationTypes
+  states
 });
 
 export default rootReducer;

@@ -6,8 +6,8 @@ const Op = db.Sequelize.Op;
 const getUsers = async () => {
     try {
 
-        const users = await db.User.findAll({raw:true, 
-            attributes: ["id", "name", "email", "roleId", "stateId"],
+        let users = await db.User.findAll({raw:true,
+            attributes: ["id", "name", "email"],
             where: {
                 roleId:{
                     [Op.ne]: 1
@@ -15,16 +15,13 @@ const getUsers = async () => {
             },
             include: [{
                 model: db.State,
-                attributes: ["type"],
                 required: false
             }, { 
                 model: db.Role,
-                attributes: ["type"],
                 required: false
             }, 
             {
-                model: db.Team,
-                attributes: ["id", "name", "description", "total_score"],
+                model: db.Team, 
                 require: false
             }
         ]});
@@ -42,19 +39,16 @@ const getUserById = async (userId) => {
 
         const user = await db.User.findOne({raw:true, 
             where: {id: userId},
-            attributes: ["id", "name", "email", "password", "roleId", "stateId"],
+            attributes: ["id", "name", "email", "password"],
             include: [{
                 model: db.State,
-                attributes: ["type"],
                 required: false
             }, { 
                 model: db.Role,
-                attributes: ["type"],
                 required: false
             }, 
             {
-                model: db.Team,
-                attributes: ["id", "name", "description", "total_score"],
+                model: db.Team, 
                 require: false
             }
         ]});
@@ -140,19 +134,20 @@ const getUserByEmailAndPassword = async (email, password) => {
     }
 };
 
-const updateUserTeam = async (userId, teamId, stateId, isLeftTeam = false, reason = "") => {
+const updateUserTeam = async (fromUserId, playerId, teamId, stateId, isLeftTeam = false, reason = "") => {
     try {
         
-        const teamPlayer = await db.TeamPlayers.findOne({raw:true, where: { userId: userId } });
+        const teamPlayer = await db.TeamPlayers.findOne({raw:true, where: { userId: playerId } });
 
         const update = await db.TeamPlayers.update({ 
             teamId: teamId, 
             prev_teamId: teamPlayer.teamId, 
             stateId: stateId,
             is_left: isLeftTeam,
+            fromUserId: fromUserId,
             reason_left: reason
         }, { 
-            where: { userId: userId } 
+            where: { userId: playerId } 
         });
 ;
         return update;

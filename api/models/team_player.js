@@ -28,6 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       alloNull: false
     },
 
+    fromUserId: { 
+      type:DataTypes.INTEGER(10),
+      alloNull: false,
+
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    },
+
     stateId: {
       type: DataTypes.INTEGER(10),
       allowNull: false, 

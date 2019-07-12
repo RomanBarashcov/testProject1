@@ -8,13 +8,13 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case types.LOADING_NOTIFICATION_TYPES:
+    case types.LOADING_STATES:
       return Object.assign({}, state, {loading: true});
-    case types.NOTIFICATION_TYPES_LOADED:
+    case types.STATES_LOADED:
       return Object.assign({}, state, {
         loading: false,
         loaded: true,
-        list: action.notificationTypes
+        list: action.states
       });
     default:
       return state;

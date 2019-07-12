@@ -6,5 +6,5 @@ module.exports = {
     notificationService: require('./notification_service'),
     userService: require('./user_service'),
     teamService: require('./team_service'),
-    notificationTypeService: require('./notification_type_service')
+    stateService: require('./state_service')
 };

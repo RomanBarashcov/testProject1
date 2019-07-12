@@ -43,7 +43,9 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Notification);
 
     User.belongsToMany(models.Team, {
-      through: 'TeamPlayers'
+      through: { 
+        model: models.TeamPlayers
+      }
     });
  
   };

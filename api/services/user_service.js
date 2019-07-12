@@ -29,10 +29,19 @@ const getUserById = async (userId) => {
     }
 };
 
-const updatePlayerTeam = async (userId, teamId) => {
+const updatePlayerTeam = async (fromUser, playerId, teamId) => {
     try {
 
-        const user = await repositories.userRepository.updateUserTeam(userId, teamId);
+        let state = "";
+
+        if(fromUser["Role.type"] !== userRoles.player) {
+            state = stateTypes.approve;
+        } else {
+            state = stateTypes.pending;
+        }
+        
+        state = await repositories.stateRepository.getStateByType(state);
+        const user = await repositories.userRepository.updateUserTeam(fromUser.id, playerId, teamId, state.id);
         return operationDetails(true, "", user);
 
     } catch(err) {
@@ -55,7 +64,7 @@ const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
         }
 
         state = await repositories.stateRepository.getStateByType(state);
-        let update = await repositories.userRepository.updateUserTeam(playerId, teamId, state.id, isLeft, reason);
+        let update = await repositories.userRepository.updateUserTeam(fromUser.id, playerId, teamId, state.id, isLeft, reason);
         let user =  await repositories.userRepository.getUserById(playerId);
 
         return operationDetails(true, "", {user, state});

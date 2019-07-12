@@ -10,7 +10,7 @@ var registrationRouter = require('./routes/registration');
 var usersRouter = require('./routes/users');
 var teamsRouter = require('./routes/teams');
 var notificationsRouter = require('./routes/notifications');
-var notificationTypeRouter = require('./routes/notification_type');
+var statesRouter = require('./routes/states');
 
 var app = express();
 
@@ -35,6 +35,6 @@ app.use('/registration', registrationRouter);
 app.use('/users', middleware.checkToken, usersRouter);
 app.use('/teams', teamsRouter);
 app.use('/notifications', notificationsRouter);
-app.use('/notification-type', notificationTypeRouter);
+app.use('/states', statesRouter);
 
 module.exports = app;

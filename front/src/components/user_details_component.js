@@ -236,23 +236,23 @@ class UserDetailsComponent extends Component {
 
     _renderLiveFromTeamButton() {
 
-        let content = "";
-
         if(this.props.data.myProfile === undefined || this.props.data.myProfile === null) return content;
         
         const currentProfileRole = this.props.data.myProfile["Role.type"];
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
         const buttonLiveText = isLeft ? "Discard Live": "Live";
-        debugger;
-        
         const stateType = this.props.data.userInfo.user["State.type"];
-        // const accsesToApprove = (currentProfileRole !== "player" && this.props.data.myProfile.id !== this.props.data.userInfo.user.id && stateType !== "approve");
-        const accsesToApprove = (currentProfileRole !== "player" 
-                                    && this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
-        const accsesToLive = (this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
 
-        content = (<div className="col-sm-4">
-                    {accsesToApprove &&
+        const accsesToApprove = (currentProfileRole !== "player" 
+                                && stateType !== "approve"
+                                && this.props.data.myProfile.id !== this.props.data.userInfo.user.id);
+        
+        const accsesToLive = (currentProfileRole === "player" 
+                             && this.props.data.myProfile.id === this.props.data.userInfo.user["Teams.TeamPlayers.fromUserId"]
+                             || currentProfileRole !== "player");
+
+        const content = (<div className="col-sm-4">
+                    { accsesToApprove &&
                         <p>
                             <button className="btn btn-success" onClick={this.openApproveFormHandler}>Approve Live</button>
                         </p>
@@ -263,8 +263,6 @@ class UserDetailsComponent extends Component {
                         </p>
                     }
             </div>);
-
-             
 
         return content;
     }
@@ -346,7 +344,6 @@ class UserDetailsComponent extends Component {
 
     _renderUserDetails() {
 
-        let content = null;
         let userInfoText = "";
 
         const userRoleInfo = this.props.data.userInfo.user["Role.type"];
@@ -358,7 +355,7 @@ class UserDetailsComponent extends Component {
         }
 
 
-        content = (<div className="row justify-content-sm-center">
+        const content = (<div className="row justify-content-sm-center">
                         <div className="card col-sm-8">
                             <div className="card-body">
                                 <br/>
