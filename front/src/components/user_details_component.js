@@ -54,7 +54,8 @@ class UserDetailsComponent extends Component {
 
         // ### Render contents ###
         // #####################################################
-        this.renderRoleSelectList = this._renderRoleSelectList.bind(this);
+        this._renderMessage = this._renderMessage.bind(this);
+        this._renderRoleSelectList = this._renderRoleSelectList.bind(this);
         this._renderTeamSelectList = this._renderTeamSelectList.bind(this);
         this._renderButtonsBlock = this._renderButtonsBlock.bind(this);
         this._renderLiveFromTeamButton = this._renderLiveFromTeamButton.bind(this);
@@ -74,12 +75,9 @@ class UserDetailsComponent extends Component {
 
     onSubmit(evt) {
         evt.preventDefault();
-
         const { selectedTeam, selectedRole } = this.state;
-        const oldRoleId = this.props.data.userInfo.user["Role.id"];
-        const oldTeamId = this.props.data.userInfo.user["Teams.id"];
 
-        if(!selectedTeam && !selectedRole) return;
+        if(selectedTeam === 0 && selectedRole === 0) return;
 
         const userId = this.props.data.userInfo.user.id;
         this.props.actions.userUpdate(userId, selectedTeam, selectedRole);
@@ -351,6 +349,27 @@ class UserDetailsComponent extends Component {
         return content;
     };
 
+    _renderMessage() {
+        let content = "";
+
+        if(!this.props.data.userInfo.error) {
+
+            content = (<div className="alert alert-success" role="alert">
+                {this.props.data.userInfo.message}
+            </div>);
+
+        } else {
+
+            content = (<div className="alert alert-danger" role="alert">
+                {this.props.data.userInfo.message}
+            </div>);
+
+        }
+
+        return content;
+        
+    }
+
     _renderRoleSelectList() {
 
         let content = "";
@@ -424,6 +443,7 @@ class UserDetailsComponent extends Component {
                                 <br/>
                                     <h2>{userInfoText}</h2>
                                 <br/>
+                                { this.props.data.userInfo.message && this._renderMessage()}
                                 <hr />
                                     <div className="form-group row">
                                         <label htmlFor="TeamName" className="col-sm-4 col-form-label">Name</label>

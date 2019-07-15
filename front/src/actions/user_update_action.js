@@ -21,7 +21,7 @@ export const userUpdate = (userId, teamId, roleId) => {
     return (dispatch) => {
   
       const fetchOptions = {
-        method: "put",
+        method: "POST",
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"

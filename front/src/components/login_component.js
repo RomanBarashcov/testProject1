@@ -13,6 +13,7 @@ class LoginComponent extends Component {
 
         this.emailHandleChange = this.emailHandleChange.bind(this);
         this.passwordHandleChange = this.passwordHandleChange.bind(this);
+        this.renderErrorMessage = this.renderErrorMessage.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -32,6 +33,12 @@ class LoginComponent extends Component {
         this.setState({password: value});
     }
 
+    renderErrorMessage() {
+        return (<div className="alert alert-danger" role="alert">
+                {this.props.data.message}
+             </div>);
+    }
+
     render() {
         const { email, password } = this.state;
 
@@ -42,6 +49,7 @@ class LoginComponent extends Component {
                             <br />
                                 <h2>Login</h2>
                             <br />
+                            { this.props.data.showError && this.renderErrorMessage()}
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1">

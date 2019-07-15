@@ -3,11 +3,10 @@ import { emailRegex } from "../constants/regex_validator";
 import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 
-export const updateStatus = (status, field) => {
+export const updateStatus = (message) => {
   return {
     type: types.UPDATE_STATUS,
-    status,
-    field
+    message
   };
 };
 
@@ -30,7 +29,7 @@ export const logIn = (email, password) => {
     };
 
     if(!emailRegex.test(email)) {
-      dispatch(updateStatus({status: 400, message: "Invalid Email"}, "EMAIL"));
+      dispatch(updateStatus("Invalid Email"));
       return Promise.resolve();
     }
     
@@ -44,16 +43,7 @@ export const logIn = (email, password) => {
         if (response.status !== 200) {
           response.json()
             .then(res => {
-              let error = new Error(res.message);
-              error.response = res;
-              throw error;
-            })
-            .catch(err => {
-              if (response.status === 403) {
-                dispatch(updateStatus(err, "EMAIL"));
-              } else {
-                dispatch(updateStatus(err, "PASSWORD"));
-              }
+              dispatch(updateStatus(res.message));
             });
         } else {
           response.json()

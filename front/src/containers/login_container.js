@@ -19,7 +19,7 @@ LoginContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        data: null
+        data: state.authentification
     };
 }
 

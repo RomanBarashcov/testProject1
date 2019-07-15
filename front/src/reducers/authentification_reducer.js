@@ -1,10 +1,8 @@
 import * as types from "../constants/action_types";
 
 const initState = {
-    status: null,
-    field: "",
+    message: null,
     showError: false,
-    token: "",
 };
 
 export default (state = initState, action) => {
@@ -12,24 +10,18 @@ export default (state = initState, action) => {
     case types.UPDATE_STATUS:
       return Object.assign({}, state, {
 
-          status: action.status,
-          field: action.field,
+          message: action.message,
           showError: true
 
       });
     case types.RESET_ERROR_STATUS: {
       return Object.assign({}, state, {
         
-          status: null,
-          field: "",
+          message: null,
           showError: false
 
       });
     }
-    case types.GET_TOKEN:
-      return Object.assign({}, state, {
-        token: action.token
-      });
     default:
       return state;
   }

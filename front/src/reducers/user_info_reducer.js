@@ -3,13 +3,15 @@ import * as types from "../constants/action_types";
 const initState = {
   loaded: false,
   loading: false,
-  user: {}
+  user: {},
+  error: false,
+  message: ""
 };
 
 export default (state = initState, action) => {
   switch (action.type) {
     case types.LOADING_USER_INFO:
-      return Object.assign({}, state, {loading: true});
+      return Object.assign({}, state, {loading: true,  message: ""});
     case types.USER_INFO_LOADED:
       return Object.assign({}, state, {
         loading: false,
@@ -29,9 +31,11 @@ export default (state = initState, action) => {
         return Object.assign({}, state, {
           user: action.user
         });
-    case types.USER_TEAM_UPDATED:
+    case types.USER_UPDATED:
         return Object.assign({}, state, {
-          user: action.user
+          user: action.user,
+          error: false,
+          message: "Success: User updated!"
         });
     default:
       return state;

@@ -110,15 +110,13 @@ const getUserByEmailAndPassword = async (email, password) => {
     try {
         
         const user = await db.User.findOne({raw:true,
-            attributes: ["id", "name", "email", "roleId", "stateId"],
+            attributes: ["id", "name", "email", "roleId", "stateId", "stateReason"],
             where: { email: email, password: password },
             include: [{
                 model: db.State,
-                attributes: ["type"],
                 required: false
             }, { 
                 model: db.Role,
-                attributes: ["type"],
                 required: false
             }
         ]});
@@ -159,12 +157,12 @@ const updataUser = async (userId, roleId) => {
     try {
 
         const user = await db.User.update({
-            roleId: roleId
+            RoleId: roleId
         },{ 
-            where: { userId: userId } 
+            where: { id: userId } 
         });
 
-        return user.dataValues;
+        return user;
 
     } catch(err) {
         console.error(err);

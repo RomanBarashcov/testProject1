@@ -36,39 +36,35 @@ router.get('/:id', async (req, res, next) => {
    
 });
 
-router.put("/update-user", async (req, res, next) => {
+router.post("/update-user", async (req, res, next) => {
 
    const userId = parseInt(req.body.userId, 10);
    let teamId = parseInt(req.body.teamId, 10);
    let roleId = parseInt(req.body.roleId, 10);
    const authUserId = req.decoded.userId;
 
-   if(!userId || !teamId || !authUserId) res.status(500).json({success: false, message: "Payload data is incorrect"});
+   if(!userId || !teamId || !authUserId) res.json({success: false, message: "Payload data is incorrect"});
 
    const authUser = await services.userService.getUserById(authUserId);
    if(!authUser.value) res.status(404);
 
    if(authUser.value["Role.type"] === "player" 
-      && authUser.value.id !== userId) res.status(500).json({success: false, message: "You can change only your role"});
+      && authUser.value.id !== userId) res.json({success: false, message: "You can change only your role"});
 
    const user = await services.userService.getUserById(userId);
 
-   temaId = teamId === 0 ? user.value.teamId : teamId;
-   roleId = roleId === 0 ? user.value.roleId : roleId;
-debugger;
-   if(user.value.teamId !== teamId) {
+   teamId = teamId === 0 ? user.value["Teams.id"] : teamId;
+   roleId = roleId === 0 ? user.value["Role.id"] : roleId;
 
+   if(user.value["Teams.id"] !== teamId) {
       const notification = await services.notificationService.userChangeTeamNotification(authUser.value, userId);
-      if(!notification.success) res.status(500).json({success: false, message: "Data is incorrect"});
-
       const isUpdate = await services.userService.updatePlayerTeam(authUser.value, userId, teamId);
-      if(!isUpdate.success) res.status(500).json({success: false, message: "Data is incorrect"});
-      
+      if(!notification.success || !isUpdate.success) res.json({success: false, message: "Data is incorrect"});
    }
 
-   if(user.value.roleId !== roleId) {
+   if(user.value["Role.id"] !== roleId) {
       const updateRole = await services.userService.updataUserRole(userId, roleId);
-      if(!updateRole.success) res.status(500).json({success: false, message: "Data is incorrect"});
+      if(!updateRole.success) res.json({success: false, message: "Data is incorrect"});
    }
 
    res.status(200).json({user: user.value});
@@ -95,6 +91,7 @@ router.put("/live-team", async (req, res, next) => {
    if(!liveResult.success) res.status(500);
 
    res.status(200).json({user: liveResult.value.user});
+
 });
 
 router.put("/block", async (req, res, next) => {
