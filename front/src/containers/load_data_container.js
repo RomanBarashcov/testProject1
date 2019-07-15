@@ -28,6 +28,10 @@ class LoadDataContainer extends Component {
     if(!this.props.states.loading && !this.props.states.loaded) {
       this.props.actions.loadStates();
     }
+
+    if(!this.props.roles.loading && !this.props.roles.loaded) {
+      this.props.actions.loadRoles();
+    }
   }
 
   render() {
@@ -42,7 +46,8 @@ LoadDataContainer.propTypes = {
     users: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     notifications: PropTypes.object.isRequired,
-    states: PropTypes.object.isRequired
+    states: PropTypes.object.isRequired,
+    roles: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -53,7 +58,8 @@ function mapStateToProps(state) {
       users: state.users,
       teams: state.teams,
       notifications: state.notifications,
-      states: state.states
+      states: state.states,
+      roles: state.roles
     };
   }
   

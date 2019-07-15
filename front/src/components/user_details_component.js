@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import UserDetailsTextAreaComponent from "./user_details_text_area_component";
-import * as notificationTypes from "../constants/notification_types";
 
 class UserDetailsComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedTeam: "",
+            selectedRole: 0,
+            selectedTeam: 0,
             showUserBlockingForm: false,
             showUserLiveTeamForm: false,
             showApproveUserLiveTeamForm: false,
@@ -16,9 +16,9 @@ class UserDetailsComponent extends Component {
             approveReason: ""
         };
 
+        this.changeUserRoleHandler = this.changeUserRoleHandler.bind(this);
         this.changeTeamHandler = this.changeTeamHandler.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
         
         // ### Open TeaxtArea Handlers ###
         // #####################################################
@@ -54,12 +54,18 @@ class UserDetailsComponent extends Component {
 
         // ### Render contents ###
         // #####################################################
-        this._renderSelectList = this._renderSelectList.bind(this);
+        this.renderRoleSelectList = this._renderRoleSelectList.bind(this);
+        this._renderTeamSelectList = this._renderTeamSelectList.bind(this);
         this._renderButtonsBlock = this._renderButtonsBlock.bind(this);
         this._renderLiveFromTeamButton = this._renderLiveFromTeamButton.bind(this);
         this._renderLiveUserTeamForm = this._renderLiveUserTeamForm.bind(this);
         // #####################################################
     };  
+
+    changeUserRoleHandler(evt) {
+        let { value } = evt.target;
+        this.setState({selectedRole: value});
+    }
 
     changeTeamHandler(evt) {
         let { value } = evt.target;
@@ -68,12 +74,15 @@ class UserDetailsComponent extends Component {
 
     onSubmit(evt) {
         evt.preventDefault();
-        const { selectedTeam } = this.state;
 
-        if(!selectedTeam) return;
+        const { selectedTeam, selectedRole } = this.state;
+        const oldRoleId = this.props.data.userInfo.user["Role.id"];
+        const oldTeamId = this.props.data.userInfo.user["Teams.id"];
+
+        if(!selectedTeam && !selectedRole) return;
 
         const userId = this.props.data.userInfo.user.id;
-        this.props.actions.userTeamChange(userId, selectedTeam);
+        this.props.actions.userUpdate(userId, selectedTeam, selectedRole);
     };
 
     // ### Open TextArea buttons handlers ###
@@ -342,7 +351,34 @@ class UserDetailsComponent extends Component {
         return content;
     };
 
-    _renderSelectList() {
+    _renderRoleSelectList() {
+
+        let content = "";
+
+        const currentProfileRole = this.props.data.myProfile["Role.type"];
+
+        if(currentProfileRole !== "admin") {
+
+            content = (<div className="alert alert-success" role="alert">
+                         {this.props.data.userInfo.user["Role.type"]}
+                     </div>);
+
+        } else {
+           content = (<select className="selectpicker" defaultValue={this.props.data.userInfo.user["Role.id"]} onChange={this.changeUserRoleHandler}>
+                        {
+                            this.props.data.roles.map((role, index) => (
+                                <option value={role.id} key={index}>
+                                    {role.type}
+                                </option>
+                            ))
+                        }
+                      </select>);
+        }
+
+        return content;
+    }
+
+    _renderTeamSelectList() {
 
         let content = "";
         const isLeft = this.props.data.userInfo.user["Teams.TeamPlayers.is_left"] === 1 ? true : false;
@@ -404,7 +440,7 @@ class UserDetailsComponent extends Component {
                                     <div className="form-group row">
                                     <label htmlFor="Role" className="col-sm-4 col-form-label">Role</label>
                                         <div className="col-sm-4">
-                                            <input type="text" readOnly className="form-control-plaintext" id="Role" value={this.props.data.userInfo.user["Role.type"]} />
+                                            {this._renderRoleSelectList()}
                                         </div>
                                     </div>
                                     <div className="form-group row">
@@ -424,7 +460,7 @@ class UserDetailsComponent extends Component {
                                         <div className="form-group row">
                                             <label htmlFor="Team" className="col-sm-4 col-form-label">Team</label>
                                             <div className="col-sm-4">
-                                                {this._renderSelectList()}
+                                                {this._renderTeamSelectList()}
                                             </div>
                                             
                                             {this._renderLiveFromTeamButton()}

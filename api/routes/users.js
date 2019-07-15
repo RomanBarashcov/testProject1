@@ -36,10 +36,11 @@ router.get('/:id', async (req, res, next) => {
    
 });
 
-router.put("/team-change", async (req, res, next) => {
+router.put("/update-user", async (req, res, next) => {
 
    const userId = parseInt(req.body.userId, 10);
-   const teamId = parseInt(req.body.teamId, 10);
+   let teamId = parseInt(req.body.teamId, 10);
+   let roleId = parseInt(req.body.roleId, 10);
    const authUserId = req.decoded.userId;
 
    if(!userId || !teamId || !authUserId) res.status(500).json({success: false, message: "Payload data is incorrect"});
@@ -50,21 +51,25 @@ router.put("/team-change", async (req, res, next) => {
    if(authUser.value["Role.type"] === "player" 
       && authUser.value.id !== userId) res.status(500).json({success: false, message: "You can change only your role"});
 
-   const isUpdate = await services.userService.updatePlayerTeam(authUser.value, userId, teamId);
-   if(!isUpdate.success) res.status(500).json({success: false, message: "Data is incorrect"});
-
    const user = await services.userService.getUserById(userId);
-   const notification = await services.notificationService.userChangeTeamNotification(authUser.value, userId);
 
-   if(!user.success && !notification.success) {
-      let message = user.message + " " + notification.message;
-      res.status(500).json({success: false, message: message});
+   temaId = teamId === 0 ? user.value.teamId : teamId;
+   roleId = roleId === 0 ? user.value.roleId : roleId;
+debugger;
+   if(user.value.teamId !== teamId) {
+
+      const notification = await services.notificationService.userChangeTeamNotification(authUser.value, userId);
+      if(!notification.success) res.status(500).json({success: false, message: "Data is incorrect"});
+
+      const isUpdate = await services.userService.updatePlayerTeam(authUser.value, userId, teamId);
+      if(!isUpdate.success) res.status(500).json({success: false, message: "Data is incorrect"});
+      
    }
 
-   if(!user.success || !notification.success) {
-      let message = user.success ? user.message : notification.message;
-      res.status(500).json({success: false, message: message});
-   } 
+   if(user.value.roleId !== roleId) {
+      const updateRole = await services.userService.updataUserRole(userId, roleId);
+      if(!updateRole.success) res.status(500).json({success: false, message: "Data is incorrect"});
+   }
 
    res.status(200).json({user: user.value});
 

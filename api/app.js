@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var teamsRouter = require('./routes/teams');
 var notificationsRouter = require('./routes/notifications');
 var statesRouter = require('./routes/states');
+var rolesRouter = require('./routes/roles');
 
 var app = express();
 
@@ -36,5 +37,6 @@ app.use('/users', middleware.checkToken, usersRouter);
 app.use('/teams', teamsRouter);
 app.use('/notifications', notificationsRouter);
 app.use('/states', statesRouter);
+app.use('/roles', rolesRouter);
 
 module.exports = app;

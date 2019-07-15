@@ -155,6 +155,23 @@ const updateUserTeam = async (fromUserId, playerId, teamId, stateId, isLeftTeam 
     }
 };
 
+const updataUser = async (userId, roleId) => {
+    try {
+
+        const user = await db.User.update({
+            roleId: roleId
+        },{ 
+            where: { userId: userId } 
+        });
+
+        return user.dataValues;
+
+    } catch(err) {
+        console.error(err);
+        return false;
+    }
+}
+
 const createUser = async (name, email, password, stateId, roleId) => {
     try {
 
@@ -173,7 +190,6 @@ const createUser = async (name, email, password, stateId, roleId) => {
         console.error(err);
         return false;
     }
-
 };
 
 const updateUserState = async (userId, stateId, reason) => {
@@ -204,5 +220,6 @@ module.exports = {
     getUserByEmailAndPassword: getUserByEmailAndPassword,
     updateUserTeam: updateUserTeam,
     createUser: createUser,
+    updataUser: updataUser,
     updateUserState: updateUserState
 };

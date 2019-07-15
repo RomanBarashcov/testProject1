@@ -3,20 +3,20 @@ import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 import cathcHandler from '../handlers/catch_handler';
 
-export const userTeamUpdating = () => {
+export const userUpdating = () => {
   return {
-    type: types.USER_TEAM_UPDATING
+    type: types.USER_UPDATING
   };
 };
 
-export const userTeamUpdated = (user) => {
+export const userUpdated = (user) => {
   return {
-    type: types.USER_TEAM_UPDATED,
+    type: types.USER_UPDATED,
     user
   };
 };
 
-export const userTeamChange = (userId, teamId) => {
+export const userUpdate = (userId, teamId, roleId) => {
 
     return (dispatch) => {
   
@@ -31,12 +31,13 @@ export const userTeamChange = (userId, teamId) => {
 
       fetchOptions.body = JSON.stringify({
         userId: userId,
-        teamId: teamId
+        teamId: teamId,
+        roleId: roleId
       });
+
+      dispatch(userUpdating());
   
-      dispatch(userTeamUpdating());
-  
-      return fetch(`${API_URL}/users/team-change`, fetchOptions)
+      return fetch(`${API_URL}/users/update-user`, fetchOptions)
         .then(response => {
           if (response.status !== 200) {
             let error = new Error(response.message);
@@ -47,10 +48,10 @@ export const userTeamChange = (userId, teamId) => {
           }
         })
         .then(json => {
-          dispatch(userTeamUpdated(json.user));
+          dispatch(userUpdated(json.user));
         })
         .catch(e => cathcHandler(e));
     };
   };
   
-  export default userTeamChange;
+  export default userUpdate;

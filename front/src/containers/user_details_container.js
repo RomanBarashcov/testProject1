@@ -23,7 +23,8 @@ function mapStateToProps(state) {
             userInfo: state.userInfo,
             teams: state.teams, 
             myProfile: state.myProfile.myProfile,
-            states: state.states.list
+            states: state.states.list,
+            roles: state.roles.list
         }
     };
 }

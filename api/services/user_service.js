@@ -51,6 +51,18 @@ const updatePlayerTeam = async (fromUser, playerId, teamId) => {
     }
 };
 
+const updataUserRole = async (userId, roleId) => {
+    try {
+
+        const user = await repositories.userRepository.updataUser(userId, roleId);
+        return operationDetails(true, "", user);
+
+    } catch(err) {
+        console.error(err);
+        return operationDetails(false);
+    }
+}
+
 const liveTeam = async (fromUser, playerId, teamId, isLeft, reason) => {
     try {
         
@@ -105,6 +117,7 @@ module.exports = {
     getUsers: getUsers,
     getUserById: getUserById,
     updatePlayerTeam: updatePlayerTeam,
+    updataUserRole: updataUserRole,
     liveTeam: liveTeam,
     blockUser: blockUser
 };

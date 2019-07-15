@@ -18,26 +18,19 @@ export default (state = initState, action) => {
       });
     case types.USER_TEAM_UPDATING:
         return Object.assign({}, state, {
-          loading: false,
-          loaded: true,
-          user: action.user
+          loading: true,
+          loaded: false,
         });
     case types.USER_BLOCKED: 
         return Object.assign({}, state, {
-          loading: false,
-          loaded: true,
           user: action.user
         });
     case types.UNBLOCKED_USER:
         return Object.assign({}, state, {
-          loading: false,
-          loaded: true,
           user: action.user
         });
     case types.USER_TEAM_UPDATED:
         return Object.assign({}, state, {
-          loading: false,
-          loaded: true,
           user: action.user
         });
     default:

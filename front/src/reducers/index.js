@@ -9,6 +9,7 @@ import teamInfo from "./team_info_reducer";
 import notifications from "./notifications_reducer";
 import myProfile from "./my_profile_reducer";
 import states from "./states_reduser";
+import roles from "./roles_reducer";
 
 const rootReducer =  combineReducers({
   authentification,
@@ -18,7 +19,8 @@ const rootReducer =  combineReducers({
   teamInfo,
   notifications,
   myProfile,
-  states
+  states,
+  roles
 });
 
 export default rootReducer;
