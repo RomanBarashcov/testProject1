@@ -5,7 +5,7 @@ var services = require("../services/index");
 router.get('/',  async (req, res, next) => {
 
    const users = await services.userService.getUsers();
-   if(!users.success) res.status(500).json({success: false, message: users.message});
+   if(!users.success) return res.status(500).json({success: false, message: users.message});
 
    res.status(200).json({users: users.value});
    
@@ -14,10 +14,10 @@ router.get('/',  async (req, res, next) => {
 router.get('/current-user',  async (req, res, next) => {
 
    const userId = req.decoded.userId;
-   if(!userId) res.status(500).json({success: false, message: "Payload data is incorrect"});
+   if(!userId) return res.status(500).json({success: false, message: "Payload data is incorrect"});
 
    let user = await services.userService.getUserById(userId);
-   if(!user.success) res.status(500).json({success: false, message: user.message});
+   if(!user.success) return res.status(500).json({success: false, message: user.message});
 
    delete user.value['password'];
    res.status(200).json({user: user.value});
@@ -27,7 +27,7 @@ router.get('/current-user',  async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 
    const id = parseInt(req.params["id"], 10);
-   if(!id) res.status(500).json({success: false, message: "Payload data is incorrect"});
+   if(!id) return res.status(500).json({success: false, message: "Payload data is incorrect"});
 
    const user = await services.userService.getUserById(id);
    if(!user.success) res.status(500);
@@ -49,7 +49,7 @@ router.post("/update-user", async (req, res, next) => {
    if(!authUser.value) res.status(404);
 
    if(authUser.value["Role.type"] === "player" 
-      && authUser.value.id !== userId) res.json({success: false, message: "You can change only your role"});
+      && authUser.value.id !== userId) return res.json({success: false, message: "You can change only your role"});
 
    const user = await services.userService.getUserById(userId);
 
@@ -59,12 +59,12 @@ router.post("/update-user", async (req, res, next) => {
    if(user.value["Teams.id"] !== teamId) {
       const notification = await services.notificationService.userChangeTeamNotification(authUser.value, userId);
       const isUpdate = await services.userService.updatePlayerTeam(authUser.value, userId, teamId);
-      if(!notification.success || !isUpdate.success) res.json({success: false, message: "Data is incorrect"});
+      if(!notification.success || !isUpdate.success) return res.json({success: false, message: "Data is incorrect"});
    }
 
    if(user.value["Role.id"] !== roleId) {
       const updateRole = await services.userService.updataUserRole(userId, roleId);
-      if(!updateRole.success) res.json({success: false, message: "Data is incorrect"});
+      if(!updateRole.success) return res.json({success: false, message: "Data is incorrect"});
    }
 
    res.status(200).json({user: user.value});
@@ -80,15 +80,15 @@ router.put("/live-team", async (req, res, next) => {
    const authUserId = req.decoded.userId;
 
    if(!playerId || !teamId || !authUserId)  {
-      res.status(500).json({ success: false, message: "Payload data is incorrect"});
+      return res.status(500).json({ success: false, message: "Payload data is incorrect"});
    }
 
    const authUser = await services.userService.getUserById(authUserId);
-   if(!authUser.value) res.status(404);
+   if(!authUser.value) return res.status(404);
 
    const liveResult = await services.userService.liveTeam(authUser.value, playerId, teamId, isLive, reason);
 
-   if(!liveResult.success) res.status(500);
+   if(!liveResult.success) return res.status(500);
 
    res.status(200).json({user: liveResult.value.user});
 
@@ -102,15 +102,15 @@ router.put("/block", async (req, res, next) => {
    const authUserId = req.decoded.userId;
 
    if(!userId || !authUserId)  {
-      res.status(500).json({ success: false, message: "Payload data is incorrect"});
+     return res.status(500).json({ success: false, message: "Payload data is incorrect"});
    }
 
    const authUser = await services.userService.getUserById(authUserId);
-   if(!authUser.value) res.status(404);
+   if(!authUser.value) return res.status(404);
 
    const blockResult = await services.userService.blockUser(authUser.value, userId, isBlock, reason);
 
-   if(!blockResult.success) res.status(500);
+   if(!blockResult.success) return res.status(500);
 
    res.status(200).json({user: blockResult.value.user});
 });

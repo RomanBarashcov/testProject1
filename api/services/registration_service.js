@@ -9,6 +9,9 @@ const operationDetails = require("../infrastructure/operation_details");
 const registrate = async (name, email, password, temaId) => {
     try {
 
+        const count = await repositories.userRepository.countUsers();
+        if(count.players === 10) return operationDetails(false, "Sorry. Maximum limit of players achieved");
+
         const user = await repositories.userRepository.getUserByEmail(email);
         if(user) return operationDetails(false, "User with the same email was registered!");
 
@@ -16,7 +19,7 @@ const registrate = async (name, email, password, temaId) => {
 
         const defaultState = await repositories.stateRepository.getStateByType(stateTypes.pending);
         const defaultRole = await repositories.roleRepository.getRoleByType("player");
-        debugger;
+
         const newUser = await repositories.userRepository.createUser(name, email, password, defaultState.id, defaultRole.id);
 
         if(temaId > 0) {

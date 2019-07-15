@@ -34,6 +34,27 @@ const getUsers = async () => {
    }
 };
 
+const countUsers = async() => {
+    try {
+
+        const playerId = 3;
+
+        const count = await db.User.findAll({
+            attributes: [[db.Sequelize.fn('COUNT', db.Sequelize.col('id')), 'playes']]
+        }, {
+            roleId:{
+                [Op.eq]: playerId
+            }
+        }).map(i => i.dataValues);
+
+      return count;
+
+    } catch(err) {
+        console.error(err);
+        return [];
+    }
+}
+
 const getUserById = async (userId) => {
     try {
 
@@ -212,6 +233,7 @@ const updateUserState = async (userId, stateId, reason) => {
 
 module.exports = {
     getUsers: getUsers,
+    countUsers: countUsers,
     getUserById: getUserById,
     getUserByState: getUserByState,
     getUserByEmail: getUserByEmail,

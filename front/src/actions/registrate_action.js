@@ -3,11 +3,10 @@ import { emailRegex } from "../constants/regex_validator";
 import * as types from "../constants/action_types";
 import API_URL from "../constants/hosts";
 
-export const updateStatus = (status, field) => {
+export const updateStatus = (message) => {
   return {
     type: types.UPDATE_STATUS,
-    status,
-    field
+    message
   };
 };
 
@@ -21,7 +20,7 @@ export const setProfile = (profile) => {
 export const registrate = (name, email, password, confirmPassword, selectedTeam) => {
   return (dispatch) => {
     const fetchOptions = {
-      method: "post",
+      method: "POST",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -30,7 +29,12 @@ export const registrate = (name, email, password, confirmPassword, selectedTeam)
     };
 
     if(!emailRegex.test(email)) {
-      dispatch(updateStatus({status: 400, message: "Invalid Email"}, "EMAIL"));
+      dispatch(updateStatus("Invalid Email"));
+      return Promise.resolve();
+    }
+
+    if(password !== confirmPassword) {
+      dispatch(updateStatus("Confirm password is incorrect!"));
       return Promise.resolve();
     }
     
@@ -47,16 +51,7 @@ export const registrate = (name, email, password, confirmPassword, selectedTeam)
         if (response.status !== 200) {
           response.json()
             .then(res => {
-              let error = new Error(res.message);
-              error.response = res;
-              throw error;
-            })
-            .catch(err => {
-              if (response.status === 403) {
-                dispatch(updateStatus(err, "EMAIL"));
-              } else {
-                dispatch(updateStatus(err, "PASSWORD"));
-              }
+              dispatch(updateStatus(res.message));
             });
         } else {
           response.json()

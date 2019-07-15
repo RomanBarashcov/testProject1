@@ -10,9 +10,8 @@ export class HeaderComponent extends Component {
     render() {
         
         let content = null;
-        let userName = this.props.data.myProfile !== null ? this.props.data.myProfile.email : "";
-
-        //if(this.props.data.myProfile["State.type"] !== "approve") return;
+        const userName = this.props.data.myProfile !== null ? this.props.data.myProfile.email : "";
+        const currentUserRole = this.props.data.myProfile !== null ? this.props.data.myProfile["Role.type"] : "";
 
         content = (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,11 +32,14 @@ export class HeaderComponent extends Component {
                                 Users
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/notifications" className="nav-link">
-                                Notifications
-                            </Link>
-                        </li>
+                        { currentUserRole !== "player" &&
+                            <li className="nav-item">
+                                <Link to="/notifications" className="nav-link">
+                                    Notifications
+                                </Link>
+                            </li>
+                        }
+                       
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         <li>
