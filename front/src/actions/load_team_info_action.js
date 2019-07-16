@@ -30,7 +30,7 @@ export const loadTeamInfo = (id) => {
 
     dispatch(loadingTeamInfo());
 
-    return fetch(`${API_URL}/teams/${id}`, fetchOptions)
+    return fetch(`${API_URL}/api/teams/${id}`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

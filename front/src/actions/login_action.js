@@ -38,7 +38,7 @@ export const logIn = (email, password) => {
       password: password
     });
 
-    return fetch(`${API_URL}/authentication`, fetchOptions)
+    return fetch(`${API_URL}/api/authentication`, fetchOptions)
       .then((response) => {
         if (response.status !== 200) {
           response.json()

@@ -46,7 +46,7 @@ export const registrate = (name, email, password, confirmPassword, selectedTeam)
         teamId: selectedTeam
     });
 
-    return fetch(`${API_URL}/registration`, fetchOptions)
+    return fetch(`${API_URL}/api/registration`, fetchOptions)
       .then((response) => {
         if (response.status !== 200) {
           response.json()

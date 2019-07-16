@@ -30,7 +30,7 @@ export const loadCurrentUser = () => {
 
     dispatch(loadingMyProfile());
 
-    return fetch(`${API_URL}/users/current-user`, fetchOptions)
+    return fetch(`${API_URL}/api/users/current-user`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

@@ -30,7 +30,7 @@ export const loadRoles = () => {
 
     dispatch(loadingRoles());
 
-    return fetch(`${API_URL}/roles`, fetchOptions)
+    return fetch(`${API_URL}/api/roles`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

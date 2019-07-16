@@ -12,11 +12,11 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "test_db",
+    "host": "localhost",
     "dialect": "mysql",
-    "operatorsAliases": false,
+    "operatorsAliases": false, 
     "define": {
       "timestamps": false
     }

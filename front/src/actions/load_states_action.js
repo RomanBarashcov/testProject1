@@ -30,7 +30,7 @@ export const loadStates = () => {
 
     dispatch(loadingStates());
 
-    return fetch(`${API_URL}/states`, fetchOptions)
+    return fetch(`${API_URL}/api/states`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

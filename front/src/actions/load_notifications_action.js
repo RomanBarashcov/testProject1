@@ -30,7 +30,7 @@ export const loadNotifications = () => {
 
     dispatch(loadingNotifications());
 
-    return fetch(`${API_URL}/notifications`, fetchOptions)
+    return fetch(`${API_URL}/api/notifications`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

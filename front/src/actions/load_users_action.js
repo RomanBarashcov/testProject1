@@ -31,7 +31,7 @@ export const loadUsers = () => {
 
     dispatch(loadingUsers());
 
-    return fetch(`${API_URL}/users`, fetchOptions)
+    return fetch(`${API_URL}/api/users`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

@@ -37,7 +37,7 @@ export const userUpdate = (userId, teamId, roleId) => {
 
       dispatch(userUpdating());
   
-      return fetch(`${API_URL}/users/update-user`, fetchOptions)
+      return fetch(`${API_URL}/api/users/update-user`, fetchOptions)
         .then(response => {
           if (response.status !== 200) {
             let error = new Error(response.message);

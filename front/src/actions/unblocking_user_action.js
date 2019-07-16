@@ -28,7 +28,7 @@ export const unblockingUser = (blokingUserId, reason) => {
         reason: reason
       });
 
-    return fetch(`${API_URL}/users/unblocking`, fetchOptions)
+    return fetch(`${API_URL}/api/users/unblocking`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

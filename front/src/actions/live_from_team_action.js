@@ -30,7 +30,7 @@ export const liveFromTeam = (playerId, reason, teamId, isLive) => {
         isLive: isLive
     });
 
-    return fetch(`${API_URL}/users/live-team`, fetchOptions)
+    return fetch(`${API_URL}/api/users/live-team`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

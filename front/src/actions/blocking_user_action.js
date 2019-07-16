@@ -29,7 +29,7 @@ export const blockingUser = (userId, reason, isBlock) => {
         isBlock: isBlock
       });
 
-    return fetch(`${API_URL}/users/block`, fetchOptions)
+    return fetch(`${API_URL}/api/users/block`, fetchOptions)
       .then(response => {
         if (response.status !== 200) {
           let error = new Error(response.message);

@@ -31,12 +31,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // middleware.checkToken
 app.use('/', indexRouter);
-app.use('/authentication', authenticationRouter);
-app.use('/registration', registrationRouter);
-app.use('/users', middleware.checkToken, usersRouter);
-app.use('/teams', teamsRouter);
-app.use('/notifications', notificationsRouter);
-app.use('/states', statesRouter);
-app.use('/roles', rolesRouter);
+app.use('/api/authentication', authenticationRouter);
+app.use('/api/registration', registrationRouter);
+app.use('/api/users', middleware.checkToken, usersRouter);
+app.use('/api/teams', teamsRouter);
+app.use('/api/notifications', notificationsRouter);
+app.use('/api/states', statesRouter);
+app.use('/api/roles', rolesRouter);
 
 module.exports = app;
