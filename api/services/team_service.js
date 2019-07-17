@@ -17,7 +17,9 @@ const getTeams = async () => {
 
 const getTeamById = async (teamId) => {
     try {
-    
+
+        if(teamId < 1) return operationDetails(false, "Incorrect teamId");
+
         const team = await repository.teamRepository.getTeamById(teamId);
         return operationDetails(true, "", team);
 

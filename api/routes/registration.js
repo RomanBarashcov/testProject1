@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
     if(password !== confirmPswd) {
         return res.status(401).json({ success: false, message: "Incorrect confirm password!" });
     }
-debugger;
+
     const registrateInfo = await services.registrationService.registrate(name, email, password, teamId);
     if(!registrateInfo.success) {
         return res.status(401).json({ success: false, message: registrateInfo.message });
